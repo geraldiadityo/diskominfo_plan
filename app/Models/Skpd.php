@@ -17,4 +17,14 @@ class Skpd extends Model
     {
         return $this->hasMany(User::class, 'skpd_id');
     }
+
+    public function indikator(): HasMany
+    {
+        return $this->hasMany(MasterIndikator::class, 'skpd_id');
+    }
+
+    public function realisasi(): HasMany
+    {
+        return $this->hasMany(IndikatorRealisasi::class, 'skpd_id');
+    }
 }

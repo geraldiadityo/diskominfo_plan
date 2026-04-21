@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
 class SkpdResource extends Resource
@@ -49,5 +50,11 @@ class SkpdResource extends Resource
             // 'create' => CreateSkpd::route('/create'),
             // 'edit' => EditSkpd::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user->role === 'ADMIN';
     }
 }
