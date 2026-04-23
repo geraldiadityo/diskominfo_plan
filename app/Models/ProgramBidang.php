@@ -28,11 +28,11 @@ class ProgramBidang extends Model
 
     public function urusan(): BelongsTo
     {
-        return $this->belongsTo(ProgramUrusan::class);
+        return $this->belongsTo(ProgramUrusan::class, 'urusan_id');
     }
 
     public function program(): HasMany
     {
-        return $this->hasMany(ProgramProgram::class);
+        return $this->hasMany(ProgramProgram::class, 'bidang_id');
     }
 }

@@ -15,6 +15,6 @@ class ProgramUrusan extends Model
 
     public function bidang(): HasMany
     {
-        return $this->hasMany(ProgramBidang::class);
+        return $this->hasMany(ProgramBidang::class, 'urusan_id');
     }
 }

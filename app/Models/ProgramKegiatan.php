@@ -28,7 +28,7 @@ class ProgramKegiatan extends Model
 
     public function program(): BelongsTo
     {
-        return $this->belongsTo(ProgramProgram::class);
+        return $this->belongsTo(ProgramProgram::class, 'program_id');
     }
 
     public function sub_kegiatan(): HasMany
