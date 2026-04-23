@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProgramKegiatansTable
 {
@@ -24,7 +25,9 @@ class ProgramKegiatansTable
                 TextColumn::make('nomenklatur')
                     ->label('Nomenklatur Kegiatan')
                     ->wrap()
-                    ->searchable(),
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->whereFullText('nomenklatur', $search);
+                    }),
 
                 TextColumn::make('program.nomenklatur')
                     ->label('program')
