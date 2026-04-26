@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\ProgramPrograms\RelationManager;
 
+use App\Filament\Resources\ProgramKegiatans\ProgramKegiatanResource;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -44,6 +47,13 @@ class KegiatanRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
+            ])
+            ->recordActions([
+                Action::make('buka_kegiatan')
+                    ->label('Detail Kegiatan')
+                    ->icon(Heroicon::ArrowRightCircle)
+                    ->color('primary')
+                    ->url(fn($record): string => ProgramKegiatanResource::getUrl('edit', ['record' => $record])),
             ]);
     }
 }

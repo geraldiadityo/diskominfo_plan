@@ -5,6 +5,7 @@ namespace App\Filament\Resources\ProgramKegiatans;
 use App\Filament\Resources\ProgramKegiatans\Pages\CreateProgramKegiatan;
 use App\Filament\Resources\ProgramKegiatans\Pages\EditProgramKegiatan;
 use App\Filament\Resources\ProgramKegiatans\Pages\ListProgramKegiatans;
+use App\Filament\Resources\ProgramKegiatans\RelationManager\SubKegiatanRelationManager;
 use App\Filament\Resources\ProgramKegiatans\Schemas\ProgramKegiatanForm;
 use App\Filament\Resources\ProgramKegiatans\Tables\ProgramKegiatansTable;
 use App\Models\ProgramKegiatan;
@@ -42,6 +43,7 @@ class ProgramKegiatanResource extends Resource
     {
         return [
             //
+            SubKegiatanRelationManager::class
         ];
     }
 

@@ -30,6 +30,6 @@ class ProgramSubKegiatan extends Model
 
     public function kegiatan(): BelongsTo
     {
-        return $this->belongsTo(ProgramKegiatan::class);
+        return $this->belongsTo(ProgramKegiatan::class, 'kegiatan_id');
     }
 }

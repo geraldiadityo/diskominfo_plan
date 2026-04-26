@@ -33,6 +33,6 @@ class ProgramKegiatan extends Model
 
     public function sub_kegiatan(): HasMany
     {
-        return $this->hasMany(ProgramSubKegiatan::class);
+        return $this->hasMany(ProgramSubKegiatan::class, 'kegiatan_id');
     }
 }
