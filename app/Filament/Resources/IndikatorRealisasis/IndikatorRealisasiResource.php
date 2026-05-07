@@ -23,7 +23,7 @@ class IndikatorRealisasiResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::DocumentCheck;
     protected static string|UnitEnum|null $navigationGroup = 'Evaluasi Dan Pelaporan';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Realisasi Indikator';
     protected static ?string $modelLabel = 'Realisasi Indikator';
     public static function form(Schema $schema): Schema
