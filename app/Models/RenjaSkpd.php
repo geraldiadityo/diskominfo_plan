@@ -15,6 +15,7 @@ class RenjaSkpd extends Model
         'tahun',
         'pagu_anggaran',
         'target_keuangan',
+        'target_fisik',
         'target_kinerja'
     ];
 

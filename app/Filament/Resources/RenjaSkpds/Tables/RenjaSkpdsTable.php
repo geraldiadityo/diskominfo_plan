@@ -76,8 +76,14 @@ class RenjaSkpdsTable
                     ->sortable()
                     ->toggleable(),
 
+                TextColumn::make('target_fisik')
+                    ->label('Target Fisik')
+                    ->suffix('%')
+                    ->sortable()
+                    ->toggleable(),
+
                 TextColumn::make('target_kinerja')
-                    ->label('Target')
+                    ->label('Target Kinerja')
                     ->wrap()
                     ->placeholder('Belum Diisi')
                     ->toggleable(),
@@ -104,6 +110,7 @@ class RenjaSkpdsTable
                     ->fillForm(fn(RenjaSkpd $record): array => [
                         'pagu_anggaran' => $record->pagu_anggaran,
                         'target_keuangan' => $record->target_keuangan,
+                        'target_fisik' => $record->target_fisik,
                         'target_kinerja' => $record->target_kinerja,
                     ])
                     ->form([
@@ -119,14 +126,23 @@ class RenjaSkpdsTable
                             ->prefix('Rp')
                             ->required(),
 
+                        TextInput::make('target_fisik')
+                            ->label('Target Fisik')
+                            ->numeric()
+                            ->default(100)
+                            ->suffix('%')
+                            ->required(),
+
                         Textarea::make('target_kinerja')
-                            ->label('Target Kinerja fisik / volume')
+                            ->label('Target Kinerja / volume')
                             ->required(),
                     ])
                     ->action(function (RenjaSkpd $record, array $data): void {
                         $record->update([
                             'pagu_anggaran' => $data['pagu_anggaran'],
                             'target_kinerja' => $data['target_kinerja'],
+                            'target_keuangan' => $data['target_keuangan'],
+                            'target_fisik' => $data['target_fisik'],
                         ]);
                     }),
                 EditAction::make(),
