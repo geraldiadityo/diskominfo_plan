@@ -27,4 +27,9 @@ class Skpd extends Model
     {
         return $this->hasMany(IndikatorRealisasi::class, 'skpd_id');
     }
+
+    public function target_pendapatan(): HasMany
+    {
+        return $this->hasMany(TargetPendapatan::class, 'skpd_id');
+    }
 }

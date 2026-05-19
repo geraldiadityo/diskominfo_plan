@@ -22,4 +22,9 @@ class Rekening extends Model
     {
         return $this->hasMany(Rekening::class, 'parent_id');
     }
+
+    public function target_pendapatan(): HasMany
+    {
+        return $this->hasMany(TargetPendapatan::class, 'rekening_id');
+    }
 }
