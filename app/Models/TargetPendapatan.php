@@ -25,6 +25,6 @@ class TargetPendapatan extends Model
 
     public function transaksi_pendapatan(): HasMany
     {
-        return $this->hasMany(TransaksiPendapatan::class, 'transaksi_pendapatan_id');
+        return $this->hasMany(TransaksiPendapatan::class, 'target_pendapatan_id');
     }
 }
