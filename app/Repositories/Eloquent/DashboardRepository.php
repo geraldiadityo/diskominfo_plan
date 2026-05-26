@@ -152,15 +152,29 @@ class DashboardRepository implements DashboardRepositoryInterface
         $skpdIds = \App\Models\RenjaSkpd::where('tahun', $tahun)->pluck('skpd_id')->unique();
 
         return Skpd::whereIn('id', $skpdIds)->orderBy('nama_skpd')->get()->map(function ($skpd) use ($tahun) {
-            $target = (float) \App\Models\RenjaSkpd::where('skpd_id', $skpd->id)
+            $renjas = \App\Models\RenjaSkpd::with('realisasi_kegiatans')
+                ->where('skpd_id', $skpd->id)
                 ->where('tahun', $tahun)
-                ->sum('target_keuangan');
+                ->get();
 
-            $realisasi = (float) \App\Models\RealisasiKegiatan::whereHas('renja_skpd', function ($query) use ($skpd, $tahun) {
-                $query->where('skpd_id', $skpd->id)->where('tahun', $tahun);
-            })->sum('realisasi_keuangan');
+            $target = 0;
+            $realisasi = 0;
+            $sumTargetFisik = 0;
+            $sumRealisasiFisik = 0;
+            $count = $renjas->count();
+
+            foreach ($renjas as $renja) {
+                $target += (float) $renja->target_keuangan;
+                $realisasi += (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
+
+                $sumTargetFisik += (float) $renja->target_fisik;
+                $sumRealisasiFisik += (float) $renja->realisasi_kegiatans->sum('realisasi_fisik');
+            }
 
             $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+            $persentaseTargetFisik = $count > 0 ? round($sumTargetFisik / $count, 2) : 0;
+            $persentaseRealisasiFisik = $count > 0 ? round($sumRealisasiFisik / $count, 2) : 0;
+            $deviasi = $persentaseRealisasiFisik - $persentaseTargetFisik;
 
             return [
                 'id' => $skpd->id,
@@ -169,6 +183,8 @@ class DashboardRepository implements DashboardRepositoryInterface
                 'realisasi' => $realisasi,
                 'sisa' => max($target - $realisasi, 0),
                 'persentase' => $persentase,
+                'persentase_fisik' => $persentaseRealisasiFisik,
+                'deviasi' => round($deviasi, 2),
             ];
         });
     }
@@ -440,10 +456,10 @@ class DashboardRepository implements DashboardRepositoryInterface
         $kodeList = array_column($nodeMapById, 'kode');
         array_multisort($kodeList, SORT_ASC, $nodeMapById);
 
-        // 6. Filter untuk hanya mengembalikan data yang memiliki nilai (target > 0 atau realisasi > 0)
+        // 6. Filter untuk hanya mengembalikan data dengan awalan kode '4' (Pendapatan) dan level <= 4
         $result = [];
         foreach ($nodeMapById as $node) {
-            if ($node['target'] > 0 || $node['realisasi'] > 0) {
+            if (str_starts_with($node['kode'], '4') && $node['level'] <= 4) {
                 $persentase = $node['target'] > 0 ? round(($node['realisasi'] / $node['target']) * 100, 2) : 0;
                 $result[] = [
                     'kode' => $node['kode'],

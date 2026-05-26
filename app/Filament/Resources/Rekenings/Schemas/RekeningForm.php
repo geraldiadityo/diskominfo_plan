@@ -8,6 +8,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class RekeningForm
 {
@@ -22,9 +23,16 @@ class RekeningForm
                     ->schema([
                         Select::make('parent_id')
                             ->label('Induk Rekening (parent)')
-                            ->relationship('parent', 'uraian')
+                            ->relationship(
+                                name: 'parent',
+                                titleAttribute: 'uraian',
+                                modifyQueryUsing: fn(Builder $query, ?Rekening $record) => $query
+                                    ->orderBy('level', 'asc')
+                                    ->orderBy('kode', 'asc')
+                                    ->when($record, fn($q) => $q->where('id', '!=', $record->id))
+                            )
                             ->getOptionLabelFromRecordUsing(fn($record) => "{$record->kode} - {$record->uraian}")
-                            ->searchable()
+                            ->searchable(['kode', 'uraian'])
                             ->preload()
                             ->live()
                             ->afterStateUpdated(function (Set $set, $state) {

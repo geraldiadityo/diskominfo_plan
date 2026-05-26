@@ -43,15 +43,24 @@
                 <tbody class="text-[#191c1e]">
                     @foreach($pendapatanData as $index => $row)
                         @php
-                            // Alternating colors based on index
-                            $bgClass = $index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white';
+                            // Background color based on level
+                            if ($row['level'] == 1) {
+                                $bgClass = 'bg-[#cce0ff]';
+                            } elseif ($row['level'] == 2) {
+                                $bgClass = 'bg-[#e6f0ff]';
+                            } elseif ($row['level'] == 3) {
+                                $bgClass = 'bg-[#f2f7ff]';
+                            } else {
+                                // Alternating colors based on index for level 4
+                                $bgClass = $index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white';
+                            }
                             
                             // Define padding based on level (level 1 = 0, level 2 = 1.5rem, etc)
                             // We can use style attribute for dynamic padding
                             $paddingLeft = max(0, ($row['level'] - 1) * 20);
                             
-                            // Bold text for higher levels (1 and 2 usually)
-                            $textClass = $row['level'] <= 2 ? 'font-bold' : '';
+                            // Bold text for higher levels (1, 2, 3)
+                            $textClass = $row['level'] <= 3 ? 'font-bold' : '';
                         @endphp
                         <tr class="{{ $bgClass }} hover:bg-[#e6e8eb] transition-colors">
                             <td class="px-4 py-2 border border-[#e0e3e6] text-center font-semibold">{{ $row['kode'] }}</td>

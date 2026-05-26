@@ -52,6 +52,167 @@
         </div>
     </div>
 
+    <!-- Top / Bottom Panels Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Top 5 Keuangan -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Keuangan Tertinggi</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Persentase</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($topKeuangan as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['persentase'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom 5 Keuangan -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Keuangan Terendah</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Persentase</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($bottomKeuangan as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['persentase'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top 5 Kinerja -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Kinerja Tertinggi</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Deviasi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($topKinerja as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['deviasi'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom 5 Kinerja -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Kinerja Terendah</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Deviasi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($bottomKinerja as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['deviasi'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top 5 Fisik -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Fisik Tertinggi</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Persentase</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($topFisik as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['persentase_fisik'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bottom 5 Fisik -->
+        <div class="bg-white border-2 border-[#d4e3ff] rounded-xl overflow-hidden shadow-sm">
+            <div class="p-4 text-center border-b border-[#e0e3e6]">
+                <h4 class="text-[#ba1a1a] font-bold text-lg" style="font-family: 'Plus Jakarta Sans', sans-serif;">5 OPD dengan Realisasi Fisik Terendah</h4>
+                <p class="text-xs text-[#5b403d] mt-1">sampai dengan hari ini</p>
+            </div>
+            <table class="w-full text-sm" style="font-family: 'Inter', sans-serif;">
+                <thead class="bg-[#b3cbe6] text-[#191c1e] font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left w-12 border-b border-[#e0e3e6]">No.</th>
+                        <th class="px-4 py-2 text-left border-b border-[#e0e3e6]">OPD</th>
+                        <th class="px-4 py-2 text-right border-b border-[#e0e3e6]">Persentase</th>
+                    </tr>
+                </thead>
+                <tbody class="text-[#191c1e]">
+                    @foreach($bottomFisik as $idx => $item)
+                    <tr class="{{ $idx % 2 == 0 ? 'bg-white' : 'bg-[#f7f9fc]' }}">
+                        <td class="px-4 py-2 border-b border-[#e0e3e6]">{{ $idx + 1 }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] uppercase">{{ $item['nama_skpd'] }}</td>
+                        <td class="px-4 py-2 border-b border-[#e0e3e6] text-right font-medium">{{ number_format($item['persentase_fisik'], 2, ',', '.') }} %</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
     <!-- Table Section -->
     <div class="bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-xl shadow-sm overflow-hidden flex flex-col transition-colors">
         <div class="p-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">

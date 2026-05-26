@@ -20,11 +20,29 @@ class IndexRenja extends Component
     {
         $skpds = $repository->getAllSkpdRenjaSummary($this->tahun);
 
-        // Sort descending by percentage
+        // Sort for Keuangan
+        $topKeuangan = $skpds->sortByDesc('persentase')->take(5)->values();
+        $bottomKeuangan = $skpds->sortBy('persentase')->take(5)->values();
+
+        // Sort for Kinerja (Deviasi)
+        $topKinerja = $skpds->sortByDesc('deviasi')->take(5)->values();
+        $bottomKinerja = $skpds->sortBy('deviasi')->take(5)->values();
+
+        // Sort for Fisik
+        $topFisik = $skpds->sortByDesc('persentase_fisik')->take(5)->values();
+        $bottomFisik = $skpds->sortBy('persentase_fisik')->take(5)->values();
+
+        // Default sort for table
         $skpds = $skpds->sortByDesc('persentase')->values();
 
         return view('livewire.index-renja', [
             'skpds' => $skpds,
+            'topKeuangan' => $topKeuangan,
+            'bottomKeuangan' => $bottomKeuangan,
+            'topKinerja' => $topKinerja,
+            'bottomKinerja' => $bottomKinerja,
+            'topFisik' => $topFisik,
+            'bottomFisik' => $bottomFisik,
         ]);
     }
 }
