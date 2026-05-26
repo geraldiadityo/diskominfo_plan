@@ -382,4 +382,81 @@ class DashboardRepository implements DashboardRepositoryInterface
 
         return $list;
     }
+
+    public function getPendapatanTree(?int $tahun = null): array
+    {
+        $tahun = $tahun ?? date('Y');
+
+        // 1. Ambil semua target & realisasi per rekening
+        $targets = \App\Models\TargetPendapatan::with('transaksi_pendapatan')
+            ->where('tahun', $tahun)
+            ->get();
+            
+        $realisasiMap = [];
+        foreach ($targets as $target) {
+            $rekId = $target->rekening_id;
+            if (!isset($realisasiMap[$rekId])) {
+                $realisasiMap[$rekId] = ['target' => 0, 'realisasi' => 0];
+            }
+            
+            $realisasiMap[$rekId]['target'] += (float) $target->target_anggaran;
+            $realisasiMap[$rekId]['realisasi'] += (float) $target->transaksi_pendapatan->sum('jumlah_setor');
+        }
+
+        // 2. Ambil semua Rekening
+        $rekenings = \App\Models\Rekening::all();
+
+        // 3. Bangun struktur awal
+        $nodeMap = [];
+        foreach ($rekenings as $rek) {
+            $nodeMap[$rek->id] = [
+                'id' => $rek->id,
+                'parent_id' => $rek->parent_id,
+                'kode' => $rek->kode,
+                'uraian' => $rek->uraian,
+                'level' => $rek->level,
+                'target' => $realisasiMap[$rek->id]['target'] ?? 0,
+                'realisasi' => $realisasiMap[$rek->id]['realisasi'] ?? 0,
+            ];
+        }
+
+        // 4. Bottom-up Rollup: Urutkan berdasarkan level terbesar (paling anak) ke atas
+        $levels = array_column($nodeMap, 'level');
+        array_multisort($levels, SORT_DESC, $nodeMap);
+
+        $nodeMapById = [];
+        foreach ($nodeMap as $node) {
+            $nodeMapById[$node['id']] = $node;
+        }
+
+        foreach ($nodeMapById as $id => $node) {
+            if ($node['parent_id'] && isset($nodeMapById[$node['parent_id']])) {
+                $nodeMapById[$node['parent_id']]['target'] += $nodeMapById[$id]['target'];
+                $nodeMapById[$node['parent_id']]['realisasi'] += $nodeMapById[$id]['realisasi'];
+            }
+        }
+
+        // 5. Urutkan secara hierarkis berdasarkan kode ASC
+        $kodeList = array_column($nodeMapById, 'kode');
+        array_multisort($kodeList, SORT_ASC, $nodeMapById);
+
+        // 6. Filter untuk hanya mengembalikan data yang memiliki nilai (target > 0 atau realisasi > 0)
+        $result = [];
+        foreach ($nodeMapById as $node) {
+            if ($node['target'] > 0 || $node['realisasi'] > 0) {
+                $persentase = $node['target'] > 0 ? round(($node['realisasi'] / $node['target']) * 100, 2) : 0;
+                $result[] = [
+                    'kode' => $node['kode'],
+                    'uraian' => $node['uraian'],
+                    'level' => $node['level'],
+                    'target' => $node['target'],
+                    'realisasi' => $node['realisasi'],
+                    'selisih' => max($node['target'] - $node['realisasi'], 0),
+                    'persentase' => $persentase,
+                ];
+            }
+        }
+
+        return $result;
+    }
 }

@@ -28,6 +28,12 @@
                 <p class="text-[#5b403d] dark:text-[#a0a0a0] mt-1 transition-colors">Daftar target dan realisasi pendapatan per Organisasi Perangkat Daerah (OPD) - Tahun {{ $tahun }}</p>
             </div>
         </div>
+        <div class="mt-4 md:mt-0">
+            <a href="{{ route('public.pendapatan') }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 bg-[#af101a] hover:bg-[#93000a] text-white rounded-lg font-semibold text-sm transition-colors shadow-sm" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                Pendapatan Keseluruhan
+            </a>
+        </div>
     </div>
 
     <!-- Summary Chart & Cards Section -->

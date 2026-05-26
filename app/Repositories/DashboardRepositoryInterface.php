@@ -117,4 +117,12 @@ interface DashboardRepositoryInterface
      * @return array
      */
     public function getDetailRekeningByJenis(string $kodePrefix, ?int $tahun = null): array;
+
+    /**
+     * Get the full hierarchical tree of Pendapatan for a specific year.
+     *
+     * @param int|null $tahun
+     * @return array
+     */
+    public function getPendapatanTree(?int $tahun = null): array;
 }
