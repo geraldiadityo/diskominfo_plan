@@ -17,12 +17,19 @@ class MasterIndikator extends Model
         'nama_indikator',
         'satuan_id',
         'kondisi_awal',
-        'is_measurable'
+        'is_measurable',
+        'program_id',
+        'kondisi_akhir'
     ];
 
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriIndikator::class, 'kategori_id');
+    }
+
+    public function program(): BelongsTo
+    {
+        return $this->belongsTo(ProgramProgram::class, 'program_id');
     }
 
     public function skpd(): BelongsTo

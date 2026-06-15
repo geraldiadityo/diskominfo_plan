@@ -14,6 +14,6 @@ class KategoriIndikator extends Model
 
     public function indikators(): HasMany
     {
-        return $this->hasMany(MasterIndikator::class, 'indikator_id');
+        return $this->hasMany(MasterIndikator::class, 'kategori_id');
     }
 }

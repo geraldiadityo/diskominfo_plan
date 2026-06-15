@@ -39,8 +39,8 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
                                 <div x-show="open" style="display: none;" x-transition class="absolute left-0 mt-2 w-48 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-md shadow-lg py-1 z-50">
-                                    <a href="#" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Utama</a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Program</a>
+                                    <a href="{{ route('iku.index') }}" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Utama</a>
+                                    <a href="{{ route('kinerja-program.index') }}" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Program</a>
                                 </div>
                             </div>
 

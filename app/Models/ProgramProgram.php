@@ -35,4 +35,9 @@ class ProgramProgram extends Model
     {
         return $this->hasMany(ProgramKegiatan::class, 'program_id');
     }
+
+    public function indikators(): HasMany
+    {
+        return $this->hasMany(MasterIndikator::class, 'program_id');
+    }
 }

@@ -125,4 +125,20 @@ interface DashboardRepositoryInterface
      * @return array
      */
     public function getPendapatanTree(?int $tahun = null): array;
+
+    /**
+     * Get Indikator Kinerja Utama (IKU) data grouped by category.
+     *
+     * @param array $years
+     * @return \Illuminate\Support\Collection
+     */
+    public function getIkuData(array $years = [2021, 2022, 2023, 2024, 2025, 2026]);
+
+    /**
+     * Get Kinerja Program data grouped by Urusan and Bidang.
+     *
+     * @param array $years
+     * @return \Illuminate\Support\Collection
+     */
+    public function getKinerjaProgramData(array $years = [2021, 2022, 2023, 2024, 2025, 2026]);
 }

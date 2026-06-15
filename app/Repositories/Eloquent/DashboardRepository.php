@@ -475,4 +475,94 @@ class DashboardRepository implements DashboardRepositoryInterface
 
         return $result;
     }
+
+    public function getIkuData(array $years = [2021, 2022, 2023, 2024, 2025, 2026])
+    {
+        $kategoris = \App\Models\KategoriIndikator::with(['indikators.satuan', 'indikators.target', 'indikators.realisasi'])->get();
+
+        return $kategoris->map(function ($kategori) use ($years) {
+            $indikators = $kategori->indikators->map(function ($indikator) use ($years) {
+                $dataYears = [];
+                foreach ($years as $year) {
+                    $target = $indikator->target->where('tahun', $year)->first();
+                    $realisasi = $indikator->realisasi->where('tahun', $year)->first();
+                    
+                    $dataYears[$year] = [
+                        'target' => $target ? $target->nilai_target : null,
+                        'realisasi' => $realisasi ? $realisasi->nilai_realisasi : null,
+                    ];
+                }
+
+                return [
+                    'id' => $indikator->id,
+                    'nama_indikator' => $indikator->nama_indikator,
+                    'satuan' => $indikator->satuan ? $indikator->satuan->nama_satuan : '-',
+                    'years' => $dataYears,
+                ];
+            });
+
+            return [
+                'kategori_id' => $kategori->id,
+                'nama_kategori' => $kategori->nama_kategori,
+                'indikators' => $indikators,
+            ];
+        });
+    }
+
+    public function getKinerjaProgramData(array $years = [2021, 2022, 2023, 2024, 2025, 2026])
+    {
+        $urusans = \App\Models\ProgramUrusan::with([
+            'bidang.program.indikators.satuan',
+            'bidang.program.indikators.skpd',
+            'bidang.program.indikators.target',
+            'bidang.program.indikators.realisasi'
+        ])->get();
+
+        return $urusans->map(function ($urusan) use ($years) {
+            $bidangs = $urusan->bidang->map(function ($bidang) use ($years) {
+                $programs = $bidang->program->map(function ($program) use ($years) {
+                    $indikators = $program->indikators->map(function ($indikator) use ($years) {
+                        $dataYears = [];
+                        foreach ($years as $year) {
+                            $target = $indikator->target->where('tahun', $year)->first();
+                            $realisasi = $indikator->realisasi->where('tahun', $year)->first();
+                            
+                            $dataYears[$year] = [
+                                'target' => $target ? $target->nilai_target : null,
+                                'realisasi' => $realisasi ? $realisasi->nilai_realisasi : null,
+                            ];
+                        }
+
+                        return [
+                            'id' => $indikator->id,
+                            'nama_indikator' => $indikator->nama_indikator,
+                            'satuan' => $indikator->satuan ? $indikator->satuan->nama_satuan : '-',
+                            'kondisi_awal' => $indikator->kondisi_awal,
+                            'kondisi_akhir' => $indikator->kondisi_akhir,
+                            'perangkat_daerah' => $indikator->skpd ? $indikator->skpd->nama_skpd : '-',
+                            'years' => $dataYears,
+                        ];
+                    });
+
+                    return [
+                        'id' => $program->id,
+                        'nama_program' => $program->nomenklatur,
+                        'indikators' => $indikators,
+                    ];
+                });
+
+                return [
+                    'id' => $bidang->id,
+                    'nama_bidang' => $bidang->nomenklatur,
+                    'programs' => $programs,
+                ];
+            });
+
+            return [
+                'id' => $urusan->id,
+                'nama_urusan' => $urusan->nomenklatur,
+                'bidangs' => $bidangs,
+            ];
+        });
+    }
 }

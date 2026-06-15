@@ -18,3 +18,5 @@ Route::get('/pendapatan/detail/{skpdId}', DetailPendapatan::class)->name('pendap
 Route::get('/pendapatan/jenis/{jenis}', DetailJenisPendapatan::class)->name('pendapatan.jenis');
 Route::get('/renja', IndexRenja::class)->name('renja.index');
 Route::get('/renja/{skpdId}', DetailRenja::class)->name('renja.detail');
+Route::get('/iku', \App\Livewire\PublicIku::class)->name('iku.index');
+Route::get('/kinerja-program', \App\Livewire\PublicKinerjaProgram::class)->name('kinerja-program.index');
