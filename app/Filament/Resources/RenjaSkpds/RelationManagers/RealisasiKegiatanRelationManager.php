@@ -62,7 +62,7 @@ class RealisasiKegiatanRelationManager extends RelationManager
 
                 Textarea::make('catatan')
                     ->label('Catatan / Keterangan (Optinal)')
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -99,6 +99,11 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->label('Input Realisasi Baru'),
             ])
             ->recordActions([
+                \Filament\Actions\Action::make('kelola_bukti_fisik')
+                    ->label('Kelola Detail & Bukti')
+                    ->icon('heroicon-o-list-bullet')
+                    ->color('info')
+                    ->url(fn (\App\Models\RealisasiKegiatan $record): string => route('filament.admin.resources.realisasi-kegiatans.edit', $record)),
                 EditAction::make(),
                 DeleteAction::make()
             ]);

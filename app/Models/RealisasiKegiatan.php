@@ -20,4 +20,9 @@ class RealisasiKegiatan extends Model
     {
         return $this->belongsTo(RenjaSkpd::class, 'renja_skpd_id');
     }
+
+    public function bukti_fisik(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(BuktiFisikRealisasi::class, 'realisasi_kegiatan_id');
+    }
 }

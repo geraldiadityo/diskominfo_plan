@@ -46,7 +46,16 @@
 
                             <a href="#" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Kebencanaan</a>
                             <a href="#" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Program Unggulan</a>
-                            <a href="#" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Data Integrasi</a>
+                            <!-- Dropdown Data Integrasi -->
+                            <div x-data="{ open: false }" class="relative">
+                                <button @click="open = !open" @click.away="open = false" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1" style="font-family: 'Manrope', sans-serif;">
+                                    Data Integrasi
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div x-show="open" style="display: none;" x-transition class="absolute left-0 mt-2 w-56 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-md shadow-lg py-1 z-50">
+                                    <a href="#" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Layanan Pemerintah digital</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
