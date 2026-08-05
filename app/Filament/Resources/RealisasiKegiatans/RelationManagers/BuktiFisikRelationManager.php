@@ -110,11 +110,16 @@ class BuktiFisikRelationManager extends RelationManager
                             ->required(),
                         FileUpload::make('file_bukti')
                             ->label('Upload Bukti Dokumen (PDF)')
+                            ->disk('public')
                             ->directory('bukti-realisasi-fisik')
                             ->acceptedFileTypes(['application/pdf'])
                             ->required(),
                     ])
                     ->action(function (BuktiFisikRealisasi $record, array $data): void {
+                        if ($record->file_bukti && $record->file_bukti !== $data['file_bukti'] && \Illuminate\Support\Facades\Storage::disk('public')->exists($record->file_bukti)) {
+                            \Illuminate\Support\Facades\Storage::disk('public')->delete($record->file_bukti);
+                        }
+
                         $record->update([
                             'realisasi' => $data['realisasi'],
                             'file_bukti' => $data['file_bukti'],

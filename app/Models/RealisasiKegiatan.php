@@ -11,9 +11,14 @@ class RealisasiKegiatan extends Model
     protected $fillable = [
         'renja_skpd_id',
         'triwulan',
+        'target_keuangan',
+        'target_fisik',
         'realisasi_keuangan',
         'realisasi_fisik',
         'catatan',
+        'alasan',
+        'solusi',
+        'is_verified',
     ];
 
     public function renja_skpd(): BelongsTo

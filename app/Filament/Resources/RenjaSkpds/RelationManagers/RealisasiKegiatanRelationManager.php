@@ -26,7 +26,7 @@ class RealisasiKegiatanRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->columns(1)
+            ->columns(2)
             ->components([
                 Select::make('triwulan')
                     ->label('Pilih Triwulan')
@@ -40,7 +40,17 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->unique(
                         ignoreRecord: true,
                         modifyRuleUsing: fn(Unique $rule, RelationManager $livewire) => $rule->where('renja_skpd_id', $livewire->getOwnerRecord()->id)
-                    ),
+                    )
+                    ->columnSpanFull(),
+
+                TextInput::make('target_keuangan')
+                    ->label('Target Keuangan (Rp)')
+                    ->numeric()
+                    ->prefix('Rp')
+                    ->default(0)
+                    ->required()
+                    ->maxValue(fn(RelationManager $livewire) => $livewire->getOwnerRecord()->pagu_anggaran)
+                    ->hint(fn(RelationManager $livewire) => 'Maksimal: Rp ' . number_format($livewire->getOwnerRecord()->pagu_anggaran, 0, ',', '.')),
 
                 TextInput::make('realisasi_keuangan')
                     ->label('Realisasi Keuangan (Rp)')
@@ -50,6 +60,15 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->required()
                     ->maxValue(fn(RelationManager $livewire) => $livewire->getOwnerRecord()->pagu_anggaran)
                     ->hint(fn(RelationManager $livewire) => 'Maksimal: Rp ' . number_format($livewire->getOwnerRecord()->pagu_anggaran, 0, ',', '.')),
+
+                TextInput::make('target_fisik')
+                    ->label('Target Fisik (%)')
+                    ->numeric()
+                    ->default(0)
+                    ->minValue(0)
+                    ->maxValue(100)
+                    ->suffix('%')
+                    ->required(),
 
                 TextInput::make('realisasi_fisik')
                     ->label('Realisasi Fisik (%)')
@@ -61,7 +80,17 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->required(),
 
                 Textarea::make('catatan')
-                    ->label('Catatan / Keterangan (Optinal)')
+                    ->label('Catatan / Keterangan (Optional)')
+                    ->columnSpanFull(),
+
+                Textarea::make('alasan')
+                    ->label('Alasan')
+                    ->disabled(fn() => !in_array(auth()->user()->role, ['SKPD', 'ADMIN']))
+                    ->columnSpanFull(),
+
+                Textarea::make('solusi')
+                    ->label('Solusi')
+                    ->disabled(fn() => !in_array(auth()->user()->role, ['VERIFIKATOR', 'ADMIN']))
                     ->columnSpanFull(),
             ]);
     }
@@ -74,22 +103,39 @@ class RealisasiKegiatanRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('triwulan')
                     ->label('Triwulan')
-                    ->formatStateUsing(fn(string $state): string => 'Triwulan ' . ['I', 'III', 'III', 'IV'][$state - 1])
+                    ->formatStateUsing(fn(string $state): string => 'Triwulan ' . ['I', 'II', 'III', 'IV'][$state - 1])
                     ->sortable(),
 
-                TextColumn::make('realisasi_keuangan')
-                    ->label('Serapan Anggaran')
+                TextColumn::make('target_keuangan')
+                    ->label('Target Keuangan')
                     ->money('IDR', locale: 'id')
                     ->sortable(),
 
+                TextColumn::make('realisasi_keuangan')
+                    ->label('Serapan Keuangan')
+                    ->money('IDR', locale: 'id')
+                    ->sortable(),
+
+                TextColumn::make('target_fisik')
+                    ->label('Target Fisik')
+                    ->suffix('%')
+                    ->sortable(),
+
                 TextColumn::make('realisasi_fisik')
-                    ->label('Fisik')
+                    ->label('Realisasi Fisik')
                     ->suffix('%')
                     ->sortable(),
 
                 TextColumn::make('catatan')
                     ->wrap()
                     ->limit(50),
+
+                \Filament\Tables\Columns\IconColumn::make('is_verified')
+                    ->label('Status Verif')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -99,6 +145,19 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->label('Input Realisasi Baru'),
             ])
             ->recordActions([
+                \Filament\Actions\Action::make('verifikasi')
+                    ->label('Verif')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn (\App\Models\RealisasiKegiatan $record) => in_array(auth()->user()->role, ['VERIFIKATOR', 'ADMIN']) && !$record->is_verified)
+                    ->action(function (\App\Models\RealisasiKegiatan $record) {
+                        $record->update(['is_verified' => true]);
+                        \Filament\Notifications\Notification::make()
+                            ->title('Berhasil diverifikasi')
+                            ->success()
+                            ->send();
+                    }),
                 \Filament\Actions\Action::make('kelola_bukti_fisik')
                     ->label('Kelola Detail & Bukti')
                     ->icon('heroicon-o-list-bullet')
