@@ -28,5 +28,13 @@ class BuktiFisikRealisasi extends Model
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($model->file_bukti);
             }
         });
+
+        static::saved(function ($model) {
+            $model->realisasi_kegiatan?->recalculateRealisasiFisik();
+        });
+
+        static::deleted(function ($model) {
+            $model->realisasi_kegiatan?->recalculateRealisasiFisik();
+        });
     }
 }

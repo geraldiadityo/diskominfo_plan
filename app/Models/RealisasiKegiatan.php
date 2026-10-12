@@ -30,4 +30,49 @@ class RealisasiKegiatan extends Model
     {
         return $this->hasMany(BuktiFisikRealisasi::class, 'realisasi_kegiatan_id');
     }
+
+    protected static function booted(): void
+    {
+        static::saved(function (RealisasiKegiatan $model) {
+            if ($model->wasChanged('target_fisik') || $model->wasRecentlyCreated) {
+                $model->recalculateRealisasiFisik();
+            }
+        });
+    }
+
+    /**
+     * Hitung dan sinkronkan realisasi fisik berdasarkan status persetujuan bukti fisik.
+     */
+    public function recalculateRealisasiFisik(): void
+    {
+        $totalIndikator = $this->bukti_fisik()->count();
+        $targetFisik = (float) ($this->target_fisik ?? 0);
+
+        if ($totalIndikator === 0 || $targetFisik <= 0) {
+            $this->updateQuietly(['realisasi_fisik' => 0]);
+            return;
+        }
+
+        $hasBobot = \Illuminate\Support\Facades\Schema::hasColumn('bukti_fisik_realisasis', 'bobot');
+
+        if ($hasBobot && $this->bukti_fisik()->whereNotNull('bobot')->exists()) {
+            $totalBobot = (float) $this->bukti_fisik()->sum('bobot');
+            $bobotDisetujui = (float) $this->bukti_fisik()
+                ->where('status_verifikasi', 'disetujui')
+                ->sum('bobot');
+
+            $persentaseCapaian = $totalBobot > 0 ? ($bobotDisetujui / $totalBobot) : 0;
+        } else {
+            $indikatorDisetujui = $this->bukti_fisik()
+                ->where('status_verifikasi', 'disetujui')
+                ->count();
+
+            $persentaseCapaian = $indikatorDisetujui / $totalIndikator;
+        }
+
+        $realisasiFisik = round($persentaseCapaian * $targetFisik, 2);
+        $realisasiFisik = min(100.00, max(0.00, $realisasiFisik));
+
+        $this->updateQuietly(['realisasi_fisik' => $realisasiFisik]);
+    }
 }

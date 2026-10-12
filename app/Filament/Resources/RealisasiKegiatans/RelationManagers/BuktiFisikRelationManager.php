@@ -149,6 +149,18 @@ class BuktiFisikRelationManager extends RelationManager
                             'status_verifikasi' => $data['status_verifikasi'],
                             'catatan_verifikasi' => $data['catatan_verifikasi'],
                         ]);
+
+                        $parent = $record->realisasi_kegiatan;
+                        if ($parent) {
+                            $parent->recalculateRealisasiFisik();
+                            $parent->refresh();
+                        }
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('Status verifikasi berhasil disimpan')
+                            ->body($parent ? "Realisasi Fisik Triwulan diperbarui menjadi {$parent->realisasi_fisik}%" : null)
+                            ->success()
+                            ->send();
                     })
                     ->visible(fn (BuktiFisikRealisasi $record): bool => Auth::user()->role !== 'SKPD'),
 
