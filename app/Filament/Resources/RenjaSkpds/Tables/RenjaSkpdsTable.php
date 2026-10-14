@@ -11,6 +11,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
@@ -27,31 +28,43 @@ class RenjaSkpdsTable
                     ->searchable()
                     ->sortable()
                     ->wrap()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->hidden(fn() => Auth::user()->role === 'SKPD'),
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->hidden(fn() => Auth::user()?->role === 'SKPD'),
 
                 TextColumn::make('subKegiatan.kegiatan.program.bidang.urusan.nomenklatur')
                     ->label('Urusan')
+                    ->formatStateUsing(fn($state, $record) => \App\Models\Skpd::formatDisplayNomenklatur($state, $record->skpd_id))
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('subKegiatan.kegiatan.program.bidang.nomenklatur')
                     ->label('Bidang')
+                    ->formatStateUsing(fn($state, $record) => \App\Models\Skpd::formatDisplayNomenklatur($state, $record->skpd_id))
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('subKegiatan.kegiatan.program.nomenklatur')
                     ->label('Program')
+                    ->formatStateUsing(fn($state, $record) => \App\Models\Skpd::formatDisplayNomenklatur($state, $record->skpd_id))
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('subKegiatan.kegiatan.nomenklatur')
                     ->label('Kegiatan')
+                    ->formatStateUsing(fn($state, $record) => \App\Models\Skpd::formatDisplayNomenklatur($state, $record->skpd_id))
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
 
+                TextColumn::make('skpd.bidang.kode_lengkap')
+                    ->label('Kode Bidang (SKPD)')
+                    ->placeholder('Belum di-mapping')
+                    ->badge()
+                    ->color('info')
+                    ->toggleable(isToggledHiddenByDefault: false),
+
                 TextColumn::make('subKegiatan.kode_lengkap')
                     ->label('Kode Sub Kegiatan')
+                    ->formatStateUsing(fn($state, $record) => \App\Models\Skpd::formatDisplayKode($state, $record->skpd_id))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
@@ -89,8 +102,16 @@ class RenjaSkpdsTable
                     ->toggleable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('skpd_id')
+                    ->label('Pilih SKPD')
+                    ->relationship('skpd', 'nama_skpd')
+                    ->searchable()
+                    ->preload()
+                    ->placeholder('Semua SKPD')
+                    ->visible(fn() => Auth::user()?->role !== 'SKPD'),
+
                 SelectFilter::make('tahun')
+                    ->label('Tahun Anggaran')
                     ->options([
                         '2024' => '2024',
                         '2025' => '2025',
@@ -101,7 +122,8 @@ class RenjaSkpdsTable
                         '2030' => '2030'
                     ])
                     ->default(date('Y')),
-            ])
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(2)
             ->recordActions([
                 Action::make('isiAnggaran')
                     ->label('Isi Anggaran')

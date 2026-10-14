@@ -106,7 +106,7 @@ class RealisasiKegiatanRelationManager extends RelationManager
 
                 Textarea::make('solusi')
                     ->label('Solusi')
-                    ->disabled(fn(): bool => !in_array(Auth::user()?->role, ['VERIFIKATOR', 'ADMIN']))
+                    ->disabled(fn(): bool => Auth::user()?->role === 'SKPD')
                     ->columnSpanFull(),
             ]);
     }
@@ -175,7 +175,7 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->visible(fn(RealisasiKegiatan $record): bool => in_array(Auth::user()?->role, ['VERIFIKATOR', 'ADMIN']) && !$record->is_verified)
+                    ->visible(fn(RealisasiKegiatan $record): bool => Auth::user()?->role !== 'SKPD' && !$record->is_verified)
                     ->action(function (RealisasiKegiatan $record): void {
                         $record->update(['is_verified' => true]);
                         Notification::make()

@@ -366,8 +366,10 @@
                 {{-- Filter SKPD --}}
                 <div class="lr-field-skpd">
                     <label class="lr-label">Perangkat Daerah (SKPD)</label>
-                    @if(auth()->user()->role === 'SKPD')
-                        <input type="text" value="{{ $activeSkpdName }}" disabled class="lr-input">
+                    @if(auth()->user()?->role === 'SKPD')
+                        <select class="lr-select" disabled style="background-color: #f1f5f9 !important; color: #334155 !important; cursor: not-allowed; border-color: #cbd5e1 !important;" title="Role Admin SKPD hanya dapat melihat data SKPD sendiri">
+                            <option selected>{{ $activeSkpdName }}</option>
+                        </select>
                     @else
                         <select wire:model.live="selectedSkpdId" class="lr-select">
                             @foreach($this->skpdList as $id => $nama)

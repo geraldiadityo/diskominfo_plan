@@ -7,6 +7,7 @@ use App\Models\ProgramKegiatan;
 use App\Models\ProgramProgram;
 use App\Models\ProgramSubKegiatan;
 use App\Models\ProgramUrusan;
+use App\Models\Skpd;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -34,6 +35,7 @@ class RenjaSkpdForm
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->live()
                             ->columnSpan(2),
 
                         TextInput::make('tahun')
@@ -46,7 +48,19 @@ class RenjaSkpdForm
                         // urusan
                         Select::make('urusan_id')
                             ->label('1. Urusan')
-                            ->options(ProgramUrusan::query()->pluck('nomenklatur', 'id'))
+                            ->options(function (Get $get) {
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return ProgramUrusan::query()->get()->mapWithKeys(function ($item) use ($skpdId) {
+                                    return [$item->id => Skpd::formatDisplayNomenklatur($item->nomenklatur, $skpdId)];
+                                });
+                            })
+                            ->getOptionLabelUsing(function ($value, Get $get) {
+                                if (!$value) return null;
+                                $urusan = ProgramUrusan::find($value);
+                                if (!$urusan) return null;
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return Skpd::formatDisplayNomenklatur($urusan->nomenklatur, $skpdId);
+                            })
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(fn(Set $set) => $set('bidang_id', null) ?? $set('program_id', null) ?? $set('kegiatan_id', null) ?? $set('sub_kegiatan_id', null))
@@ -55,11 +69,22 @@ class RenjaSkpdForm
                         // bidang
                         Select::make('bidang_id')
                             ->label('2. Bidang')
-                            ->options(
-                                fn(Get $get) => ProgramBidang::query()
+                            ->options(function (Get $get) {
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return ProgramBidang::query()
                                     ->when($get('urusan_id'), fn($q) => $q->where('urusan_id', $get('urusan_id')))
-                                    ->pluck('nomenklatur', 'id')
-                            )
+                                    ->get()
+                                    ->mapWithKeys(function ($item) use ($skpdId) {
+                                        return [$item->id => Skpd::formatDisplayNomenklatur($item->nomenklatur, $skpdId)];
+                                    });
+                            })
+                            ->getOptionLabelUsing(function ($value, Get $get) {
+                                if (!$value) return null;
+                                $bidang = ProgramBidang::find($value);
+                                if (!$bidang) return null;
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return Skpd::formatDisplayNomenklatur($bidang->nomenklatur, $skpdId);
+                            })
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(function (Set $set, $state) {
@@ -72,13 +97,25 @@ class RenjaSkpdForm
                         // program
                         Select::make('program_id')
                             ->label('3. Program')
-                            ->options(
-                                fn(Get $get) => ProgramProgram::query()
+                            ->options(function (Get $get) {
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return ProgramProgram::query()
                                     ->when($get('bidang_id'), fn($q) => $q->where('bidang_id', $get('bidang_id')))
                                     ->limit(100)
                                     ->get()
-                                    ->mapWithKeys(fn($item) => [$item->id => $item->kode_lengkap . ' - ' . $item->nomenklatur])
-                            )
+                                    ->mapWithKeys(function ($item) use ($skpdId) {
+                                        $kode = Skpd::formatDisplayKode($item->kode_lengkap, $skpdId);
+                                        return [$item->id => $kode . ' - ' . $item->nomenklatur];
+                                    });
+                            })
+                            ->getOptionLabelUsing(function ($value, Get $get) {
+                                if (!$value) return null;
+                                $program = ProgramProgram::find($value);
+                                if (!$program) return null;
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                $kode = Skpd::formatDisplayKode($program->kode_lengkap, $skpdId);
+                                return $kode . ' - ' . $program->nomenklatur;
+                            })
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(function (Set $set, $state) {
@@ -92,13 +129,25 @@ class RenjaSkpdForm
                         // Kegiatan
                         Select::make('kegiatan_id')
                             ->label('4. Kegiatan')
-                            ->options(
-                                fn(Get $get) => ProgramKegiatan::query()
+                            ->options(function (Get $get) {
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                return ProgramKegiatan::query()
                                     ->when($get('program_id'), fn($q) => $q->where('program_id', $get('program_id')))
                                     ->limit(100)
                                     ->get()
-                                    ->mapWithKeys(fn($item) => [$item->id => $item->kode_lengkap . ' - ' . $item->nomenklatur])
-                            )
+                                    ->mapWithKeys(function ($item) use ($skpdId) {
+                                        $kode = Skpd::formatDisplayKode($item->kode_lengkap, $skpdId);
+                                        return [$item->id => $kode . ' - ' . $item->nomenklatur];
+                                    });
+                            })
+                            ->getOptionLabelUsing(function ($value, Get $get) {
+                                if (!$value) return null;
+                                $kegiatan = ProgramKegiatan::find($value);
+                                if (!$kegiatan) return null;
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                $kode = Skpd::formatDisplayKode($kegiatan->kode_lengkap, $skpdId);
+                                return $kode . ' - ' . $kegiatan->nomenklatur;
+                            })
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(function (Set $set, $state) {
@@ -118,21 +167,36 @@ class RenjaSkpdForm
                             ->label('5. Sub Kegiatan')
                             ->options(function (Get $get) {
                                 if ($kegiatanId = $get('kegiatan_id')) {
+                                    $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
                                     return ProgramSubKegiatan::where('kegiatan_id', $kegiatanId)
                                         ->get()
-                                        ->mapWithKeys(fn($item) => [$item->id => $item->kode_lengkap . ' - ' . $item->nomenklatur]);
+                                        ->mapWithKeys(function ($item) use ($skpdId) {
+                                            $kode = Skpd::formatDisplayKode($item->kode_lengkap, $skpdId);
+                                            return [$item->id => $kode . ' - ' . $item->nomenklatur];
+                                        });
                                 }
                                 return [];
                             })
-                            ->getSearchResultsUsing(function (string $search) {
+                            ->getSearchResultsUsing(function (string $search, Get $get) {
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
                                 return ProgramSubKegiatan::query()
                                     ->whereFullText('nomenklatur', $search)
                                     ->orWhere('kode_lengkap', 'like', "%{$search}%")
                                     ->limit(50)
                                     ->get()
-                                    ->mapWithKeys(fn($item) => [$item->id => $item->kode_lengkap . ' - ' . $item->nomenklatur]);
+                                    ->mapWithKeys(function ($item) use ($skpdId) {
+                                        $kode = Skpd::formatDisplayKode($item->kode_lengkap, $skpdId);
+                                        return [$item->id => $kode . ' - ' . $item->nomenklatur];
+                                    });
                             })
-                            ->getOptionLabelUsing(fn($value): ?string => ($sub = ProgramSubKegiatan::find($value)) ? $sub->kode_lengkap . ' - ' . $sub->nomenklatur : null)
+                            ->getOptionLabelUsing(function ($value, Get $get): ?string {
+                                if (!$value) return null;
+                                $sub = ProgramSubKegiatan::find($value);
+                                if (!$sub) return null;
+                                $skpdId = $get('skpd_id') ?: Auth::user()?->skpd_id;
+                                $kode = Skpd::formatDisplayKode($sub->kode_lengkap, $skpdId);
+                                return $kode . ' - ' . $sub->nomenklatur;
+                            })
                             ->searchable()
                             ->live()
                             ->afterStateUpdated(function (Set $set, $state) {

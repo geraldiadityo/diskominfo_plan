@@ -51,10 +51,11 @@ class RenjaSkpdResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery()->with([
+            'skpd.bidang',
             'subKegiatan.kegiatan.program.bidang.urusan'
         ]);
 
-        if (Auth::user()->role === 'SKPD') {
+        if (Auth::user()?->role === 'SKPD') {
             $query->where('skpd_id', Auth::user()->skpd_id);
         }
 

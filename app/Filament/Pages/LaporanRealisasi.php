@@ -49,6 +49,17 @@ class LaporanRealisasi extends Page
     }
 
     /**
+     * Hook proteksi: Jika role SKPD mencoba memanipulasi selectedSkpdId via Livewire,
+     * otomatis kunci kembali ke skpd_id miliknya sendiri.
+     */
+    public function updatedSelectedSkpdId($value): void
+    {
+        if (Auth::user()?->role === 'SKPD') {
+            $this->selectedSkpdId = Auth::user()->skpd_id;
+        }
+    }
+
+    /**
      * Ganti triwulan secara instan melalui tab sheet atau dropdown.
      */
     public function selectTriwulan(int $triwulan): void
@@ -123,8 +134,8 @@ class LaporanRealisasi extends Page
 
             if (!isset($laporan[$progId])) {
                 $laporan[$progId] = [
-                    'kode' => $prog->kode_lengkap ?? '',
-                    'nama' => strtoupper($prog->nomenklatur ?? ''),
+                    'kode' => \App\Models\Skpd::formatDisplayKode($prog->kode_lengkap ?? '', $this->selectedSkpdId),
+                    'nama' => strtoupper(\App\Models\Skpd::formatDisplayNomenklatur($prog->nomenklatur ?? '', $this->selectedSkpdId)),
                     'pagu' => 0,
                     'target_keuangan_tw' => 0,
                     'realisasi_keuangan_tw' => 0,
@@ -140,8 +151,8 @@ class LaporanRealisasi extends Page
 
             if (!isset($laporan[$progId]['kegiatans'][$kegId])) {
                 $laporan[$progId]['kegiatans'][$kegId] = [
-                    'kode' => $keg->kode_lengkap ?? '',
-                    'nama' => $keg->nomenklatur ?? '',
+                    'kode' => \App\Models\Skpd::formatDisplayKode($keg->kode_lengkap ?? '', $this->selectedSkpdId),
+                    'nama' => \App\Models\Skpd::formatDisplayNomenklatur($keg->nomenklatur ?? '', $this->selectedSkpdId),
                     'pagu' => 0,
                     'target_keuangan_tw' => 0,
                     'realisasi_keuangan_tw' => 0,
@@ -244,8 +255,8 @@ class LaporanRealisasi extends Page
             }
 
             $laporan[$progId]['kegiatans'][$kegId]['sub_kegiatans'][$renjaId] = [
-                'kode' => $sub->kode_lengkap ?? '',
-                'nama' => $sub->nomenklatur ?? '',
+                'kode' => \App\Models\Skpd::formatDisplayKode($sub->kode_lengkap ?? '', $this->selectedSkpdId),
+                'nama' => \App\Models\Skpd::formatDisplayNomenklatur($sub->nomenklatur ?? '', $this->selectedSkpdId),
                 'indikator_kinerja' => $sub->kinerja ?? $sub->indikator ?? '',
                 'satuan' => $satuanDisplay,
                 'pagu' => $paguSub,

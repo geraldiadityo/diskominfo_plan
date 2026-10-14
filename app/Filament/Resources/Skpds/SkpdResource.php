@@ -13,7 +13,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Override;
 use UnitEnum;
 
 class SkpdResource extends Resource
@@ -43,18 +45,24 @@ class SkpdResource extends Resource
         ];
     }
 
+    #[Override]
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['bidang']);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ListSkpds::route('/'),
-            // 'create' => CreateSkpd::route('/create'),
-            // 'edit' => EditSkpd::route('/{record}/edit'),
+            'create' => CreateSkpd::route('/create'),
+            'edit' => EditSkpd::route('/{record}/edit'),
         ];
     }
 
     public static function shouldRegisterNavigation(): bool
     {
         $user = Auth::user();
-        return $user->role === 'ADMIN';
+        return $user?->role === 'ADMIN';
     }
 }

@@ -23,6 +23,18 @@ class SkpdsTable
                     ->label('Nama SKPD')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('bidang.kode_lengkap')
+                    ->label('Kode Bidang (Mapping)')
+                    ->placeholder('Belum di-mapping')
+                    ->badge()
+                    ->color('info')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('bidang.nomenklatur')
+                    ->label('Nama Bidang')
+                    ->placeholder('-')
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

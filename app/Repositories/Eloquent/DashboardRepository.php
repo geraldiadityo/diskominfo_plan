@@ -217,14 +217,14 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('skpd_id', $skpdId)
             ->where('tahun', $tahun)
             ->get()
-            ->map(function ($renja) {
+            ->map(function ($renja) use ($skpdId) {
                 $realisasi = (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
                 $target = (float) $renja->target_keuangan;
                 $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
                 
                 return [
-                    'kode_rekening' => $renja->subKegiatan->kode_lengkap ?? '-',
-                    'nama_rekening' => $renja->subKegiatan->nomenklatur ?? '-',
+                    'kode_rekening' => Skpd::formatDisplayKode($renja->subKegiatan->kode_lengkap ?? '-', $skpdId),
+                    'nama_rekening' => Skpd::formatDisplayNomenklatur($renja->subKegiatan->nomenklatur ?? '-', $skpdId),
                     'target' => $target,
                     'realisasi' => $realisasi,
                     'selisih' => $target - $realisasi,
@@ -263,9 +263,17 @@ class DashboardRepository implements DashboardRepositoryInterface
             $realisasiKeuangan = (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
             $realisasiFisik = (float) $renja->realisasi_kegiatans->sum('realisasi_fisik');
 
-            $namaProgram = ($program->kode_lengkap ?? '') . ' - ' . ($program->nomenklatur ?? '');
-            $namaKegiatan = ($kegiatan->kode_lengkap ?? '') . ' - ' . ($kegiatan->nomenklatur ?? '');
-            $namaSubKegiatan = ($subKegiatan->kode_lengkap ?? '') . ' - ' . ($subKegiatan->nomenklatur ?? '');
+            $kodeProg = Skpd::formatDisplayKode($program->kode_lengkap ?? '', $skpdId);
+            $namaProg = Skpd::formatDisplayNomenklatur($program->nomenklatur ?? '', $skpdId);
+            $namaProgram = ($kodeProg !== '' ? $kodeProg . ' - ' : '') . $namaProg;
+
+            $kodeKeg = Skpd::formatDisplayKode($kegiatan->kode_lengkap ?? '', $skpdId);
+            $namaKeg = Skpd::formatDisplayNomenklatur($kegiatan->nomenklatur ?? '', $skpdId);
+            $namaKegiatan = ($kodeKeg !== '' ? $kodeKeg . ' - ' : '') . $namaKeg;
+
+            $kodeSub = Skpd::formatDisplayKode($subKegiatan->kode_lengkap ?? '', $skpdId);
+            $namaSub = Skpd::formatDisplayNomenklatur($subKegiatan->nomenklatur ?? '', $skpdId);
+            $namaSubKegiatan = ($kodeSub !== '' ? $kodeSub . ' - ' : '') . $namaSub;
 
             if (!isset($laporan[$programId])) {
                 $laporan[$programId] = [
