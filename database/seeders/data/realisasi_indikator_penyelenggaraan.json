@@ -1,0 +1,1800 @@
+[
+    {
+        "skpd": "Dinas Pertanian, Ketahanan Pangan dan Perikanan",
+        "indikator": [
+            {
+                "no": 1,
+                "nama_indikator": "Indeks Ketahanan Pangan",
+                "satuan": "Indeks",
+                "baseline_2024": 87.06,
+                "target_2025": 87.21,
+                "target_2026": 87.36,
+                "target_2027": 87.51,
+                "target_2028": 87.66,
+                "target_2029": 87.81,
+                "target_2030": 87.81
+            },
+            {
+                "no": 2,
+                "nama_indikator": "Prevalensi Ketidakcukupan Konsumsi Pangan",
+                "satuan": "%",
+                "baseline_2024": "15,75*",
+                "target_2025": 14.55,
+                "target_2026": 14.05,
+                "target_2027": 13.55,
+                "target_2028": 13.05,
+                "target_2029": 12.55,
+                "target_2030": 12.55
+            },
+            {
+                "no": "I.",
+                "nama_indikator": "Pangan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "Y.",
+                "nama_indikator": "Kelautan dan Perikanan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "AA.",
+                "nama_indikator": "Pertanian",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pekerjaan Umum dan Perumahan Rakyat",
+        "indikator": [
+            {
+                "no": 3,
+                "nama_indikator": "Cakupan konektivitas antar wilayah",
+                "satuan": "Indeks",
+                "baseline_2024": 4.13,
+                "target_2025": 4.13,
+                "target_2026": 4.13,
+                "target_2027": 4.13,
+                "target_2028": 4.13,
+                "target_2029": 4.25,
+                "target_2030": 4.25
+            },
+            {
+                "no": 4,
+                "nama_indikator": "Konsumsi Listrik Per Kapita",
+                "satuan": "kWh/ kapita",
+                "baseline_2024": 998.13,
+                "target_2025": 1012.59,
+                "target_2026": 1014.09,
+                "target_2027": 1015.59,
+                "target_2028": 1017.09,
+                "target_2029": 1018.45,
+                "target_2030": 1018.45
+            },
+            {
+                "no": 5,
+                "nama_indikator": "Akses rumah tangga perkotaan terhadap air siap minum perpipaan",
+                "satuan": "%",
+                "baseline_2024": 73.25,
+                "target_2025": 73.75,
+                "target_2026": 74.25,
+                "target_2027": 74.75,
+                "target_2028": 75.25,
+                "target_2029": 75.56,
+                "target_2030": 75.56
+            },
+            {
+                "no": 7,
+                "nama_indikator": "Rumah Tangga dengan Akses Sanitasi Aman",
+                "satuan": "%",
+                "baseline_2024": 8.68,
+                "target_2025": 8.64,
+                "target_2026": 8.55,
+                "target_2027": 8.86,
+                "target_2028": 8.77,
+                "target_2029": 8.69,
+                "target_2030": 8.69
+            },
+            {
+                "no": 65,
+                "nama_indikator": "Rumah Tangga dengan Akses Hunian Layak",
+                "satuan": "%",
+                "baseline_2024": "91,85*",
+                "target_2025": 92.04,
+                "target_2026": 92.29,
+                "target_2027": 92.54,
+                "target_2028": 92.79,
+                "target_2029": 92.8,
+                "target_2030": 92.8
+            },
+            {
+                "no": "C.   ",
+                "nama_indikator": "Pekerjaan Umum dan Penataan Ruang",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "D.",
+                "nama_indikator": "Perumahan dan Kawasan Permukiman",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "J.",
+                "nama_indikator": "Pertanahan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Lingkungan Hidup",
+        "indikator": [
+            {
+                "no": 6,
+                "nama_indikator": "Indeks Kualitas Lingkungan Hidup",
+                "satuan": "Indeks",
+                "baseline_2024": 79.48,
+                "target_2025": 80.68,
+                "target_2026": 80.93,
+                "target_2027": 81.18,
+                "target_2028": 81.43,
+                "target_2029": 81.52,
+                "target_2030": 81.52
+            },
+            {
+                "no": 8,
+                "nama_indikator": "Timbulan Sampah Terolah di Fasilitas Pengolahan Sampah",
+                "satuan": "%",
+                "baseline_2024": 34.74,
+                "target_2025": 35.57,
+                "target_2026": 42.03,
+                "target_2027": 43.35,
+                "target_2028": 45.85,
+                "target_2029": 46.43,
+                "target_2030": 46.43
+            },
+            {
+                "no": 9,
+                "nama_indikator": "Proporsi Rumah Tangga dengan Layanan Penuh Pengumpulan Sampah",
+                "satuan": "%",
+                "baseline_2024": "N.A",
+                "target_2025": 75,
+                "target_2026": 76.5,
+                "target_2027": 78,
+                "target_2028": 79.5,
+                "target_2029": 80,
+                "target_2030": 80
+            },
+            {
+                "no": 10,
+                "nama_indikator": "Penurunan Intensitas Emisi GRK",
+                "satuan": "%",
+                "baseline_2024": "N.A",
+                "target_2025": 226371.73,
+                "target_2026": 242382.81,
+                "target_2027": 265859.17,
+                "target_2028": 279335.53,
+                "target_2029": 289848.09,
+                "target_2030": 289848.09
+            },
+            {
+                "no": 63,
+                "nama_indikator": "Porsi EBT dalam Bauran Energi Primer",
+                "satuan": "%",
+                "baseline_2024": "N.A",
+                "target_2025": 27.3,
+                "target_2026": 29.8,
+                "target_2027": 32.3,
+                "target_2028": 34.8,
+                "target_2029": 39.13,
+                "target_2030": 39.13
+            },
+            {
+                "no": "K.",
+                "nama_indikator": "Lingkungan Hidup",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Penanggulangan Bencana Daerah (BPBD)",
+        "indikator": [
+            {
+                "no": 11,
+                "nama_indikator": "Indeks Risiko Bencana",
+                "satuan": "Poin",
+                "baseline_2024": 119.33,
+                "target_2025": 119.08,
+                "target_2026": 118.83,
+                "target_2027": 118.58,
+                "target_2028": 118.53,
+                "target_2029": 118.08,
+                "target_2030": 118.08
+            },
+            {
+                "no": 12,
+                "nama_indikator": "Indeks Ketahanan Daerah",
+                "satuan": "Poin",
+                "baseline_2024": 0.42,
+                "target_2025": 0.43,
+                "target_2026": 0.42,
+                "target_2027": 0.4,
+                "target_2028": 0.4,
+                "target_2029": 0.4,
+                "target_2030": 0.4
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Kependudukan dan Pencatatan Sipil",
+        "indikator": [
+            {
+                "no": 13,
+                "nama_indikator": "Laju Pertumbuhan Penduduk",
+                "satuan": "%",
+                "baseline_2024": 1.15,
+                "target_2025": 1.14,
+                "target_2026": 1.13,
+                "target_2027": 1.12,
+                "target_2028": 1.11,
+                "target_2029": 1.1,
+                "target_2030": 1.1
+            },
+            {
+                "no": 14,
+                "nama_indikator": "Kepadatan Penduduk",
+                "satuan": null,
+                "baseline_2024": "N.A",
+                "target_2025": 2.8,
+                "target_2026": 2.83,
+                "target_2027": 2.85,
+                "target_2028": 2.88,
+                "target_2029": 2.91,
+                "target_2030": 2.91
+            },
+            {
+                "no": 55,
+                "nama_indikator": "Angka Ketergantungan",
+                "satuan": "%",
+                "baseline_2024": 45.04,
+                "target_2025": 45.33,
+                "target_2026": 45.11,
+                "target_2027": 45.09,
+                "target_2028": 45.13,
+                "target_2029": 45.01,
+                "target_2030": 45.01
+            },
+            {
+                "no": "L.  ",
+                "nama_indikator": "Administrasi Kependudukan dan Pencatatan Sipil",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Pusat Statistik",
+        "indikator": [
+            {
+                "no": 15,
+                "nama_indikator": "Laju Pertumbuhan Ekonomi",
+                "satuan": "%",
+                "baseline_2024": 5.1,
+                "target_2025": 5.1,
+                "target_2026": 4.84,
+                "target_2027": 4.99,
+                "target_2028": 5.14,
+                "target_2029": 5.49,
+                "target_2030": 5.49
+            },
+            {
+                "no": 16,
+                "nama_indikator": "Tingkat Kemiskinan",
+                "satuan": "%",
+                "baseline_2024": 2.92,
+                "target_2025": 2.9,
+                "target_2026": 2.88,
+                "target_2027": 2.82,
+                "target_2028": 2.75,
+                "target_2029": 2.67,
+                "target_2030": 2.67
+            },
+            {
+                "no": 17,
+                "nama_indikator": "PDRB Per Kapita",
+                "satuan": "Juta",
+                "baseline_2024": 100.75,
+                "target_2025": 100.8,
+                "target_2026": 100.95,
+                "target_2027": 101.15,
+                "target_2028": 101.35,
+                "target_2029": 101.5,
+                "target_2030": 101.5
+            },
+            {
+                "no": 18,
+                "nama_indikator": "Tingkat Pengangguran Terbuka",
+                "satuan": "%",
+                "baseline_2024": 4.3,
+                "target_2025": 3.73,
+                "target_2026": 4.2,
+                "target_2027": 4.1,
+                "target_2028": 3.85,
+                "target_2029": 3.47,
+                "target_2030": 3.47
+            },
+            {
+                "no": 19,
+                "nama_indikator": "Indeks Gini",
+                "satuan": "Angka",
+                "baseline_2024": 0.3,
+                "target_2025": 0.3,
+                "target_2026": 0.31,
+                "target_2027": 0.31,
+                "target_2028": 0.31,
+                "target_2029": 0.31,
+                "target_2030": 0.31
+            },
+            {
+                "no": 20,
+                "nama_indikator": "Indeks Pembangunan Manusia",
+                "satuan": "Angka",
+                "baseline_2024": 77.93,
+                "target_2025": 78.68,
+                "target_2026": 79.45,
+                "target_2027": 80.19,
+                "target_2028": 80.22,
+                "target_2029": 80.98,
+                "target_2030": 80.98
+            },
+            {
+                "no": 56,
+                "nama_indikator": "Rasio PDRB Industri Pengolahan",
+                "satuan": "%",
+                "baseline_2024": 0.62,
+                "target_2025": 0.62,
+                "target_2026": 0.64,
+                "target_2027": 0.65,
+                "target_2028": 0.66,
+                "target_2029": 0.67,
+                "target_2030": 0.67
+            },
+            {
+                "no": 57,
+                "nama_indikator": "Rasio PDRB Akomodasi Makan dan Minum",
+                "satuan": "%",
+                "baseline_2024": 1.14,
+                "target_2025": 1.15,
+                "target_2026": 1.16,
+                "target_2027": 1.18,
+                "target_2028": 1.19,
+                "target_2029": 1.2,
+                "target_2030": 1.2
+            },
+            {
+                "no": 58,
+                "nama_indikator": "Kontribusi PDRB sektor tersier (%)",
+                "satuan": "%",
+                "baseline_2024": 83.47,
+                "target_2025": 83.07,
+                "target_2026": 83.12,
+                "target_2027": 83.17,
+                "target_2028": 83.22,
+                "target_2029": 83.59,
+                "target_2030": 83.59
+            },
+            {
+                "no": 59,
+                "nama_indikator": "Rasio Kewirausahaan",
+                "satuan": "%",
+                "baseline_2024": "2,79*",
+                "target_2025": 3.37,
+                "target_2026": 3.87,
+                "target_2027": 4.12,
+                "target_2028": 4.37,
+                "target_2029": 4.53,
+                "target_2030": 4.53
+            },
+            {
+                "no": 60,
+                "nama_indikator": "Tingkat Partisipasi Angkatan Kerja",
+                "satuan": "%",
+                "baseline_2024": 66.38,
+                "target_2025": 68.04,
+                "target_2026": 69.72,
+                "target_2027": 69.62,
+                "target_2028": 71.29,
+                "target_2029": 72.08,
+                "target_2030": 72.08
+            },
+            {
+                "no": 68,
+                "nama_indikator": "Tingkat Inflasi",
+                "satuan": "%",
+                "baseline_2024": 3.09,
+                "target_2025": "1,5-3,5",
+                "target_2026": "1,5-3,5",
+                "target_2027": "1,5-3,5",
+                "target_2028": "1,5-3,5",
+                "target_2029": "1,5-3,5",
+                "target_2030": "1,5-3,5"
+            },
+            {
+                "no": 69,
+                "nama_indikator": "Pembentukan Modal Tetap Bruto",
+                "satuan": "% PDRB",
+                "baseline_2024": 5.94,
+                "target_2025": 29.34,
+                "target_2026": 29.34,
+                "target_2027": 29.35,
+                "target_2028": 29.36,
+                "target_2029": 29.37,
+                "target_2030": 29.37
+            },
+            {
+                "no": 71,
+                "nama_indikator": "Kontribusi PDRB Kota Sungai Penuh Terhadap Provinsi Jambi (%)",
+                "satuan": "%",
+                "baseline_2024": 3.24,
+                "target_2025": 3.24,
+                "target_2026": 3.24,
+                "target_2027": 3.24,
+                "target_2028": 3.24,
+                "target_2029": 3.22,
+                "target_2030": 3.22
+            },
+            {
+                "no": 79,
+                "nama_indikator": "Indeks Pembangunan Manusia",
+                "satuan": "Indeks",
+                "baseline_2024": 77.93,
+                "target_2025": 78.05,
+                "target_2026": 78.2,
+                "target_2027": 78.35,
+                "target_2028": 78.5,
+                "target_2029": 78.65,
+                "target_2030": 78.65
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Kesehatan",
+        "indikator": [
+            {
+                "no": 21,
+                "nama_indikator": "Usia Harapan Hidup",
+                "satuan": "Tahun",
+                "baseline_2024": 74.29,
+                "target_2025": 75.19,
+                "target_2026": 75.47,
+                "target_2027": 76.06,
+                "target_2028": 76.65,
+                "target_2029": 77.09,
+                "target_2030": 77.09
+            },
+            {
+                "no": 22,
+                "nama_indikator": "Prevalensi Stunting",
+                "satuan": "%",
+                "baseline_2024": 8,
+                "target_2025": 7,
+                "target_2026": 6,
+                "target_2027": 4.95,
+                "target_2028": 3.85,
+                "target_2029": 3.79,
+                "target_2030": 3.79
+            },
+            {
+                "no": 23,
+                "nama_indikator": "Angka Kematian Ibu (per 100.000 kelahiran hidup)",
+                "satuan": "Per 100.000 Kelahiran Hidup",
+                "baseline_2024": 94,
+                "target_2025": 122,
+                "target_2026": 109,
+                "target_2027": 97,
+                "target_2028": 86,
+                "target_2029": 77,
+                "target_2030": 65
+            },
+            {
+                "no": 24,
+                "nama_indikator": "Angka Kematian Balita",
+                "satuan": "Per 1.000 Kelahiran Hidup",
+                "baseline_2024": 6.6,
+                "target_2025": 7,
+                "target_2026": 7,
+                "target_2027": 6,
+                "target_2028": 6,
+                "target_2029": 5,
+                "target_2030": 5
+            },
+            {
+                "no": 25,
+                "nama_indikator": "Cakupan penemuan dan pengobatan kasus tuberkulosis (treatment coverage) (%)",
+                "satuan": "%",
+                "baseline_2024": 56.5,
+                "target_2025": 75.72,
+                "target_2026": 76.93,
+                "target_2027": 78.15,
+                "target_2028": 79.36,
+                "target_2029": 80.58,
+                "target_2030": 81.79
+            },
+            {
+                "no": 26,
+                "nama_indikator": "Angka keberhasilan pengobatan tuberkulosis (treatment success rate) (%)",
+                "satuan": "%",
+                "baseline_2024": 96.31,
+                "target_2025": 96.65,
+                "target_2026": 96.82,
+                "target_2027": 96.99,
+                "target_2028": 97.16,
+                "target_2029": 97.33,
+                "target_2030": 97.5
+            },
+            {
+                "no": 27,
+                "nama_indikator": "Cakupan kepesertaan jaminan kesehatan nasional (%)",
+                "satuan": "%",
+                "baseline_2024": 60.34,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 28,
+                "nama_indikator": "Cakupan kepesertaan aktif jaminan kesehatan nasional (JKN)",
+                "satuan": "%",
+                "baseline_2024": 64.51,
+                "target_2025": 72,
+                "target_2026": 75,
+                "target_2027": 78,
+                "target_2028": 81,
+                "target_2029": 83,
+                "target_2030": 87
+            },
+            {
+                "no": 29,
+                "nama_indikator": "Tingkat kepuasan pelayanan faskes",
+                "satuan": "%",
+                "baseline_2024": 80,
+                "target_2025": 85,
+                "target_2026": 90,
+                "target_2027": 95,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 30,
+                "nama_indikator": "Cakupan penerima pemeriksaan kesehatan gratis (%)",
+                "satuan": "%",
+                "baseline_2024": 10,
+                "target_2025": 36,
+                "target_2026": 46,
+                "target_2027": 55,
+                "target_2028": 61,
+                "target_2029": 70,
+                "target_2030": 70
+            },
+            {
+                "no": 31,
+                "nama_indikator": "Angka populasi bebas penyakit menular",
+                "satuan": "%",
+                "baseline_2024": 30,
+                "target_2025": 40,
+                "target_2026": 50,
+                "target_2027": 60,
+                "target_2028": 70,
+                "target_2029": 80,
+                "target_2030": 90
+            },
+            {
+                "no": 32,
+                "nama_indikator": "Angka populasi bebas penyakit tidak menular",
+                "satuan": "%",
+                "baseline_2024": 60,
+                "target_2025": 65,
+                "target_2026": 70,
+                "target_2027": 75,
+                "target_2028": 80,
+                "target_2029": 85,
+                "target_2030": 90
+            },
+            {
+                "no": 33,
+                "nama_indikator": "Rasio tenaga medis dan tenaga kesehatan terhadap populasi",
+                "satuan": "Rasio Per 1.000 Penduduk",
+                "baseline_2024": 5,
+                "target_2025": 5.3,
+                "target_2026": 5.3,
+                "target_2027": 5.4,
+                "target_2028": 5.4,
+                "target_2029": 5.5,
+                "target_2030": 5.6
+            },
+            {
+                "no": "B.",
+                "nama_indikator": "Kesehatan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pendidikan",
+        "indikator": [
+            {
+                "no": 34,
+                "nama_indikator": "Rata-Rata Lama Sekolah",
+                "satuan": "Tahun",
+                "baseline_2024": 10.48,
+                "target_2025": 10.5,
+                "target_2026": 10.57,
+                "target_2027": 10.63,
+                "target_2028": 10.68,
+                "target_2029": 10.74,
+                "target_2030": 10.74
+            },
+            {
+                "no": 35,
+                "nama_indikator": "Harapan Lama Sekolah",
+                "satuan": "Tahun",
+                "baseline_2024": 14.84,
+                "target_2025": 14.86,
+                "target_2026": 14.87,
+                "target_2027": 14.88,
+                "target_2028": 14.9,
+                "target_2029": 14.91,
+                "target_2030": 14.91
+            },
+            {
+                "no": 36,
+                "nama_indikator": "Skor Kemampuan Literasi SD",
+                "satuan": "%",
+                "baseline_2024": 62.03,
+                "target_2025": 64.53,
+                "target_2026": 67.03,
+                "target_2027": 69.53,
+                "target_2028": 72.03,
+                "target_2029": 74.53,
+                "target_2030": 77.03
+            },
+            {
+                "no": 37,
+                "nama_indikator": "Skor Kemampuan Literasi SMP",
+                "satuan": "%",
+                "baseline_2024": 68.92,
+                "target_2025": 70.02,
+                "target_2026": 71.12,
+                "target_2027": 72.22,
+                "target_2028": 73.32,
+                "target_2029": 74.42,
+                "target_2030": 75.52
+            },
+            {
+                "no": 38,
+                "nama_indikator": "Skor Kemampuan Numerasi SD",
+                "satuan": "%",
+                "baseline_2024": 55.19,
+                "target_2025": 58.09,
+                "target_2026": 60.99,
+                "target_2027": 63.89,
+                "target_2028": 66.79,
+                "target_2029": 69.69,
+                "target_2030": 72.59
+            },
+            {
+                "no": 39,
+                "nama_indikator": "Skor Kemampuan Numerasi SMP",
+                "satuan": "%",
+                "baseline_2024": 61.3,
+                "target_2025": 62.8,
+                "target_2026": 64.3,
+                "target_2027": 65.8,
+                "target_2028": 67.3,
+                "target_2029": 68.8,
+                "target_2030": 70.3
+            },
+            {
+                "no": 40,
+                "nama_indikator": "Iklim Inklusivitas SD",
+                "satuan": "%",
+                "baseline_2024": 58.81,
+                "target_2025": 61.31,
+                "target_2026": 63.81,
+                "target_2027": 66.31,
+                "target_2028": 68.81,
+                "target_2029": 71.31,
+                "target_2030": 73.81
+            },
+            {
+                "no": 41,
+                "nama_indikator": "Iklim Inklusivitas SMP",
+                "satuan": "%",
+                "baseline_2024": 55.33,
+                "target_2025": 57.73,
+                "target_2026": 60.13,
+                "target_2027": 62.53,
+                "target_2028": 64.93,
+                "target_2029": 67.33,
+                "target_2030": 69.73
+            },
+            {
+                "no": 42,
+                "nama_indikator": "Iklim Keamanan SD",
+                "satuan": "%",
+                "baseline_2024": 76.49,
+                "target_2025": 77.39,
+                "target_2026": 78.29,
+                "target_2027": 79.19,
+                "target_2028": 80.09,
+                "target_2029": 80.99,
+                "target_2030": 81.89
+            },
+            {
+                "no": 43,
+                "nama_indikator": "Iklim Keamanan SMP",
+                "satuan": "%",
+                "baseline_2024": 68.87,
+                "target_2025": 70.37,
+                "target_2026": 71.87,
+                "target_2027": 73.37,
+                "target_2028": 74.87,
+                "target_2029": 76.37,
+                "target_2030": 77.87
+            },
+            {
+                "no": 44,
+                "nama_indikator": "Iklim Kebinekaan SD",
+                "satuan": "%",
+                "baseline_2024": 70.68,
+                "target_2025": 71.68,
+                "target_2026": 72.68,
+                "target_2027": 73.68,
+                "target_2028": 74.68,
+                "target_2029": 75.68,
+                "target_2030": 76.68
+            },
+            {
+                "no": 45,
+                "nama_indikator": "Iklim Kebinekaan SMP",
+                "satuan": "%",
+                "baseline_2024": 69.67,
+                "target_2025": 70.67,
+                "target_2026": 71.67,
+                "target_2027": 72.67,
+                "target_2028": 73.67,
+                "target_2029": 74.67,
+                "target_2030": 75.67
+            },
+            {
+                "no": "A.",
+                "nama_indikator": "Pendidikan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Perpustakaan dan Kearsipan",
+        "indikator": [
+            {
+                "no": 46,
+                "nama_indikator": "Indeks Pembangunan Literasi Masyarakat",
+                "satuan": "Indeks",
+                "baseline_2024": 77.19,
+                "target_2025": 77.24,
+                "target_2026": 77.29,
+                "target_2027": 77.34,
+                "target_2028": 77.39,
+                "target_2029": 77.44,
+                "target_2030": 77.44
+            },
+            {
+                "no": "W.",
+                "nama_indikator": "Perpustakaan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "X.",
+                "nama_indikator": "Kearsipan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Komunikasi, Informatika dan Statistik",
+        "indikator": [
+            {
+                "no": 47,
+                "nama_indikator": "Indeks Masyarakat Digital",
+                "satuan": "Angka",
+                "baseline_2024": 43.67,
+                "target_2025": 45.78,
+                "target_2026": 46.28,
+                "target_2027": 47.78,
+                "target_2028": 48.28,
+                "target_2029": 49.16,
+                "target_2030": 49.16
+            },
+            {
+                "no": 54,
+                "nama_indikator": "Indeks Transformasi Digital",
+                "satuan": "Skor",
+                "baseline_2024": "42,3*",
+                "target_2025": 42.5,
+                "target_2026": 42.75,
+                "target_2027": 43,
+                "target_2028": 43.25,
+                "target_2029": 43.5,
+                "target_2030": 43.5
+            },
+            {
+                "no": 75,
+                "nama_indikator": "Indeks Sistem Pemerintahan Berbasis Elektronik",
+                "satuan": "Poin",
+                "baseline_2024": 3.14,
+                "target_2025": 3.18,
+                "target_2026": 3.22,
+                "target_2027": 3.26,
+                "target_2028": 3.3,
+                "target_2029": 3.34,
+                "target_2030": 3.34
+            },
+            {
+                "no": "P.",
+                "nama_indikator": "Komunikasi dan Informatika",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "T.   ",
+                "nama_indikator": "Statistik",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "U.",
+                "nama_indikator": "Persandian",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Koperasi, Usaha Kecil Menengah dan Tenaga Kerja",
+        "indikator": [
+            {
+                "no": 48,
+                "nama_indikator": "Cakupan Kepesertaan Jaminan Sosial Tenaga Kerja",
+                "satuan": "%",
+                "baseline_2024": 21.52,
+                "target_2025": 41.61,
+                "target_2026": 43.11,
+                "target_2027": 44.61,
+                "target_2028": 47.11,
+                "target_2029": 49.69,
+                "target_2030": 49.69
+            },
+            {
+                "no": 72,
+                "nama_indikator": "Persentase penyandang disabilitas bekerja di sektor formal (%)",
+                "satuan": "%",
+                "baseline_2024": 4.05,
+                "target_2025": 4.05,
+                "target_2026": 5.41,
+                "target_2027": 6.76,
+                "target_2028": 8.11,
+                "target_2029": 9.46,
+                "target_2030": 10.81
+            },
+            {
+                "no": "Q.",
+                "nama_indikator": "Koperasi, Usaha Kecil dan Menengah",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Kesatuan Bangsa dan Politik",
+        "indikator": [
+            {
+                "no": 49,
+                "nama_indikator": "Indeks Kerukunan Umat Beragama",
+                "satuan": "Skor",
+                "baseline_2024": "N.A",
+                "target_2025": 65.92,
+                "target_2026": 66.17,
+                "target_2027": 66.42,
+                "target_2028": 66.92,
+                "target_2029": 67.42,
+                "target_2030": 67.42
+            },
+            {
+                "no": "AM.",
+                "nama_indikator": "Kesatuan Bangsa dan Politik",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Kebudayaan, Pariwisata, Kepemudaan dan Olahraga",
+        "indikator": [
+            {
+                "no": 50,
+                "nama_indikator": "Indeks Pembangunan Kebudayaan",
+                "satuan": "Angka",
+                "baseline_2024": "N.A",
+                "target_2025": 60.23,
+                "target_2026": 60.48,
+                "target_2027": 61.98,
+                "target_2028": 62.23,
+                "target_2029": 62.24,
+                "target_2030": 62.24
+            },
+            {
+                "no": "S.",
+                "nama_indikator": "Kepemudaan dan Olahraga",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "V.",
+                "nama_indikator": "Kebudayaan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "Z.",
+                "nama_indikator": "Pariwisata",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pemberdayaan Perempuan, Perlindungan Anak, Pengendalian Penduduk dan KB",
+        "indikator": [
+            {
+                "no": 51,
+                "nama_indikator": "Indeks Perlindungan Anak",
+                "satuan": "Angka",
+                "baseline_2024": "64,52*",
+                "target_2025": 72,
+                "target_2026": 73.25,
+                "target_2027": 73.75,
+                "target_2028": 74.25,
+                "target_2029": 74.4,
+                "target_2030": 74.4
+            },
+            {
+                "no": 52,
+                "nama_indikator": "Indeks Pembangunan Keluarga",
+                "satuan": "0-100",
+                "baseline_2024": "55,72*",
+                "target_2025": 64.39,
+                "target_2026": 65.64,
+                "target_2027": 66.89,
+                "target_2028": 68.14,
+                "target_2029": 68.73,
+                "target_2030": 68.73
+            },
+            {
+                "no": 53,
+                "nama_indikator": "Indeks Ketimpangan Gender",
+                "satuan": "Poin",
+                "baseline_2024": "0,758*",
+                "target_2025": 0.718,
+                "target_2026": 0.703,
+                "target_2027": 0.678,
+                "target_2028": 0.663,
+                "target_2029": 0.638,
+                "target_2030": 0.638
+            },
+            {
+                "no": "H.",
+                "nama_indikator": "Pemberdayaan Perempuan dan Perlindungan Anak",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "N.",
+                "nama_indikator": "Pengendalian Penduduk dan Keluarga Berencana",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Perencanaan Pembangunan, Riset dan Inovasi Daerah",
+        "indikator": [
+            {
+                "no": 61,
+                "nama_indikator": "Indeks Inovasi Daerah",
+                "satuan": "Skor",
+                "baseline_2024": 53.6,
+                "target_2025": 53.75,
+                "target_2026": 53.9,
+                "target_2027": 54.05,
+                "target_2028": 54.2,
+                "target_2029": 54.35,
+                "target_2030": 54.35
+            },
+            {
+                "no": 62,
+                "nama_indikator": "Indeks Ekonomi Hijau",
+                "satuan": "Rupiah/ Jiwa",
+                "baseline_2024": "N.A",
+                "target_2025": 73.61,
+                "target_2026": 74.11,
+                "target_2027": 74.61,
+                "target_2028": 76.36,
+                "target_2029": 77.45,
+                "target_2030": 77.45
+            },
+            {
+                "no": 80,
+                "nama_indikator": "Indeks Daya Saing Daerah",
+                "satuan": "Indeks",
+                "baseline_2024": 3.66,
+                "target_2025": 3.57,
+                "target_2026": 3.59,
+                "target_2027": 3.61,
+                "target_2028": 3.63,
+                "target_2029": 3.66,
+                "target_2030": 3.68
+            },
+            {
+                "no": "AF.",
+                "nama_indikator": "Perencanaan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "AJ.",
+                "nama_indikator": "Penelitian dan Pengembangan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Perdagangan dan Perindustrian",
+        "indikator": [
+            {
+                "no": 64,
+                "nama_indikator": "Ekspor Barang dan Jasa",
+                "satuan": "% PDRB",
+                "baseline_2024": "14,32*",
+                "target_2025": 14.38,
+                "target_2026": 14.4,
+                "target_2027": 14.45,
+                "target_2028": 14.48,
+                "target_2029": 14.51,
+                "target_2030": 14.51
+            },
+            {
+                "no": "AB.",
+                "nama_indikator": "Perdagangan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "AC.",
+                "nama_indikator": "Perindustrian",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pemberdayaan Masyarakat dan Desa",
+        "indikator": [
+            {
+                "no": 66,
+                "nama_indikator": "Persentase Desa Mandiri",
+                "satuan": "%",
+                "baseline_2024": "98,46*",
+                "target_2025": 0,
+                "target_2026": 1.154,
+                "target_2027": 2.308,
+                "target_2028": 3.462,
+                "target_2029": 4.615,
+                "target_2030": 4.615
+            },
+            {
+                "no": "M.",
+                "nama_indikator": "Pemberdayaan Masyarakat dan Desa",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Pendapatan Daerah",
+        "indikator": [
+            {
+                "no": 67,
+                "nama_indikator": "Rasio Pajak Daerah terhadap PDRB",
+                "satuan": "%",
+                "baseline_2024": 0.96,
+                "target_2025": 0.101,
+                "target_2026": 0.104,
+                "target_2027": 0.107,
+                "target_2028": 0.11,
+                "target_2029": 0.111,
+                "target_2030": 0.111
+            }
+        ]
+    },
+    {
+        "skpd": "Sekretariat Daerah",
+        "indikator": [
+            {
+                "no": 70,
+                "nama_indikator": "Indeks Akses Keuangan Daerah",
+                "satuan": "Indeks",
+                "baseline_2024": 3.98,
+                "target_2025": 4.03,
+                "target_2026": 4.05,
+                "target_2027": 4.08,
+                "target_2028": 4.1,
+                "target_2029": 4.12,
+                "target_2030": 4.14
+            },
+            {
+                "no": 73,
+                "nama_indikator": "Indeks Zakat Nasional",
+                "satuan": "Indeks",
+                "baseline_2024": 0.57,
+                "target_2025": 0.6,
+                "target_2026": 0.63,
+                "target_2027": 0.66,
+                "target_2028": 0.69,
+                "target_2029": 0.72,
+                "target_2030": 0.75
+            },
+            {
+                "no": 74,
+                "nama_indikator": "Indeks Reformasi Hukum",
+                "satuan": "Indeks",
+                "baseline_2024": "54,46*",
+                "target_2025": 60.46,
+                "target_2026": 61.71,
+                "target_2027": 62.96,
+                "target_2028": 63.21,
+                "target_2029": 63.46,
+                "target_2030": 63.46
+            },
+            {
+                "no": 76,
+                "nama_indikator": "Indeks Pelayanan Publik",
+                "satuan": "Angka",
+                "baseline_2024": 1.32,
+                "target_2025": 1.82,
+                "target_2026": 2.32,
+                "target_2027": 2.82,
+                "target_2028": 3.32,
+                "target_2029": 3.93,
+                "target_2030": 3.93
+            },
+            {
+                "no": 78,
+                "nama_indikator": "Indeks Reformasi Birokrasi",
+                "satuan": "Indeks",
+                "baseline_2024": "C",
+                "target_2025": "CC",
+                "target_2026": "CC",
+                "target_2027": "CC",
+                "target_2028": "B",
+                "target_2029": "B",
+                "target_2030": "B"
+            },
+            {
+                "no": "AD.",
+                "nama_indikator": "Sekretariat Daerah",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Satuan Polisi Pamong Praja dan Pemadam Kebakaran",
+        "indikator": [
+            {
+                "no": 77,
+                "nama_indikator": "Persentase Penegakan Perda",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 1,
+                "nama_indikator": "Tingkat penyelesaian pelanggaran Perda",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 2,
+                "nama_indikator": "Persentase Perda dan Perkada yang ditegakkan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 3,
+                "nama_indikator": "Persentase Pelayanan Ketentraman dan Ketertiban Umum Sesuai Dengan SPM",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 4,
+                "nama_indikator": "Persentase Gangguan Trantibum yang dapat diselesaikan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 8,
+                "nama_indikator": "Cakupan pelayanan bencana kebakaran kabupaten/kota",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Penanggulangan Bencana Daerah",
+        "indikator": [
+            {
+                "no": 5,
+                "nama_indikator": "Persentase cakupan penyebaran informasi dan edukasi rawan bencana",
+                "satuan": "%",
+                "baseline_2024": 70,
+                "target_2025": 75,
+                "target_2026": 80,
+                "target_2027": 85,
+                "target_2028": 90,
+                "target_2029": 95,
+                "target_2030": 100
+            },
+            {
+                "no": 6,
+                "nama_indikator": "Persentase penanganan tanggap darurat bencana",
+                "satuan": "%",
+                "baseline_2024": 95,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            },
+            {
+                "no": 7,
+                "nama_indikator": "Persentase penanganan pasca bencana",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Sosial",
+        "indikator": [
+            {
+                "no": "F.",
+                "nama_indikator": "Sosial",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Koperasi Usaha Kecil Menengah dan Tenaga Kerja",
+        "indikator": [
+            {
+                "no": "G.  ",
+                "nama_indikator": "Tenaga Kerja",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Perhubungan",
+        "indikator": [
+            {
+                "no": "O.",
+                "nama_indikator": "Perhubungan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu",
+        "indikator": [
+            {
+                "no": "R.",
+                "nama_indikator": "Penanaman Modal",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Sekretariat DPRD",
+        "indikator": [
+            {
+                "no": "AE.",
+                "nama_indikator": "Sekretariat DPRD",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Keuangan dan Aset Daerah",
+        "indikator": [
+            {
+                "no": "AG.",
+                "nama_indikator": "Keuangan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Kepegawaian dan Pengembangan SDM",
+        "indikator": [
+            {
+                "no": "AH.",
+                "nama_indikator": "Kepegawaian",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            },
+            {
+                "no": "AI.",
+                "nama_indikator": "Pendidikan dan Pelatihan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Inspektorat",
+        "indikator": [
+            {
+                "no": "AK.",
+                "nama_indikator": "Inspektorat Daerah",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Seluruh Kecamatan",
+        "indikator": [
+            {
+                "no": "AL.",
+                "nama_indikator": "Kecamatan",
+                "satuan": null,
+                "baseline_2024": null,
+                "target_2025": null,
+                "target_2026": null,
+                "target_2027": null,
+                "target_2028": null,
+                "target_2029": null,
+                "target_2030": null
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Sungai Penuh",
+        "indikator": [
+            {
+                "no": 1,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Pesisir Bukit",
+        "indikator": [
+            {
+                "no": 6,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Hamparan Rawang",
+        "indikator": [
+            {
+                "no": 11,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Kumun Debai",
+        "indikator": [
+            {
+                "no": 16,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Tanah Kampung",
+        "indikator": [
+            {
+                "no": 21,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Pondok Tinggi",
+        "indikator": [
+            {
+                "no": 26,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Sungai Bungkal",
+        "indikator": [
+            {
+                "no": 31,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    },
+    {
+        "skpd": "Kecamatan Koto Baru",
+        "indikator": [
+            {
+                "no": 36,
+                "nama_indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%",
+                "baseline_2024": 100,
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    }
+]

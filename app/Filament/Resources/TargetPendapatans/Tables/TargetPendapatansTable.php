@@ -27,7 +27,7 @@ class TargetPendapatansTable
                     ->label('Rekening Pendapatan')
                     ->description(fn(TargetPendapatan $record): string => $record->rekening?->kode ?? '')
                     ->wrap()
-                    ->searchable(),
+                    ->searchable(['uraian', 'kode']),
 
                 TextColumn::make('tahun')
                     ->label('Tahun')

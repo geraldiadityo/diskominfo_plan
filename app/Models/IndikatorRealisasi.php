@@ -14,8 +14,10 @@ class IndikatorRealisasi extends Model
         'skpd_id',
         'tahun',
         'nilai_realisasi',
+        'is_tercapai',
         'bukti_dokument',
         'status',
+        'is_verif',
         'catatan_bappeda',
         'submitted_at',
         'verified_at'
@@ -24,6 +26,8 @@ class IndikatorRealisasi extends Model
     protected function casts(): array
     {
         return [
+            'is_tercapai' => 'boolean',
+            'is_verif' => 'boolean',
             'status' => StatusRealisasi::class,
             'submitted_at' => 'datetime',
             'verified_at' => 'datetime'
@@ -38,5 +42,12 @@ class IndikatorRealisasi extends Model
     public function skpd(): BelongsTo
     {
         return $this->belongsTo(Skpd::class, 'skpd_id');
+    }
+
+    public function getNilaiTargetAttribute(): ?string
+    {
+        return IndikatorTarget::where('indikator_id', $this->indikator_id)
+            ->where('tahun', $this->tahun)
+            ->value('nilai_target');
     }
 }

@@ -1,0 +1,1738 @@
+[
+    {
+        "indikator_master": "Aspek Geografi dan Demografi",
+        "indikator_anak": [
+            {
+                "indikator": "Indeks Ketahanan Pangan",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Prevalensi Ketidakcukupan Konsumsi Pangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan konektivitas antar wilayah",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Konsumsi Listrik Per Kapita",
+                "satuan": "kWh/ kapita"
+            },
+            {
+                "indikator": "Akses rumah tangga perkotaan terhadap air siap minum perpipaan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Kualitas Lingkungan Hidup",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Rumah Tangga dengan Akses Sanitasi Aman",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Timbulan Sampah Terolah di Fasilitas Pengolahan Sampah",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Proporsi Rumah Tangga dengan Layanan Penuh Pengumpulan Sampah",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Penurunan Intensitas Emisi GRK",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Risiko Bencana",
+                "satuan": "Poin"
+            },
+            {
+                "indikator": "Indeks Ketahanan Daerah",
+                "satuan": "Poin"
+            },
+            {
+                "indikator": "Laju Pertumbuhan Penduduk",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Kepadatan Penduduk",
+                "satuan": null
+            }
+        ]
+    },
+    {
+        "indikator_master": "ASPEK KESEJAHTERAAN MASYARAKAT",
+        "indikator_anak": [
+            {
+                "indikator": "Laju Pertumbuhan Ekonomi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kemiskinan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "PDRB Per Kapita",
+                "satuan": "Juta"
+            },
+            {
+                "indikator": "Tingkat Pengangguran Terbuka",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Gini",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Indeks Pembangunan Manusia",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Usia Harapan Hidup",
+                "satuan": "Tahun"
+            },
+            {
+                "indikator": "Prevalensi Stunting",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Kematian Ibu (per 100.000 kelahiran hidup)",
+                "satuan": "Per 100.000 Kelahiran Hidup"
+            },
+            {
+                "indikator": "Angka Kematian Balita",
+                "satuan": "Per 1.000 Kelahiran Hidup"
+            },
+            {
+                "indikator": "Cakupan penemuan dan pengobatan kasus tuberkulosis (treatment coverage) (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka keberhasilan pengobatan tuberkulosis (treatment success rate) (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan kepesertaan jaminan kesehatan nasional (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan kepesertaan aktif jaminan kesehatan nasional (JKN)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kepuasan pelayanan faskes",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan penerima pemeriksaan kesehatan gratis (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka populasi bebas penyakit menular",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka populasi bebas penyakit tidak menular",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio tenaga medis dan tenaga kesehatan terhadap populasi",
+                "satuan": "Rasio Per 1.000 Penduduk"
+            },
+            {
+                "indikator": "Rata-Rata Lama Sekolah",
+                "satuan": "Tahun"
+            },
+            {
+                "indikator": "Harapan Lama Sekolah",
+                "satuan": "Tahun"
+            },
+            {
+                "indikator": "Skor Kemampuan Literasi SD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Skor Kemampuan Literasi SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Skor Kemampuan Numerasi SD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Skor Kemampuan Numerasi SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Inklusivitas SD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Inklusivitas SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Keamanan SD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Keamanan SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Kebinekaan SD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Iklim Kebinekaan SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Pembangunan Literasi Masyarakat",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Indeks Masyarakat Digital",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Cakupan Kepesertaan Jaminan Sosial Tenaga Kerja",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Kerukunan Umat Beragama",
+                "satuan": "Skor"
+            },
+            {
+                "indikator": "Indeks Pembangunan Kebudayaan",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Indeks Perlindungan Anak",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Indeks Pembangunan Keluarga",
+                "satuan": "0-100"
+            },
+            {
+                "indikator": "Indeks Ketimpangan Gender",
+                "satuan": "Poin"
+            },
+            {
+                "indikator": "Indeks Transformasi Digital",
+                "satuan": "Skor"
+            }
+        ]
+    },
+    {
+        "indikator_master": "ASPEK DAYA SAING DAERAH",
+        "indikator_anak": [
+            {
+                "indikator": "Angka Ketergantungan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio PDRB Industri Pengolahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio PDRB Akomodasi Makan dan Minum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Kontribusi PDRB sektor tersier (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Kewirausahaan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Partisipasi Angkatan Kerja",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Inovasi Daerah",
+                "satuan": "Skor"
+            },
+            {
+                "indikator": "Indeks Ekonomi Hijau",
+                "satuan": "Rupiah/ Jiwa"
+            },
+            {
+                "indikator": "Porsi EBT dalam Bauran Energi Primer",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Ekspor Barang dan Jasa",
+                "satuan": "% PDRB"
+            },
+            {
+                "indikator": "Rumah Tangga dengan Akses Hunian Layak",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Desa Mandiri",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Pajak Daerah terhadap PDRB",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Inflasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Pembentukan Modal Tetap Bruto",
+                "satuan": "% PDRB"
+            },
+            {
+                "indikator": "Indeks Akses Keuangan Daerah",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Kontribusi PDRB Kota Sungai Penuh Terhadap Provinsi Jambi (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penyandang disabilitas bekerja di sektor formal (%)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Zakat Nasional",
+                "satuan": "Indeks"
+            }
+        ]
+    },
+    {
+        "indikator_master": "ASPEK PELAYANAN UMUM",
+        "indikator_anak": [
+            {
+                "indikator": "Indeks Reformasi Hukum",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Indeks Sistem Pemerintahan Berbasis Elektronik",
+                "satuan": "Poin"
+            },
+            {
+                "indikator": "Indeks Pelayanan Publik",
+                "satuan": "Angka"
+            },
+            {
+                "indikator": "Persentase Penegakan Perda",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Reformasi Birokrasi",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Indeks Pembangunan Manusia",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Indeks Daya Saing Daerah",
+                "satuan": "Indeks"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pendidikan",
+        "indikator_anak": [
+            {
+                "indikator": "Angka Partisipasi Sekolah PAUD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Partisipasi Sekolah SD/SMP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Partisipasi Sekolah Kesetaraan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase siswa kurang mampu/ miskin yang mendapat bantuan /beasiswa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase siswa berprestasi yang mendapat beasiswa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase siswa tahfidz yang mendapat beasiswa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase siswa kurang mampu berprestasi melanjutkan pendidikan ke Perguruan Tinggi Negeri",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Proporsi Guru PAUD, SD, dan SMP Formal dengan kualifikasi S1/D IV",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Proporsi Jumlah Satuan PAUD Terakreditasi Minimal B",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pengembangan Kurikulum muatan lokal keagamaan dan kebudayaan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kesehatan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase sarana prasarana dan alat kesehatan di RSUD sesuai standar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase sarana prasarana dan alat kesehatan di Puskemas sesuai standar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Puskesmas dengan ketersediaan obat esensial",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase capaian SPM kesehatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "cakupan keaktifan jaminan kesehatan semesta/ UHC",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase RSUD dengan jenis dan jumlah SDM kesehatan sesuai standar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase puskesmas dengan jenis dan jumlah SDM kesehatan sesuai standar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase fasilitas pelayanan kefarmasian (apotik dan toko obat) yang memenuhi standar dan persyaratan perizinan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pangan Industri Rumah Tangga (PIRT) yang memenuhi syarat",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase upaya kesehatan berbasis masyarakat (UKBM) yang memenuhi standar dan aktif",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pekerjaan Umum dan Penataan Ruang",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Luas Kawasan Pemukiman Rawan Banjir Yang Terlindungi Oleh Infrastruktur Pengendali Banjir",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Luas Cakupan Pelayanan Irigasi Kondisi Baik",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase jumlah rumah tangga yang mendapatkan akses terhadap air minum melalui SPAM jaringan perpipaan dan bukan jaringan perpipaan terlindungi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Ketersediaan Prasarana Persampahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase jumlah rumah tangga yang memperoleh layanan pengolahan air limbah domestik",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase drainase dalam kondisi baik / pembuangan aliran air tidak tersumbat",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Trotoar Perkotaan dalam kondisi baik",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pembangunan Gedung Kantor dan Fasilitas Umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Kepatuhan PBG (Persetujuan Bandungan dan Gedung) Kab/Kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Proporsi jaringan jalan dalam kondisi baik fungsional",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Panjang Jalan yang dibangun",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Kesesuaian pemanfaatan ruang",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio tenaga operator/teknisi/ analisis yang memiliki sertifikat kompetensi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Dokumen Materi Teknis RTBL",
+                "satuan": "Dokumen"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perumahan dan Kawasan Permukiman",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase perumahan/permukiman yang sudah dilengkapi PSU (Prasarana, Sarana, dan Utilitas Umum)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase berkurangnya kawasan permukiman kumuh",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase kawasan permukiman kumuh dibawah 10 ha di kabupaten/kota yang ditangani",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Rumah Tidak Layak Huni yang Tertangani",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Ketentraman dan Ketertiban Umum Serta Perlindungan Masyarakat",
+        "indikator_anak": [
+            {
+                "indikator": "Tingkat penyelesaian pelanggaran Perda",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Perda dan Perkada yang ditegakkan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pelayanan Ketentraman dan Ketertiban Umum Sesuai Dengan SPM",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Gangguan Trantibum yang dapat diselesaikan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase cakupan penyebaran informasi dan edukasi rawan bencana",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penanganan tanggap darurat bencana",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penanganan pasca bencana",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pelayanan bencana kebakaran kabupaten/kota",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Sosial",
+        "indikator_anak": [
+            {
+                "indikator": "Cakupan Pembinaan Kelembagaan Kesejahteraan Sosial",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan PPKS yang ditangani",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase PMKS yang Memperoleh bantuan Sosial untuk Pemenuhan Kebutuhan Dasar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Korban Bencana yang Menerima Bantuan Selama Masa Tanggap Darurat",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Tenaga Kerja",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Tenaga Kerja Bersertifikat Kompetensi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase tenaga kerja yang ditempatkan (dalam dan luar negeri) melalui mekanisme layanan antar kerja dalam wilayah kab./kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Perusahaan yang menerapkan tata kelola kerja yang layak (PP/PKB, LKS Bipartit, Struktur Skala Upah, dan terdaftar peserta BPJS Ketenagakerjaan).",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pemberdayaan Perempuan dan Perlindungan Anak",
+        "indikator_anak": [
+            {
+                "indikator": "Penghargaan APE",
+                "satuan": "Peringkat"
+            },
+            {
+                "indikator": "Penanganan KDRT",
+                "satuan": "Kasus"
+            },
+            {
+                "indikator": "Partisipasi Angkatan Kerja Perempuan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Dokumen Data Gender Dan Anak",
+                "satuan": "Dokumen"
+            },
+            {
+                "indikator": "Penghargaan KLA",
+                "satuan": "Predikat"
+            },
+            {
+                "indikator": "Persentase Tenaga Kerja Dibawah Umur",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pangan",
+        "indikator_anak": [
+            {
+                "indikator": "Jumlah Pemberdayaan Sarana dan Prasarana Kemandirian Pangan (Kios Pangan)",
+                "satuan": "Unit"
+            },
+            {
+                "indikator": "Persentase Pangan Segar Asal Tumbuhan (PSAT) yang Memenuhi Persyaratan dan Mutu Keamanan Pangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Ketersediaan Energi",
+                "satuan": "Kkal/ Kap/ Hari"
+            },
+            {
+                "indikator": "Persentase Stabilitas Harga Komoditi Pangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Cadangan Pangan Pemerintah Daerah",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Konsumsi Energi",
+                "satuan": "Kkal/ Kap/ Hari"
+            },
+            {
+                "indikator": "Persentase Daerah Rentan Rawan Pangan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pertanahan",
+        "indikator_anak": [
+            {
+                "indikator": "Penanganan sengketa tanah garapan yang dilakukan melalui mediasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Kasus yang tertangani",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Penyelesaian Penetapan Tanah Ulayat",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Penyelesaian Tanah Kosong",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Izin Yang Dikeluarkan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Bertambahanya Aset Pemerintah Daerah Berupa Tanah",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Lingkungan Hidup",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Rekomendasi Kajian Lingkungan Hidup yang Ditindaklanjuti",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Kualitas Air",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Kualitas Udara",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase masyarakat/komunitas peduli LH yang mendapat edukasi Lingkungan Hidup",
+                "satuan": "Predikat"
+            },
+            {
+                "indikator": "Penghargaan Lingkungan Hidup yang diraih",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Limbah B3 yang terkelola",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Ketaatan Penanggung Jawab Usaha dan/atau Kegiatan Terhadap Izin Lingkungan, Izin PPLH dan PUU LH",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pengelolaan Keanekaragaman Hayati Kabupaten/Kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pengaduan lingkungan hidup dari masyarakat yang ditindaklanjuti",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pengurangan sampah melalui 3 R",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase sampah yang tertangani",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Fasilitasi kegiatan peningkatan pengetahuan dan keterampilan Masyarakat Hukum Adat (MHA), Kearifan Lokal dan MHA yang terkait dengan PPLH",
+                "satuan": "Kegiatan"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Administrasi Kependudukan dan Pencatatan Sipil",
+        "indikator_anak": [
+            {
+                "indikator": "Rasio penduduk ber- KTP per satuan penduduk",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan penerbitan Kartu Tanda Penduduk (KTP)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan penerbitan akta kelahiran",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio bayi berakte kelahiran",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pemberdayaan Masyarakat dan Desa",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Pembinaan dan Pengawasan Penyelenggaraan Administrasi desa/Kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Fasilitasi Penataan Desa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Fasilitasi Kerjasama Desa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Fasilitasi Pemberdayaan Lembaga Adat Desa dan Lembaga Masyarakat Hukum Adat",
+                "satuan": null
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pengendalian Penduduk dan Keluarga Berencana",
+        "indikator_anak": [
+            {
+                "indikator": "Angka Kelahiran Total (Total Fertility Rate/TFR)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Kelahiran Remaja Umur 15- 19 Tahun (Age Specific Fertility Rate / ASFR 15-19)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Angka Prevalensi Kontrasepsi Modern/Modern Contraceptive (mCPR)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Kebutuhan Ber-KB yang tidak terpenuhi (Unmeet Need)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Keluarga yang Mengikuti Kelompok Kegiatan Ketahanan Keluarga (KS)",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perhubungan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Kualitas Sarana dan Prasarana dan Pelayanan Lalu Lintas dan Angkutan Jalan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase kelengkapan Jalan yang telah terpasang terhadap kondisi ideal pada jalan Kabupaten/Kota",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Komunikasi dan Informatika",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Akses publik terhadap informasi keuangan daerah",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Perangkat Daerah (PD) dan/atau unit pelaksana teknis daerah yang terhubung dengan akses internet yang disediakan oleh Dinas Kominfo",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase SKPD yang menggunakan layanan publik secara online dan terintegrasi",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Koperasi, Usaha Kecil dan Menengah",
+        "indikator_anak": [
+            {
+                "indikator": "Pertumbuhan Volume Usaha Koperasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pengawasan dan Pemeriksaan Koperasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Koperasi Aktif",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase koperasi yang diberikan dukungan fasilitasi pelatihan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Meningkatnya Koperasi yang Berkualitas",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Proporsi UKM menjalin kemitraan dan ekspor",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase koperasi yang memilki izin usaha simpan pinjam",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase usaha kecil yang bertransformasi dari informal ke formal.",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Pertumbuhan wirausaha",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Penanaman Modal",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Penerbitan Perizinan dan Non Perizinan Tepat Waktu",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Realisasi total terhadap target investasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase peningkatan investasi di kab./kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pembinaan untuk pelaku usaha, penyelesaian permasalahan dan hambatan yang dihadapi pelaku usaha dalam membuka usaha",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pengelolaan data dan informasi perizinan dan non perizinan yang terintegrasi pada tingkat daerah kab./kota",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kepemudaan dan Olahraga",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Wirausaha Muda",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pengembangan Organisasi Kepemudaan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase peningkatan kreatifitas pemuda",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Organisasi Keolahragaan yang dibina dan dikembangkan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase sarana dan prasarana olahraga yang sesuai standar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Prestasi Olahraga di Tingkat Provinsi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Partisipasi Masyarakat Dalam Berolahraga",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah Event Olahraga Massal yang Diselenggrakan",
+                "satuan": "Event"
+            },
+            {
+                "indikator": "Tingkat partisipasi pemuda dalam organisasi kepramukaan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Statistik",
+        "indikator_anak": [
+            {
+                "indikator": "Indeks Pembangunan Statistik (IPS)",
+                "satuan": "Indeks"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Persandian",
+        "indikator_anak": [
+            {
+                "indikator": "Tingkat kesiapan pengamanan informasi pemerintah daerah",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kebudayaan",
+        "indikator_anak": [
+            {
+                "indikator": "Benda, Situs dan Kawasan Cagar Budaya yang dilestarikan",
+                "satuan": "Cagar Budaya"
+            },
+            {
+                "indikator": "Jumlah Warisan Budaya tak Benda yang dilestarikan",
+                "satuan": "Warisan"
+            },
+            {
+                "indikator": "Persentase Keaktifan Kelompok Seni Budaya",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah sejarah lokal",
+                "satuan": "Dokumen"
+            },
+            {
+                "indikator": "Pengelolalan jumlah koleksi permuseuman daerah",
+                "satuan": "Koleksi"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perpustakaan",
+        "indikator_anak": [
+            {
+                "indikator": "Nilai Tingkat Kegemaran Membaca (TGM) Masyarakat",
+                "satuan": "Nilai"
+            },
+            {
+                "indikator": "Persentase koleksi nasional dan naskah kuno yang dimiliki",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kearsipan",
+        "indikator_anak": [
+            {
+                "indikator": "Tingkat Ketersediaan arsip sebagai bahan akuntabilias kinerja, alat bukti yang sah dan pertanggung jawaban nasional",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah Dokumen/Arsip yang diselamatkan dan dilestarikan",
+                "satuan": "Dokumen"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kelautan dan Perikanan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Peningkatan produksi perikanan budidaya",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah Total Produksi Perikanan budidaya",
+                "satuan": "Ton"
+            },
+            {
+                "indikator": "Persentase Peningkatan nilai produksi perikanan tangkap",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah Total Produksi Perikanan tangkap",
+                "satuan": "Ton"
+            },
+            {
+                "indikator": "Angka Konsumsi Ikan",
+                "satuan": "Kg/Kap/thn"
+            },
+            {
+                "indikator": "Produksi Olahan Produk Perikanan",
+                "satuan": "Ton"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pariwisata",
+        "indikator_anak": [
+            {
+                "indikator": "Kontribusi sektor pariwisata terhadap PDRB harga berlaku",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat hunian akomodasi",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Kontribusi sektor pariwisata terhadap PAD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase peningkatan perjalanan wisatawan nusantara yang datang ke kabupaten /kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pertumbuhan jumlah wisatawan mancanegara per kebangsaan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Capaian Pembinaan Pelaku Ekonomi Kreatif",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pelaku ekonomi kreatif yang memiliki Kekayaan Intelektual",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pertanian",
+        "indikator_anak": [
+            {
+                "indikator": "Jumlah Produksi ternak",
+                "satuan": "Ton"
+            },
+            {
+                "indikator": "Persentase kelompok peternak yang memanfaatkan Bahan Baku lokal sebagai pakan ternak",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Populasi Ternak (Sapi dan Kambing)",
+                "satuan": "ekor"
+            },
+            {
+                "indikator": "Peningkatan produksi tanaman pangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Peningkatan produksi tanaman holtikultura",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Peningkatan produksi perkebunan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Produktivitas padi/ bahan pangan utama lokal lainnya per hektar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penyediaan dan pengembangan prasarana peternakan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penurunan kejadian dan jumlah kasus penyakit hewan menular",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah unit pengolahan asal hewan yang memiliki sertifikat Pra NKV atau NKV (Nomor Kontrol Veteriner)",
+                "satuan": "Unit"
+            },
+            {
+                "indikator": "Persentase cakupan pengendalian dan penanggulangan bencana pertanian Kabupaten/ Kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase peningkatan SDM kelompok tani",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase rekomendasi izin usaha pertanian usaha yang diterbitkan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perdagangan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase peningkatan Fasilitas Sarana dan Prasarana Pasar",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pelaku Usaha yang memperoleh izin sesuai dengan ketentuan (IUPP/ SIUP Pusat Perbelajaan dan IUTM/IUTS/SIUP Toko Swalayan)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Jumlah Obyek sasaran pengawasan barang beredar dan pemantauan harga yang terlaksana pemantauannya",
+                "satuan": "Objek"
+            },
+            {
+                "indikator": "Persentase Kinerja Realisasi Pupuk",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Ekspor Bersih Perdagangan",
+                "satuan": "Milyar"
+            },
+            {
+                "indikator": "Persentase Jumlah UMKM yang menjadi Eksportir",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Pertambahan ketercapaian jumlah UMKM yang difasilitasi pemasarannya",
+                "satuan": "UMKM"
+            },
+            {
+                "indikator": "Persentase alat-alat ukur, takar, timbang dan perlengkapannya (UTTP) bertanda tera sah yang berlaku",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perindustrian",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Pertambahan Jumlah Industri Kecil dan Menengah di Kota Sungai Penuh",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Pencapaian sasaran pembangunan industri termasuk turunan indikator pembangunan industri dalam RIPIN yang ditetapkan dalam RPIP",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase jumlah hasil pemantauan dan pengawasan dengan jumlah Izin Usaha Industri (IUI) kecil dan Industri Menengah yang dikeluarkan instansi terkait",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Sekretariat Daerah",
+        "indikator_anak": [
+            {
+                "indikator": "Nilai LPPD Kota",
+                "satuan": "Nilai"
+            },
+            {
+                "indikator": "Nilai SPM Kota",
+                "satuan": "Nilai"
+            },
+            {
+                "indikator": "Persentase Kegiatan keagamanan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Produk Hukum yang di susun",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kematangan UKPBJ",
+                "satuan": "Poin"
+            },
+            {
+                "indikator": "Persentase Kegiatan strategis bidang perindustrian, perdagangan, koperasi-UKM, Perusda, Pertanian, Perikanan, Kelautan, Ketahanan pangan yang dikoordinasikan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Sekretariat DPRD",
+        "indikator_anak": [
+            {
+                "indikator": "Tersedianya Rencana Kerja Tahunan pada setiap Alat-alat Kelengkapan DPRD Provinsi/Kab/Kota",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tersusun dan terintegrasinya Program-Program Kerja DPRD untuk melaksanakan Fungsi Pengawasan, Fungsi Pembentukan Perda, dan Fungsi Anggaran dalam Dokumen Rencana Lima Tahunan (RPJMD) maupun Dokumen Rencana Tahunan (RKPD)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Terintegrasi program- program DPRD untuk melaksanakan fungsi pengawasan, pembentukan Perda dan Anggaran ke dalam Dokumen Perencanaan dan Dokumen Anggaran Setwan DPRD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Ketepatan Waktu Penetapan Perda APBD",
+                "satuan": "Tepat/ Tidak Tepat"
+            },
+            {
+                "indikator": "Persentase Penetapan Ranperda Tahun N",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Perencanaan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase keselarasan RPJMD dengan RKPD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase keselarasan RKPD dengan Renja PD pada bidang pemerintahan, pembangunan manusia, Perekonomian SDA, infrastruktur dan kewilayahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase capaian target kinerja program pada bidang pemerintahan, pembangunan manusia, perekonomian, SDA, Infrastruktur dan kewilayahan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Keuangan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Pajak Daerah Terhadap PAD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Retribusi daerah terhadap PAD",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Penerimaan PAD terhadap Target",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Belanja Urusan Pemerintah Umum (dikurangi transfer expenditures)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio belanja pegawai diluar guru dan tenaga kesehatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Anggaran sIsa terhadap Total Belanja dalam APBD tahun sebelumnya",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase ketersediaan daftar aset tetap, manual, Penyusunan daftar aset tetap dan proses inventarisasi aset tahunan",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kepegawaian",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase keterpenuhan formasi ASN",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase ASN yang mengikuti pendidikan dan pelatihan formal",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Keterisian jabatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase tingkat pelaporan kinerja ASN",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Pendidikan dan Pelatihan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Pejabat ASN yang mengikuti pendidikan dan pelatihan Struktural",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Pegawai Pendidikan Tinggi dan Menegah/Dasar (%) (PNS tidak termasuk guru dan tenaga kesehatan)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio pegawai Fungsional (%) (PNS tidak termasuk guru dan tenaga kesehatan)",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Rasio Jabatan Fungsional bersertifikat Kompetensi (%) (PNS tidak termasuk guru dan tenaga kesehatan)",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Penelitian dan Pengembangan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase implementasi rencana kelitbangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Terfasilitasinya pengukuran Indeks Pengelolaan Keuangan Daerah (IPKD)",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Persentase pemanfaatan hasil kelitbangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase perangkat daerah yang difasiltiasi dalam penerapan inovasi daerah",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Inovasi yang diterapkan di daerah",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Inspektorat Daerah",
+        "indikator_anak": [
+            {
+                "indikator": "persentase pelayanan koordinasi pengawasan komprehensif untuk pencegahan dini terjadinya penyimpangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "persentase penyelesaian tindak lanjut temuan BPK",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kecamatan",
+        "indikator_anak": [
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa/Kelurahan yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa/Kelurahan yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa/Kelurahan yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa/Kelurahan yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa yang di Bina",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pemberdayaan masyarakat desa/kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Cakupan pembinaan dan pengawasan pemerintahan desa/ kelurahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat Kinerja Trantibum Wilayah Kecamatan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Tingkat kinerja penyelenggaraan pemerintahan umum",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Jumlah Desa/Kelurahan yang di Bina",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Kesatuan Bangsa dan Politik",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase Etnis/Suku/Agama/Ormas dan LSM yang paham terhadap ideologi pancasila dan wawasan kebangsaan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penanganan terkait konflik sosial",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Etnis/Suku/Agama/Ormas dan LSM yang Memahami Pendidikan Politik",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Etnis/Suku/Agama/Ormas dan LSM yang Memahami Tentang Ketahanan Bangsa",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase pemberdayaan ormas",
+                "satuan": "%"
+            }
+        ]
+    },
+    {
+        "indikator_master": "Non Urusan",
+        "indikator_anak": [
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase ketersediaan laporan capaian kinerja SKPD se Kota Sungai Penuh",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase Aparatur yang berkinerja baik",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase kegiatan pimpinan daerah yang difasilitasi pelayanan keprotokolan dan komunikasi pimpinan serta pendokumentasiannya",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase ketersediaan layanan administrasi kepegawaian, administrasi umum dan administrasi keuangan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Indeks Kepuasan Masyarakat terhadap Pelayanan Pemerintah",
+                "satuan": "Indeks"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            },
+            {
+                "indikator": "Persentase penunjang urusan pemerintahan",
+                "satuan": "%"
+            }
+        ]
+    }
+]

@@ -47,6 +47,16 @@ class MasterIndikator extends Model
         return $this->belongsTo(MasterIndikator::class, 'parent_id');
     }
 
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(MasterIndikator::class, 'parent_id');
+    }
+
+    public function childIndikators(): HasMany
+    {
+        return $this->hasMany(MasterIndikator::class, 'parent_id');
+    }
+
     public function target(): HasMany
     {
         return $this->hasMany(IndikatorTarget::class, 'indikator_id');
