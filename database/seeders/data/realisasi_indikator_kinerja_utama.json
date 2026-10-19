@@ -1,0 +1,261 @@
+[
+    {
+        "skpd": "Badan Pusat Statistik",
+        "indikator": [
+            {
+                "no": 1,
+                "nama_indikator": "Tingkat Kemiskinan",
+                "satuan": "%",
+                "target_2025": 2.92,
+                "target_2026": 2.88,
+                "target_2027": 2.82,
+                "target_2028": 2.75,
+                "target_2029": 2.67,
+                "target_2030": 2.67
+            },
+            {
+                "no": 2,
+                "nama_indikator": "Gini Rasio",
+                "satuan": "Point",
+                "target_2025": 0.31,
+                "target_2026": 0.31,
+                "target_2027": 0.31,
+                "target_2028": 0.31,
+                "target_2029": 0.31,
+                "target_2030": 0.31
+            },
+            {
+                "no": 3,
+                "nama_indikator": "PDRB Per Kapita",
+                "satuan": "Juta",
+                "target_2025": 100.8,
+                "target_2026": 100.95,
+                "target_2027": 101.15,
+                "target_2028": 101.35,
+                "target_2029": 101.5,
+                "target_2030": 101.5
+            },
+            {
+                "no": 4,
+                "nama_indikator": "Indeks Pembangunan Manusia",
+                "satuan": "Point",
+                "target_2025": 78.05,
+                "target_2026": 78.2,
+                "target_2027": 78.35,
+                "target_2028": 78.5,
+                "target_2029": 78.65,
+                "target_2030": 78.65
+            },
+            {
+                "no": 5,
+                "nama_indikator": "Laju Pertumbuhan Ekonomi",
+                "satuan": "%",
+                "target_2025": 5.1,
+                "target_2026": 4.84,
+                "target_2027": 4.99,
+                "target_2028": 5.14,
+                "target_2029": 5.29,
+                "target_2030": 5.29
+            },
+            {
+                "no": 6,
+                "nama_indikator": "Tingkat Pengangguran Terbuka",
+                "satuan": "%",
+                "target_2025": 3.73,
+                "target_2026": 4.2,
+                "target_2027": 4.1,
+                "target_2028": 3.85,
+                "target_2029": 3.47,
+                "target_2030": 3.47
+            },
+            {
+                "no": 7,
+                "nama_indikator": "Kontribusi Sektor Tersier",
+                "satuan": "%",
+                "target_2025": 83.07,
+                "target_2026": 83.12,
+                "target_2027": 83.17,
+                "target_2028": 83.22,
+                "target_2029": 83.59,
+                "target_2030": 83.59
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pendidikan",
+        "indikator": [
+            {
+                "no": 8,
+                "nama_indikator": "Indeks Pendidikan",
+                "satuan": "Indeks",
+                "target_2025": 0.77,
+                "target_2026": 0.78,
+                "target_2027": 0.79,
+                "target_2028": 0.8,
+                "target_2029": 0.81,
+                "target_2030": 0.81
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Kesehatan",
+        "indikator": [
+            {
+                "no": 9,
+                "nama_indikator": "Indeks Kesehatan",
+                "satuan": "Indeks",
+                "target_2025": 0.84,
+                "target_2026": 0.85,
+                "target_2027": 0.85,
+                "target_2028": 0.86,
+                "target_2029": 0.87,
+                "target_2030": 0.87
+            }
+        ]
+    },
+    {
+        "skpd": "Sekretariat Daerah",
+        "indikator": [
+            {
+                "no": 10,
+                "nama_indikator": "Indeks Pengeluaran",
+                "satuan": "Indeks",
+                "target_2025": 0.73,
+                "target_2026": 0.73,
+                "target_2027": 0.74,
+                "target_2028": 0.74,
+                "target_2029": 0.75,
+                "target_2030": 0.75
+            },
+            {
+                "no": 18,
+                "nama_indikator": "Nilai SAKIP",
+                "satuan": "Kategori",
+                "target_2025": "B",
+                "target_2026": "B",
+                "target_2027": "B",
+                "target_2028": "BB",
+                "target_2029": "BB",
+                "target_2030": "BB"
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Pekerjaan Umum dan Perumahan Rakyat",
+        "indikator": [
+            {
+                "no": 11,
+                "nama_indikator": "Akses Rumah Tangga Perkotaan Terhadap Air Siap Minum Perpipaan",
+                "satuan": "%",
+                "target_2025": 73.75,
+                "target_2026": 74.25,
+                "target_2027": 74.75,
+                "target_2028": 75.25,
+                "target_2029": 75.56,
+                "target_2030": 75.56
+            },
+            {
+                "no": 12,
+                "nama_indikator": "Cakupan Konektivitas Antar Wilayah",
+                "satuan": "%",
+                "target_2025": 4.13,
+                "target_2026": 4.13,
+                "target_2027": 4.13,
+                "target_2028": 4.13,
+                "target_2029": 4.25,
+                "target_2030": 4.25
+            },
+            {
+                "no": 13,
+                "nama_indikator": "Rumah Tangga Dengan Akses Sanitasi Aman",
+                "satuan": "%",
+                "target_2025": 8.64,
+                "target_2026": 8.55,
+                "target_2027": 8.86,
+                "target_2028": 8.77,
+                "target_2029": 8.69,
+                "target_2030": 8.69
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Lingkungan Hidup",
+        "indikator": [
+            {
+                "no": 14,
+                "nama_indikator": "Timbulan Sampah Terolah di Fasilitas Pengolahan Sampah",
+                "satuan": "%",
+                "target_2025": 35.57,
+                "target_2026": 42.03,
+                "target_2027": 43.35,
+                "target_2028": 45.85,
+                "target_2029": 46.43,
+                "target_2030": 46.43
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Penanggulangan Bencana Daerah",
+        "indikator": [
+            {
+                "no": 15,
+                "nama_indikator": "Indeks Ketahanan Daerah",
+                "satuan": "Indeks",
+                "target_2025": 0.43,
+                "target_2026": 0.43,
+                "target_2027": 0.43,
+                "target_2028": 0.44,
+                "target_2029": 0.44,
+                "target_2030": 0.45
+            }
+        ]
+    },
+    {
+        "skpd": "Dinas Komunikasi, Informatika dan Statistik",
+        "indikator": [
+            {
+                "no": 16,
+                "nama_indikator": "Indeks SPBE",
+                "satuan": "Indeks",
+                "target_2025": 3.18,
+                "target_2026": 3.22,
+                "target_2027": 3.26,
+                "target_2028": 3.3,
+                "target_2029": 3.39,
+                "target_2030": 3.39
+            }
+        ]
+    },
+    {
+        "skpd": "Badan Keuangan dan Aset Daerah",
+        "indikator": [
+            {
+                "no": 17,
+                "nama_indikator": "Opini Atas Laporan Keuangan",
+                "satuan": "Opini",
+                "target_2025": "WTP",
+                "target_2026": "WTP",
+                "target_2027": "WTP",
+                "target_2028": "WTP",
+                "target_2029": "WTP",
+                "target_2030": "WTP"
+            }
+        ]
+    },
+    {
+        "skpd": "Satuan Polisi Pamong Praja dan Pemadam Kebakaran",
+        "indikator": [
+            {
+                "no": 19,
+                "nama_indikator": "Tingkat Penyelesaian Trantibumlinmas",
+                "satuan": "%",
+                "target_2025": 100,
+                "target_2026": 100,
+                "target_2027": 100,
+                "target_2028": 100,
+                "target_2029": 100,
+                "target_2030": 100
+            }
+        ]
+    }
+]

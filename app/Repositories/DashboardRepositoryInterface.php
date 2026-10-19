@@ -132,7 +132,7 @@ interface DashboardRepositoryInterface
      * @param array $years
      * @return \Illuminate\Support\Collection
      */
-    public function getIkuData(array $years = [2021, 2022, 2023, 2024, 2025, 2026]);
+    public function getIkuData(array $years = [2025, 2026, 2027, 2028, 2029, 2030]);
 
     /**
      * Get Kinerja Program data grouped by Urusan and Bidang.
@@ -141,4 +141,13 @@ interface DashboardRepositoryInterface
      * @return \Illuminate\Support\Collection
      */
     public function getKinerjaProgramData(array $years = [2021, 2022, 2023, 2024, 2025, 2026]);
+
+    /**
+     * Get Indikator Kinerja Penyelenggaraan data grouped by Aspect (Parent Indikator),
+     * with baseline from the first year and target+realisasi for subsequent years.
+     *
+     * @param array $years
+     * @return \Illuminate\Support\Collection
+     */
+    public function getKinerjaPenyelenggaraanData(array $years): \Illuminate\Support\Collection;
 }

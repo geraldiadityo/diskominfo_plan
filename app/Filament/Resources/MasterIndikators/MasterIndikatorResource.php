@@ -23,7 +23,7 @@ class MasterIndikatorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocument;
     protected static string|UnitEnum|null $navigationGroup = 'Master Indikator';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $navigationLabel = 'Data Indikator';
 

@@ -484,20 +484,23 @@ class DashboardRepository implements DashboardRepositoryInterface
         return $result;
     }
 
-    public function getIkuData(array $years = [2021, 2022, 2023, 2024, 2025, 2026])
+    public function getIkuData(array $years = [2025, 2026, 2027, 2028, 2029, 2030])
     {
-        $kategoris = \App\Models\KategoriIndikator::with(['indikators.satuan', 'indikators.target', 'indikators.realisasi'])->get();
+        $kategoris = \App\Models\KategoriIndikator::where('nama_kategori', 'IKU')->with(['indikators.satuan', 'indikators.skpd', 'indikators.target', 'indikators.realisasi'])->get();
 
         return $kategoris->map(function ($kategori) use ($years) {
             $indikators = $kategori->indikators->map(function ($indikator) use ($years) {
                 $dataYears = [];
                 foreach ($years as $year) {
                     $target = $indikator->target->where('tahun', $year)->first();
-                    $realisasi = $indikator->realisasi->where('tahun', $year)->first();
+                    $realisasi = $indikator->realisasi
+                        ->where('tahun', $year)
+                        ->where('status', \App\Enums\StatusRealisasi::APPROVED)
+                        ->first();
                     
                     $dataYears[$year] = [
                         'target' => $target ? $target->nilai_target : null,
-                        'realisasi' => $realisasi ? $realisasi->nilai_realisasi : null,
+                        'realisasi' => ($realisasi && $realisasi->nilai_realisasi !== '-') ? $realisasi->nilai_realisasi : null,
                     ];
                 }
 
@@ -505,6 +508,8 @@ class DashboardRepository implements DashboardRepositoryInterface
                     'id' => $indikator->id,
                     'nama_indikator' => $indikator->nama_indikator,
                     'satuan' => $indikator->satuan ? $indikator->satuan->nama_satuan : '-',
+                    'skpd' => $indikator->skpd ? $indikator->skpd->nama_skpd : '-',
+                    'skpd_id' => $indikator->skpd_id,
                     'years' => $dataYears,
                 ];
             });
@@ -572,5 +577,88 @@ class DashboardRepository implements DashboardRepositoryInterface
                 'bidangs' => $bidangs,
             ];
         });
+    }
+
+    public function getKinerjaPenyelenggaraanData(array $years): \Illuminate\Support\Collection
+    {
+        $kategoriPenyelenggaraan = \App\Models\KategoriIndikator::where('nama_kategori', 'Penyelenggaraan')->value('id');
+
+        $parents = \App\Models\MasterIndikator::with([
+            'satuan',
+            'skpd',
+            'target',
+            'realisasi',
+            'childIndikators.satuan',
+            'childIndikators.skpd',
+            'childIndikators.target',
+            'childIndikators.realisasi',
+        ])
+        ->where('kategori_id', $kategoriPenyelenggaraan)
+        ->whereNull('parent_id')
+        ->orderBy('id')
+        ->get();
+
+        $baselineYear = $years[0] ?? 2024;
+        $remainingYears = array_slice($years, 1);
+
+        return $parents->map(function ($parent) use ($baselineYear, $remainingYears) {
+            // Hanya ambil indikator yang memiliki penanggung jawab (SKPD)
+            $children = $parent->childIndikators->filter(function ($child) {
+                return !empty($child->skpd_id) && $child->skpd !== null;
+            });
+
+            if ($children->isEmpty() && $parent->is_measurable && !empty($parent->skpd_id) && $parent->skpd !== null) {
+                $indikators = collect([$this->formatIndikatorPenyelenggaraanRow($parent, $baselineYear, $remainingYears)]);
+            } else {
+                $indikators = $children->map(function ($child) use ($baselineYear, $remainingYears) {
+                    return $this->formatIndikatorPenyelenggaraanRow($child, $baselineYear, $remainingYears);
+                })->values();
+            }
+
+            return [
+                'id' => $parent->id,
+                'nama_aspek' => $parent->nama_indikator,
+                'indikators' => $indikators,
+            ];
+        })->filter(function ($aspect) {
+            return $aspect['indikators']->isNotEmpty();
+        })->values();
+    }
+
+    private function formatIndikatorPenyelenggaraanRow(\App\Models\MasterIndikator $indikator, int $baselineYear, array $remainingYears): array
+    {
+        $baselineRealisasi = $indikator->realisasi->where('tahun', $baselineYear)->first();
+        $baseline = null;
+
+        if ($baselineRealisasi && $baselineRealisasi->nilai_realisasi !== '-' && $baselineRealisasi->nilai_realisasi !== '' && $baselineRealisasi->nilai_realisasi !== null) {
+            $baseline = $baselineRealisasi->nilai_realisasi;
+        } elseif (!empty($indikator->kondisi_awal) && $indikator->kondisi_awal !== '-') {
+            $baseline = $indikator->kondisi_awal;
+        } else {
+            $baselineTarget = $indikator->target->where('tahun', $baselineYear)->first();
+            if ($baselineTarget && $baselineTarget->nilai_target !== '-' && $baselineTarget->nilai_target !== '') {
+                $baseline = $baselineTarget->nilai_target;
+            }
+        }
+
+        $dataYears = [];
+        foreach ($remainingYears as $year) {
+            $target = $indikator->target->where('tahun', $year)->first();
+            $realisasi = $indikator->realisasi->where('tahun', $year)->first();
+
+            $dataYears[$year] = [
+                'target' => $target ? $target->nilai_target : null,
+                'realisasi' => ($realisasi && $realisasi->nilai_realisasi !== '-') ? $realisasi->nilai_realisasi : null,
+            ];
+        }
+
+        return [
+            'id' => $indikator->id,
+            'nama_indikator' => $indikator->nama_indikator,
+            'satuan' => $indikator->satuan ? $indikator->satuan->nama_satuan : '-',
+            'baseline' => $baseline,
+            'years' => $dataYears,
+            'skpd' => $indikator->skpd ? $indikator->skpd->nama_skpd : '-',
+        ];
     }
 }

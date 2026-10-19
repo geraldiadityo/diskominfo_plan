@@ -6,16 +6,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? config('app.name', 'Dashboard Publik') }}</title>
+    <title>{{ $title ?? \App\Models\AppSetting::getAppName() }}</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- Alpine JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -26,36 +23,42 @@
             <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center gap-6">
-                        <span class="text-2xl font-bold text-[#af101a] tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">Dashboard Sungai Penuh</span>
+                        <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+                            @if($logoUrl = \App\Models\AppSetting::getAppLogoUrl())
+                                <img src="{{ $logoUrl }}" alt="Logo Aplikasi" class="h-9 w-auto max-w-[42px] object-contain">
+                            @endif
+                            <span class="text-2xl font-bold text-[#af101a] tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ \App\Models\AppSetting::getAppName() }}</span>
+                        </a>
                         
                         <!-- Main Menu -->
                         <div class="hidden md:flex gap-2 items-center">
+                            <!-- 1. Dashboard -->
                             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Dashboard</a>
                             
-                            <!-- Dropdown Kinerja -->
+                            <!-- 2. Kebencanaan -->
+                            <a href="{{ route('under-development', ['feature' => 'Kebencanaan']) }}" class="{{ (request()->routeIs('under-development') && request('feature') === 'Kebencanaan') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all whitespace-nowrap" style="font-family: 'Manrope', sans-serif;">Kebencanaan</a>
+
+                            <!-- 3. Kinerja (Dropdown) -->
                             <div x-data="{ open: false }" class="relative">
-                                <button @click="open = !open" @click.away="open = false" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1" style="font-family: 'Manrope', sans-serif;">
+                                <button @click="open = !open" @click.away="open = false" class="{{ request()->routeIs('iku.*', 'kinerja-program.*', 'kinerja-penyelenggaraan.*') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1" style="font-family: 'Manrope', sans-serif;">
                                     Kinerja
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
-                                <div x-show="open" style="display: none;" x-transition class="absolute left-0 mt-2 w-48 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-md shadow-lg py-1 z-50">
+                                <div x-show="open" style="display: none;" x-transition class="absolute left-0 mt-2 w-64 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-md shadow-lg py-1 z-50">
                                     <a href="{{ route('iku.index') }}" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Utama</a>
                                     <a href="{{ route('kinerja-program.index') }}" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Kinerja Program</a>
+                                    <a href="{{ route('kinerja-penyelenggaraan.index') }}" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Indikator Kinerja Penyelenggaraan</a>
                                 </div>
                             </div>
 
-                            <a href="#" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Kebencanaan</a>
-                            <a href="#" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all" style="font-family: 'Manrope', sans-serif;">Program Unggulan</a>
-                            <!-- Dropdown Data Integrasi -->
-                            <div x-data="{ open: false }" class="relative">
-                                <button @click="open = !open" @click.away="open = false" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1" style="font-family: 'Manrope', sans-serif;">
-                                    Data Integrasi
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div x-show="open" style="display: none;" x-transition class="absolute left-0 mt-2 w-56 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-md shadow-lg py-1 z-50">
-                                    <a href="#" class="block px-4 py-2 text-sm text-[#5b403d] dark:text-[#a0a0a0] hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] hover:text-[#af101a] dark:hover:text-white font-medium">Layanan Pemerintah digital</a>
-                                </div>
-                            </div>
+                            <!-- 4. Prog Prioritas -->
+                            <a href="{{ route('under-development', ['feature' => 'Program Prioritas']) }}" class="{{ (request()->routeIs('under-development') && request('feature') === 'Program Prioritas') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all whitespace-nowrap" style="font-family: 'Manrope', sans-serif;">Prog Prioritas</a>
+
+                            <!-- 5. Layanan Aspirasi dan Pengaduan Online (SP4N-LAPOR!) -->
+                            <a href="https://www.lapor.go.id" target="_blank" rel="noopener noreferrer" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1.5 whitespace-nowrap" style="font-family: 'Manrope', sans-serif;" title="Layanan Aspirasi dan Pengaduan Online Rakyat (SP4N-LAPOR!)">
+                                <span>Layanan Aspirasi dan Pengaduan online</span>
+                                <svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            </a>
                         </div>
                     </div>
                     
@@ -80,7 +83,7 @@
         <!-- Footer -->
         <footer class="bg-white dark:bg-[#121212] border-t border-[#e0e3e6] dark:border-[#1f1f1f] mt-auto transition-colors duration-200">
             <div class="max-w-[1200px] mx-auto px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-[#5b403d] dark:text-[#a0a0a0] transition-colors">
-                &copy; {{ date('Y') }} {{ config('app.name', 'Sungai Penuh Civic Intelligence') }}. All rights reserved.
+                &copy; {{ date('Y') }} {{ \App\Models\AppSetting::getAppName() }}. All rights reserved.
             </div>
         </footer>
     </div>

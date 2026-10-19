@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         // $this->call([
         //     IndikatorPenyelenggaraanSeeder::class,
         //     RealisasiIndikatorPenyelenggaraanSeeder::class,
+        //     IndikatorIkuSeeder::class,
+        //     RealisasiIndikatorIkuSeeder::class,
         // ]);
     }
 }

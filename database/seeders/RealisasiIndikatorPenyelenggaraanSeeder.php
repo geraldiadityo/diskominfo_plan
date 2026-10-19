@@ -112,6 +112,25 @@ class RealisasiIndikatorPenyelenggaraanSeeder extends Seeder
                         $masterIndikator->updateQuietly(['skpd_id' => $skpd->id]);
                     }
 
+                    // Upsert baseline 2024 jika tersedia di JSON
+                    if (isset($ind['baseline_2024']) && $ind['baseline_2024'] !== null && $ind['baseline_2024'] !== '') {
+                        $baselineVal = (string) $ind['baseline_2024'];
+                        $masterIndikator->updateQuietly(['kondisi_awal' => $baselineVal]);
+
+                        IndikatorRealisasi::updateOrCreate(
+                            [
+                                'indikator_id' => $masterIndikator->id,
+                                'skpd_id'      => $skpd->id,
+                                'tahun'        => 2024,
+                            ],
+                            [
+                                'nilai_realisasi' => $baselineVal,
+                                'status'          => StatusRealisasi::APPROVED,
+                                'is_verif'        => true,
+                            ]
+                        );
+                    }
+
                     // Upsert target dan record realisasi per tahun
                     foreach (self::TAHUN_RANGE as $tahun) {
                         $nilaiTarget = $ind["target_{$tahun}"] ?? null;

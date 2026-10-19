@@ -1,380 +1,603 @@
-# RENCANA IMPLEMENTASI (PLAN 3): Filter Data Renja SKPD & Laporan Realisasi Berdasarkan SKPD untuk Verifikator & Administrator Non-Admin SKPD
+# Rencana Implementasi (Plan 3): Modul Pengaturan Aplikasi (Nama & Logo) di Admin Panel Filament
 
-Dokumen ini ditujukan sebagai **panduan instruksi teknis lengkap dan presisi** bagi AI Agent / Software Engineer untuk mengimplementasikan dan menyempurnakan fitur **Filter Data Berdasarkan SKPD** pada:
-1. Modul Admin Panel **Renja SKPD** (`App\Filament\Resources\RenjaSkpds\RenjaSkpdResource`).
-2. Halaman **Laporan Realisasi Fisik dan Keuangan** (`App\Filament\Pages\LaporanRealisasi` & view terkait).
-
-Khusus untuk pengguna dengan peran (role) **selain dari Admin SKPD** (yaitu Verifikator BAPPEDA, Verifikator BAKEUDA, dan Administrator Aplikasi), filter SKPD dapat dipilih secara bebas. Sedangkan untuk pengguna dengan peran **Admin SKPD (`SKPD`)**, data **terkunci otomatis hanya untuk instansi miliknya** dan **elemen pilihan SKPD dibuat `disabled` (terkunci/tidak dapat dipilih/diubah)**.
+Dokumen ini merupakan **spesifikasi teknis dan panduan instruksi implementasi lengkap** bagi AI Agent / Software Engineer untuk membangun fitur **Pengaturan Aplikasi (App Settings)** pada aplikasi berbasis **Laravel 12** dan **Filament v4**.
 
 ---
 
-## 1. Ringkasan Eksekutif & Latar Belakang
+## 1. Ringkasan Fitur & Sasaran
 
-### 1.1. Konteks Masalah
-1. **Pada Modul Renja SKPD (`RenjaSkpdResource` / `RenjaSkpdsTable`)**:
-   - **Role Selain Admin SKPD (`BAPPEDA`, `BAKEUDA`, `ADMIN`)**: Memuat seluruh data kegiatan dari seluruh SKPD tanpa adanya filter pilihan SKPD (hanya ada filter tahun). Kolom nama SKPD disembunyikan secara *default*, menyulitkan verifikator Bappeda dan Bakeuda dalam menyaring kegiatan instansi tertentu yang sedang dievaluasi.
-   - **Role Admin SKPD (`SKPD`)**: Data sudah dibatasi ke SKPD miliknya, namun filter SKPD tidak boleh muncul agar tidak membingungkan.
-2. **Pada Halaman Laporan Realisasi Fisik & Keuangan (`LaporanRealisasi`)**:
-   - Halaman ini menyajikan lembar matriks evaluasi 18 kolom (Program, Kegiatan, Sub Kegiatan, Indikator Bukti Fisik, dan Keuangan) serta tombol unduh Excel & Cetak.
-   - **Role Selain Admin SKPD (`BAPPEDA`, `BAKEUDA`, `ADMIN`)**: Wajib dapat memilih dan berganti SKPD secara bebas melalui dropdown filter guna memeriksa dan mengunduh laporan realisasi dari SKPD mana pun yang diverifikasi.
-   - **Role Admin SKPD (`SKPD`)**: **TIDAK BOLEH bisa memilih SKPD lain**. Admin SKPD hanya berhak melihat data realisasi instansinya sendiri. Elemen pilihan SKPD pada toolbar filter wajib berstatus **`disabled` (terkunci)** dan menampilkan nama SKPD yang bersangkutan, serta backend wajib menolak perubahan nilai SKPD.
+### 1.1. Deskripsi Fitur
+Membuat modul **Pengaturan Aplikasi** di dalam Admin Panel Filament yang memungkinkan administrator mengubah:
+1. **Nama Aplikasi (`app_name`)**: Nama instansi / sistem yang tampil pada header panel admin, title halaman browser, navbar frontend publik, dan copyright footer.
+2. **Logo Aplikasi (`app_logo`)**: Gambar logo instansi / aplikasi yang tampil berdampingan dengan nama aplikasi di Admin Panel dan Frontend Publik.
 
-### 1.2. Sasaran Implementasi
-1. **Tabel Renja SKPD**:
-   - Menambahkan `SelectFilter` SKPD yang *searchable* dan *preloaded* khusus untuk role selain SKPD (`Auth::user()->role !== 'SKPD'`).
-   - Menjadikan kolom nama SKPD tampil secara *default* (`isToggledHiddenByDefault: false`) untuk role selain SKPD.
-   - Eager loading relasi `skpd` di `getEloquentQuery()` untuk mencegah *N+1 query*.
-2. **Halaman Laporan Realisasi Fisik & Keuangan**:
-   - **Role Selain SKPD**: Dropdown pilihan SKPD aktif dan interaktif (`wire:model.live="selectedSkpdId"`), memuat seluruh daftar SKPD terurut abjad.
-   - **Role Admin SKPD**: Pilihan SKPD berstatus **`disabled`**, menampilkan nama SKPD miliknya, dan tidak dapat diklik atau diubah.
-   - **Backend Guard**: Server-side validation pada lifecycle Livewire (`mount()`, `updatedSelectedSkpdId()`, `getLaporanData()`, `downloadExcel()`) memastikan role SKPD tidak dapat memanipulasi `selectedSkpdId` melalui URL query parameter atau manipulasi state Livewire.
+### 1.2. Aturan Hak Akses (Role-Based Access Control)
+Berdasarkan struktur enum `role` pada tabel `users` (`ADMIN`, `BAPPEDA`, `BAKEUDA`, `SKPD`):
+- **Bisa Mengakses**: Hanya pengguna dengan role **`ADMIN`** (Administrator Aplikasi / Superadmin).
+- **Dilarang Mengakses**: Role **`BAPPEDA`** (Verifikator Bappeda), **`BAKEUDA`** (Verifikator Bakeuda), dan **`SKPD`** (Admin SKPD).
+- **Proteksi Ganda**:
+  1. Halaman pengaturan **tidak boleh muncul** di navigasi sidebar bagi user non-admin.
+  2. Jika user non-admin mencoba mengakses URL langsung (misal: `/admin/pengaturan-aplikasi`), sistem wajib melempar **HTTP 403 Forbidden**.
 
----
-
-## 2. Matriks Hak Akses & Aturan Bisnis
-
-### 2.1. Matriks Akses Antar Role
-| Role Sistem | Label Pengguna | Hak Akses di Tabel Renja SKPD | Hak Akses di Laporan Realisasi Fisik & Keuangan | Status Elemen Pilihan SKPD di Laporan |
-|:---|:---|:---|:---|:---:|
-| `SKPD` | **ADMIN SKPD** | - Query terkunci ke SKPD login<br>- Filter SKPD disembunyikan<br>- Kolom SKPD disembunyikan | - Data terkunci ke SKPD login (`skpd_id`)<br>- Tidak bisa memilih SKPD lain<br>- Hanya melihat laporan instansinya sendiri | **DISABLED** (Terkunci, hanya baca nama SKPD miliknya) |
-| `BAPPEDA` | **VERIFIKATOR BAPPEDA** | - Query semua SKPD<br>- Filter SKPD aktif & searchable<br>- Kolom SKPD tampak default | - Dapat memilih SKPD mana saja<br>- Meninjau capaian fisik & keuangan seluruh SKPD | **ENABLED** (Dropdown Aktif) |
-| `BAKEUDA` | **VERIFIKATOR BAKEUDA** | - Query semua SKPD<br>- Filter SKPD aktif & searchable<br>- Kolom SKPD tampak default | - Dapat memilih SKPD mana saja<br>- Meninjau serapan & anggaran seluruh SKPD | **ENABLED** (Dropdown Aktif) |
-| `ADMIN` | **ADMINISTRATOR APLIKASI** | - Akses penuh seluruh SKPD<br>- Filter SKPD aktif & searchable<br>- Kolom SKPD tampak default | - Akses penuh seluruh SKPD<br>- Bebas memilih instansi mana pun | **ENABLED** (Dropdown Aktif) |
-
-### 2.2. Standar Logika Pengecekan
-- **Bukan Admin SKPD (Verifikator/Admin)**:
-  ```php
-  $isNotSkpd = Auth::user()?->role !== 'SKPD';
-  // atau
-  $isVerifikatorOrAdmin = in_array(Auth::user()?->role, ['BAPPEDA', 'BAKEUDA', 'ADMIN']);
-  ```
-- **Admin SKPD**:
-  ```php
-  $isSkpd = Auth::user()?->role === 'SKPD';
-  ```
+### 1.3. Kebijakan Pengelolaan File Logo (Clean Storage)
+- File gambar logo disimpan pada storage disk `public` di folder `settings/`.
+- **Wajib menghapus file logo lama**: Ketika admin mengunggah logo baru untuk menggantikan logo yang ada, file logo lama di disk `storage/app/public/settings/` **wajib dihapus secara otomatis**.
+- Begitu pula jika logo dihapus (dikosongkan), file lama di disk harus dibersihkan agar tidak meninggalkan *orphaned files* (sampah penyimpanan).
 
 ---
 
-## 3. Arsitektur Teknis & File yang Terlibat
-
-```mermaid
-flowchart TD
-    User([Pengguna Login]) --> CheckRole{Role == 'SKPD'?}
-
-    %% Cabang Admin SKPD
-    CheckRole -- Ya (Admin SKPD) --> LimitRenja[RenjaSkpd: Query terkunci skpd_id milik user]
-    LimitRenja --> HideRenjaFilter[Filter SKPD Tabel: Disembunyikan]
-    CheckRole -- Ya (Admin SKPD) --> LockLaporan[Laporan: selectedSkpdId dipaksa Auth::user()->skpd_id]
-    LockLaporan --> DisabledSelect[Toolbar Laporan: Input/Select SKPD DISABLED]
-    DisabledSelect --> ViewOwnReport[Hanya Lihat Laporan SKPD Sendiri]
-
-    %% Cabang Non-SKPD
-    CheckRole -- Tidak (BAPPEDA/BAKEUDA/ADMIN) --> AllowRenja[RenjaSkpd: Query memuat seluruh SKPD]
-    AllowRenja --> ShowRenjaFilter[Filter SKPD Tabel: Muncul & Searchable]
-    CheckRole -- Tidak (BAPPEDA/BAKEUDA/ADMIN) --> AllowLaporan[Laporan: selectedSkpdId bebas dipilih]
-    AllowLaporan --> EnabledSelect[Toolbar Laporan: Select SKPD ENABLED & Livewire Live]
-    EnabledSelect --> ViewAnyReport[Verifikator Bebas Pilih & Evaluasi Semua SKPD]
-```
-
-### Daftar File yang Terkena Dampak:
-1. `app/Filament/Resources/RenjaSkpds/Tables/RenjaSkpdsTable.php`
-   - Filter `skpd_id` untuk role non-SKPD.
-   - Menampilkan kolom `skpd.nama_skpd` secara default.
-   - Tata letak filter `FiltersLayout::AboveContent`.
-2. `app/Filament/Resources/RenjaSkpds/RenjaSkpdResource.php`
-   - Eager loading `'skpd'` di `getEloquentQuery()`.
-3. `app/Filament/Resources/RenjaSkpds/RelationManagers/RealisasiKegiatanRelationManager.php`
-   - Perbaikan otorisasi tombol verifikasi dan input solusi untuk role `BAPPEDA` dan `BAKEUDA`.
-4. `app/Filament/Pages/LaporanRealisasi.php`
-   - Penguncian `selectedSkpdId` untuk role `SKPD` di `mount()`, hook `updatedSelectedSkpdId()`, `getLaporanData()`, dan `downloadExcel()`.
-5. `resources/views/filament/pages/laporan-realisasi.blade.php`
-   - Tampilan toolbar filter: Elemen SKPD di-*disabled* jika role `SKPD`, dan dropdown `<select wire:model.live="selectedSkpdId">` aktif jika selain role `SKPD`.
-
----
-
-## 4. Langkah-Langkah Eksekusi Implementasi (Implementation Steps)
-
-### Langkah 1: Eager Load Relasi `skpd` di `RenjaSkpdResource.php`
-Buka file `app/Filament/Resources/RenjaSkpds/RenjaSkpdResource.php`.
-Tambahkan `'skpd'` pada array relasi yang dimuat di `getEloquentQuery()`:
-
-```php
-// File: app/Filament/Resources/RenjaSkpds/RenjaSkpdResource.php
-
-#[Override]
-public static function getEloquentQuery(): Builder
-{
-    $query = parent::getEloquentQuery()->with([
-        'skpd', // Mencegah N+1 query problem saat nama SKPD dirender di tabel
-        'subKegiatan.kegiatan.program.bidang.urusan'
-    ]);
-
-    if (Auth::user()?->role === 'SKPD') {
-        $query->where('skpd_id', Auth::user()->skpd_id);
-    }
-
-    return $query;
-}
-```
-
----
-
-### Langkah 2: Tambahkan Filter SKPD & Sesuaikan Kolom di `RenjaSkpdsTable.php`
-Buka file `app/Filament/Resources/RenjaSkpds/Tables/RenjaSkpdsTable.php`.
-
-1. **Kolom SKPD**: Ubah `isToggledHiddenByDefault: true` menjadi `isToggledHiddenByDefault: false` agar verifikator langsung melihat nama instansi.
-2. **Filter SKPD**: Tambahkan `SelectFilter::make('skpd_id')` dengan relasi `skpd`, `searchable()`, `preload()`, dan `visible(fn() => Auth::user()?->role !== 'SKPD')`.
-3. **Filter Layout**: Pasang `layout: FiltersLayout::AboveContent` dan `filtersFormColumns(2)` agar filter tampil rapi dan langsung terlihat di atas tabel.
-
-```php
-// Cuplikan pada app/Filament/Resources/RenjaSkpds/Tables/RenjaSkpdsTable.php
-
-// Kolom:
-TextColumn::make('skpd.nama_skpd')
-    ->label('SKPD')
-    ->searchable()
-    ->sortable()
-    ->wrap()
-    ->toggleable(isToggledHiddenByDefault: false)
-    ->hidden(fn() => Auth::user()?->role === 'SKPD'),
-
-// Filters:
-->filters([
-    SelectFilter::make('skpd_id')
-        ->label('Pilih SKPD')
-        ->relationship('skpd', 'nama_skpd')
-        ->searchable()
-        ->preload()
-        ->placeholder('Semua SKPD')
-        ->visible(fn() => Auth::user()?->role !== 'SKPD'),
-
-    SelectFilter::make('tahun')
-        ->label('Tahun Anggaran')
-        ->options([
-            '2024' => '2024',
-            '2025' => '2025',
-            '2026' => '2026',
-            '2027' => '2027',
-            '2028' => '2028',
-            '2029' => '2029',
-            '2030' => '2030'
-        ])
-        ->default(date('Y')),
-], layout: FiltersLayout::AboveContent)
-->filtersFormColumns(2)
-```
-
----
-
-### Langkah 3: Sinkronisasi Validasi Role Verifikator di `RealisasiKegiatanRelationManager.php`
-Buka file `app/Filament/Resources/RenjaSkpds/RelationManagers/RealisasiKegiatanRelationManager.php`.
-Ganti pengecekan string role lama yang mengecek `'VERIFIKATOR'` menjadi `Auth::user()?->role !== 'SKPD'` agar verifikator **BAPPEDA** dan **BAKEUDA** memiliki hak verifikasi dan pengisian solusi:
-
-1. **Field Solusi (Form)**:
-```php
-Textarea::make('solusi')
-    ->label('Solusi')
-    ->disabled(fn(): bool => Auth::user()?->role === 'SKPD')
-    ->columnSpanFull(),
-```
-
-2. **Aksi Verifikasi (Table Record Action)**:
-```php
-Action::make('verifikasi')
-    ->label('Verif')
-    ->icon('heroicon-o-check-circle')
-    ->color('success')
-    ->requiresConfirmation()
-    ->visible(fn(RealisasiKegiatan $record): bool => Auth::user()?->role !== 'SKPD' && !$record->is_verified)
-    ->action(function (RealisasiKegiatan $record): void {
-        $record->update(['is_verified' => true]);
-        Notification::make()
-            ->title('Berhasil diverifikasi')
-            ->success()
-            ->send();
-    }),
-```
-
----
-
-### Langkah 4: Penguncian Filter SKPD (Disabled) pada Halaman Laporan Realisasi Fisik & Keuangan
-
-Ini adalah implementasi khusus pada modul **Laporan Realisasi** (`App\Filament\Pages\LaporanRealisasi`):
-
-#### 4.1. Server-Side Protection di `app/Filament/Pages/LaporanRealisasi.php`
-Pastikan backend selalu memaksakan ID SKPD milik user yang sedang login jika perannya adalah `SKPD`:
-
-1. **Pada method `mount()`**:
-```php
-public function mount(): void
-{
-    $this->selectedTahun = (int) request()->query('tahun', date('Y'));
-
-    $currentMonth = (int) date('n');
-    $defaultTw = match (true) {
-        $currentMonth <= 3 => 1,
-        $currentMonth <= 6 => 2,
-        $currentMonth <= 9 => 3,
-        default => 4,
-    };
-    $this->selectedTriwulan = (int) request()->query('triwulan', $defaultTw);
-
-    // KUNCI SKPD: Jika role SKPD, paksa selalu menggunakan skpd_id miliknya
-    if (Auth::user()?->role === 'SKPD') {
-        $this->selectedSkpdId = Auth::user()->skpd_id;
-    } else {
-        $this->selectedSkpdId = (int) request()->query(
-            'skpd_id',
-            Auth::user()?->skpd_id ?? Skpd::query()->orderBy('nama_skpd')->value('id')
-        );
-    }
-}
-```
-
-2. **Tambahkan Hook Livewire Lifecycle `updatedSelectedSkpdId()`**:
-Mencegah injeksi manipulasi properti Livewire dari klien:
-```php
-/**
- * Hook perlindungan: Jika role SKPD mencoba mengubah selectedSkpdId,
- * otomatis kembalikan ke skpd_id miliknya sendiri.
- */
-public function updatedSelectedSkpdId($value): void
-{
-    if (Auth::user()?->role === 'SKPD') {
-        $this->selectedSkpdId = Auth::user()->skpd_id;
-    }
-}
-```
-
-3. **Pastikan `getLaporanData()` dan `downloadExcel()` Terproteksi**:
-```php
-public function getLaporanData(): array
-{
-    if (Auth::user()?->role === 'SKPD') {
-        $this->selectedSkpdId = Auth::user()->skpd_id;
-    }
-
-    if (!$this->selectedSkpdId) {
-        return [];
-    }
-
-    // Ambil data Renja SKPD sesuai $this->selectedSkpdId ...
-}
-```
-
----
-
-#### 4.2. Tampilan UI Toolbar di `resources/views/filament/pages/laporan-realisasi.blade.php`
-Pada bagian toolbar filter, sediakan elemen pilihan SKPD dengan kondisi kondisional:
-
-- **Jika Role adalah `SKPD`**: Tampilkan elemen pilihan dengan atribut **`disabled`**, berlatar abu-abu terang (*read-only*), penunjuk kursor *not-allowed*, dan bertuliskan nama SKPD miliknya.
-- **Jika Role Selain `SKPD` (`BAPPEDA`, `BAKEUDA`, `ADMIN`)**: Tampilkan tag `<select wire:model.live="selectedSkpdId">` aktif yang memuat seluruh daftar SKPD.
-
-```blade
-{{-- File: resources/views/filament/pages/laporan-realisasi.blade.php --}}
-
-{{-- Filter SKPD --}}
-<div class="lr-field-skpd">
-    <label class="lr-label">Perangkat Daerah (SKPD)</label>
-    
-    @if(auth()->user()?->role === 'SKPD')
-        {{-- Pilihan SKPD TERKUNCI (DISABLED) untuk Admin SKPD --}}
-        <select class="lr-select" disabled style="background-color: #f1f5f9 !important; color: #334155 !important; cursor: not-allowed; border-color: #cbd5e1 !important;" title="Role Admin SKPD hanya dapat melihat laporan instansi sendiri">
-            <option selected>{{ $activeSkpdName }}</option>
-        </select>
-        <small style="font-size: 11px; color: #64748b; margin-top: 3px;">
-            * Terkunci: Hanya dapat melihat data SKPD sendiri
-        </small>
-    @else
-        {{-- Dropdown Pilihan SKPD AKTIF untuk Verifikator BAPPEDA / BAKEUDA / ADMIN --}}
-        <select wire:model.live="selectedSkpdId" class="lr-select">
-            @foreach($this->skpdList as $id => $nama)
-                <option value="{{ $id }}">{{ $nama }}</option>
-            @endforeach
-        </select>
-        <small style="font-size: 11px; color: #2563eb; margin-top: 3px;">
-            * Mode Verifikator: Pilih SKPD untuk meninjau laporan
-        </small>
-    @endif
-</div>
-```
-
----
-
-## 5. Fitur Pendukung & Rekomendasi Lanjutan (Nilai Tambah)
-
-### 5.1. Filter Realisasi Belum Diverifikasi pada Tabel Renja SKPD
-Verifikator dapat memanfaatkan filter cepat untuk hanya menampilkan kegiatan Renja yang memiliki realisasi triwulan berstatus `is_verified = false`:
-```php
-use Filament\Tables\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
-
-Filter::make('belum_diverifikasi')
-    ->label('Ada Realisasi Belum Diverifikasi')
-    ->query(fn (Builder $query): Builder => $query->whereHas('realisasi_kegiatans', function (Builder $q) {
-        $q->where('is_verified', false);
-    }))
-    ->visible(fn() => Auth::user()?->role !== 'SKPD'),
-```
-
-### 5.2. Sinkronisasi Tautan "Lihat Laporan" dengan SKPD yang Sedang Difilter
-Pada `app/Filament/Resources/RenjaSkpds/Pages/ListRenjaSkpds.php`, tautan header action `bukaLaporan` dapat meneruskan `skpd_id` aktif jika pengguna sedang menyaring instansi tertentu, sehingga ketika verifikator membuka Laporan Realisasi, halaman langsung menampilkan data SKPD yang sama.
-
----
-
-## 6. Edge Cases & Penanganan Keamanan Multi-Tenant
-
-1. **Pencegahan Manipulasi Parameter Query URL (`?skpd_id=...`)**:
-   - Jika pengguna role `SKPD` mencoba mengubah URL menjadi `/admin/laporan-realisasi?skpd_id=99` (milik SKPD lain), method `mount()` dan `getLaporanData()` akan menolak parameter tersebut dan menimpanya kembali dengan `Auth::user()->skpd_id`.
-2. **Pencegahan Livewire Tampering Payload**:
-   - Jika pengguna memodifikasi permintaan jaringan WebSocket/XHR Livewire untuk mengubah properti `$selectedSkpdId`, hook `updatedSelectedSkpdId()` dan pengecekan di `getLaporanData()` akan secara tegas membatalkan perubahan tersebut.
-3. **Pencegahan Unduh Excel Data Instansi Lain**:
-   - Pada method `downloadExcel()`, data diambil melalui `$this->getLaporanData()` yang sudah memiliki proteksi role `SKPD`, sehingga file Excel yang diunduh dipastikan hanya memuat data milik instansinya sendiri.
-4. **Performa Pencarian SKPD pada Verifikator**:
-   - Daftar puluhan dinas/badan di-render secara optimal dengan HTML native select dan Livewire reactive binding tanpa jeda latensi tinggi.
-
----
-
-## 7. Panduan Pengujian & Checklist Verifikasi (Testing & QA)
-
-| No | Modul | Skenario Pengujian | Akun Pengguna / Role | Ekspektasi Hasil | Status |
-|:---:|---|---|---|---|:---:|
-| 1 | **Renja SKPD** | Akses tabel Renja SKPD | Role `SKPD` | - Filter SKPD **TIDAK muncul**.<br>- Kolom SKPD di tabel **TIDAK muncul**.<br>- Hanya data milik SKPD login yang tampil. | [ ] |
-| 2 | **Renja SKPD** | Akses tabel Renja SKPD | Role `BAPPEDA` / `BAKEUDA` / `ADMIN` | - Filter SKPD **MUNCUL** di atas tabel.<br>- Kolom SKPD **MUNCUL** di tabel secara default.<br>- Verifikator dapat memfilter data per SKPD. | [ ] |
-| 3 | **Laporan Realisasi** | Akses Halaman Laporan Realisasi | Role `SKPD` | - Pilihan SKPD berstatus **DISABLED**.<br>- Menampilkan nama SKPD miliknya.<br>- Tidak bisa memilih atau mengganti SKPD lain.<br>- Tabel hanya memuat data miliknya. | [ ] |
-| 4 | **Laporan Realisasi** | Akses Halaman Laporan Realisasi | Role `BAPPEDA` / `BAKEUDA` / `ADMIN` | - Dropdown SKPD **ENABLED** (aktif).<br>- Dapat memilih SKPD mana saja.<br>- Data tabel berganti secara reaktif sesuai SKPD terpilih. | [ ] |
-| 5 | **Laporan Realisasi** | Percobaan manipulasi URL (`?skpd_id=X`) | Role `SKPD` | - Sistem menolak ID lain dan tetap menyajikan data SKPD login. | [ ] |
-| 6 | **Laporan Realisasi** | Tombol Download Excel | Role `SKPD` vs Non-SKPD | - Role SKPD mengunduh Excel khusus miliknya.<br>- Verifikator mengunduh Excel sesuai SKPD yang sedang dipilih di filter. | [ ] |
-| 7 | **Verifikasi Triwulan** | Aksi Verifikasi & Solusi | Role `BAPPEDA` / `BAKEUDA` | - Tombol **Verif** berfungsi lancar mengubah status.<br>- Textarea **Solusi** dapat diisi. | [ ] |
-
----
-
-## 8. Ringkasan File & Komponen Terkait
+## 2. Struktur File yang Dibuat & Dimodifikasi
 
 ```
 app/
+├── Models/
+│   └── AppSetting.php                                 ← BARU (Model Singleton Setting)
 ├── Filament/
-│   ├── Pages/
-│   │   └── LaporanRealisasi.php
-│   │       ├── mount(): Kunci selectedSkpdId untuk role SKPD
-│   │       ├── updatedSelectedSkpdId(): Proteksi Livewire hook
-│   │       ├── getLaporanData(): Fallback penguncian ke skpd_id login
-│   │       └── downloadExcel(): Menjamin keamanan data saat unduh spreadsheet
-│   └── Resources/
-│       └── RenjaSkpds/
-│           ├── RenjaSkpdResource.php
-│           │   └── getEloquentQuery(): Eager loading relasi 'skpd'
-│           ├── Tables/
-│           │   └── RenjaSkpdsTable.php
-│           │       ├── Kolom skpd.nama_skpd: isToggledHiddenByDefault false
-│           │       └── SelectFilter skpd_id: Visible khusus non-SKPD
-│           └── RelationManagers/
-│               └── RealisasiKegiatanRelationManager.php
-│                   └── Tombol verifikasi & field solusi: Izin untuk role non-SKPD
+│   └── Pages/
+│       └── PengaturanAplikasi.php                     ← BARU (Filament v4 Custom Page)
+├── Providers/
+│   └── Filament/
+│       └── AdminPanelProvider.php                     ← MODIFIKASI (Brand Name & Logo dinamis)
+
+database/
+└── migrations/
+    └── 2026_10_19_000001_create_app_settings_table.php ← BARU (Tabel app_settings)
+
 resources/
 └── views/
-    └── filament/
-        └── pages/
-            └── laporan-realisasi.blade.php
-                └── Toolbar Filter SKPD: Disabled untuk role SKPD, select aktif untuk non-SKPD
+    ├── filament/
+    │   └── pages/
+    │       └── pengaturan-aplikasi.blade.php          ← BARU (View Blade Page Filament)
+    └── layouts/
+        └── frontend.blade.php                         ← MODIFIKASI (Logo, Nama, Title, Footer dinamis)
 ```
+
+---
+
+## 3. Database Schema & Migration
+
+Buat migration baru untuk tabel `app_settings`. Tabel ini dirancang sebagai tabel baris tunggal (*singleton row*).
+
+**File:** `database/migrations/2026_10_19_000001_create_app_settings_table.php`
+
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('app_settings', function (Blueprint $table) {
+            $table->id();
+            $table->string('app_name')->default('Dashboard Kota Sungai Penuh');
+            $table->string('app_logo')->nullable();
+            $table->timestamps();
+        });
+
+        // Insert satu baris default saat migration dijalankan
+        DB::table('app_settings')->insert([
+            'app_name' => 'Dashboard Kota Sungai Penuh',
+            'app_logo' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('app_settings');
+    }
+};
+```
+
+---
+
+## 4. Eloquent Model (`app/Models/AppSetting.php`)
+
+Model ini dilengkapi:
+1. **Cache Layer**: Mencegah query database berulang pada setiap render komponen Livewire/Filament.
+2. **Model Events (`booted()`)**: Otomatis menghapus file fisik logo lama dari storage saat attribute `app_logo` diperbarui (*dirty*) atau saat model dihapus.
+3. **Helper Methods**: `getSetting()`, `getAppName()`, dan `getAppLogoUrl()` yang siap dipanggil kapan saja secara statis dan aman dari exception.
+
+**File:** `app/Models/AppSetting.php`
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+
+class AppSetting extends Model
+{
+    use HasFactory;
+
+    protected $table = 'app_settings';
+
+    protected $fillable = [
+        'app_name',
+        'app_logo',
+    ];
+
+    /**
+     * Boot model events untuk pembersihan file fisik lama & invalidasi cache.
+     */
+    protected static function booted(): void
+    {
+        // Saat data sedang di-update
+        static::updating(function (AppSetting $setting) {
+            if ($setting->isDirty('app_logo')) {
+                $oldLogo = $setting->getOriginal('app_logo');
+                if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
+                    Storage::disk('public')->delete($oldLogo);
+                }
+            }
+        });
+
+        // Saat data dihapus
+        static::deleting(function (AppSetting $setting) {
+            if ($setting->app_logo && Storage::disk('public')->exists($setting->app_logo)) {
+                Storage::disk('public')->delete($setting->app_logo);
+            }
+        });
+
+        // Bersihkan cache setiap kali data disimpan atau dihapus
+        static::saved(function () {
+            Cache::forget('app_setting_data');
+        });
+
+        static::deleted(function () {
+            Cache::forget('app_setting_data');
+        });
+    }
+
+    /**
+     * Mengambil record pengaturan (dengan cache 24 jam).
+     * Aman dari exception jika tabel belum selesai di-migrate.
+     */
+    public static function getSetting(): ?self
+    {
+        try {
+            return Cache::remember('app_setting_data', 86400, function () {
+                return static::query()->first();
+            });
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Ambil nama aplikasi (fallback ke config app.name).
+     */
+    public static function getAppName(): string
+    {
+        return static::getSetting()?->app_name ?? config('app.name', 'Dashboard Kota Sungai Penuh');
+    }
+
+    /**
+     * Ambil URL publik logo aplikasi jika ada dan file fisiknya eksis.
+     */
+    public static function getAppLogoUrl(): ?string
+    {
+        $setting = static::getSetting();
+        if ($setting && $setting->app_logo && Storage::disk('public')->exists($setting->app_logo)) {
+            return asset('storage/' . $setting->app_logo);
+        }
+
+        return null;
+    }
+}
+```
+
+---
+
+## 5. Filament Admin Page (`app/Filament/Pages/PengaturanAplikasi.php`)
+
+Page ini menggunakan arsitektur **Filament v4** (`Filament\Schemas\Schema`, `use Filament\Support\Icons\Heroicon`).
+
+### Fitur Utama:
+- **Proteksi Role**: Menggunakan `public static function canAccess(): bool` yang memeriksa apakah `Auth::user()?->role === 'ADMIN'`. Jika bukan admin, menu tidak tampil di navigasi dan akses URL langsung melempar 403 Forbidden.
+- **Form Schema**:
+  - `TextInput::make('app_name')`
+  - `FileUpload::make('app_logo')` dengan validasi image, disk `public`, direktori `settings`, batas ukuran 2MB, dan preview gambar.
+- **Save Handler**: Menyimpan perubahan ke database dan menampilkan notifikasi sukses.
+
+**File:** `app/Filament/Pages/PengaturanAplikasi.php`
+
+```php
+<?php
+
+namespace App\Filament\Pages;
+
+use App\Models\AppSetting;
+use BackedEnum;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use UnitEnum;
+
+class PengaturanAplikasi extends Page
+{
+    protected string $view = 'filament.pages.pengaturan-aplikasi';
+
+    protected static ?string $title = 'Pengaturan Aplikasi';
+    protected static ?string $navigationLabel = 'Pengaturan Aplikasi';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Cog6Tooth;
+    protected static string|UnitEnum|null $navigationGroup = 'Pengaturan Sistem';
+    protected static ?int $navigationSort = 99;
+
+    /**
+     * Proteksi Hak Akses:
+     * HANYA role 'ADMIN' yang diizinkan mengakses halaman ini.
+     * Verifikator (BAPPEDA, BAKEUDA) dan Admin SKPD (SKPD) diblokir total (403 Forbidden).
+     */
+    public static function canAccess(): bool
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return false;
+        }
+
+        return in_array($user->role, ['ADMIN', 'SUPERADMIN', 'admin'], true);
+    }
+
+    public ?array $data = [];
+
+    public function mount(): void
+    {
+        $setting = AppSetting::getSetting();
+
+        if ($setting) {
+            $this->form->fill([
+                'app_name' => $setting->app_name,
+                'app_logo' => $setting->app_logo,
+            ]);
+        } else {
+            $this->form->fill([
+                'app_name' => config('app.name', 'Dashboard Kota Sungai Penuh'),
+                'app_logo' => null,
+            ]);
+        }
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->schema([
+                Section::make('Identitas Aplikasi')
+                    ->description('Kelola nama aplikasi dan logo utama yang tampil pada header Admin Panel dan Halaman Publik.')
+                    ->schema([
+                        TextInput::make('app_name')
+                            ->label('Nama Aplikasi')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Contoh: Dashboard Kota Sungai Penuh')
+                            ->helperText('Nama ini akan tampil pada header panel admin, title tab browser, dan footer.'),
+
+                        FileUpload::make('app_logo')
+                            ->label('Logo Aplikasi')
+                            ->image()
+                            ->disk('public')
+                            ->directory('settings')
+                            ->visibility('public')
+                            ->imagePreviewHeight('140')
+                            ->maxSize(2048) // 2 MB
+                            ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml', 'image/webp'])
+                            ->helperText('Format: PNG, JPG, JPEG, SVG, WEBP (Maksimal 2 MB). Logo lama akan otomatis terhapus dari server saat Anda mengganti logo.'),
+                    ])
+                    ->columns(1),
+            ])
+            ->statePath('data');
+    }
+
+    public function save(): void
+    {
+        // Validasi input form
+        $state = $this->form->getState();
+
+        $setting = AppSetting::first();
+        if (!$setting) {
+            $setting = new AppSetting();
+        }
+
+        // Hapus logo lama secara eksplisit jika file diganti atau dihapus
+        $oldLogo = $setting->app_logo;
+        $newLogo = $state['app_logo'] ?? null;
+
+        if ($oldLogo && $oldLogo !== $newLogo) {
+            if (Storage::disk('public')->exists($oldLogo)) {
+                Storage::disk('public')->delete($oldLogo);
+            }
+        }
+
+        $setting->app_name = $state['app_name'];
+        $setting->app_logo = $newLogo;
+        $setting->save();
+
+        // Sinkronisasi state form kembali
+        $this->form->fill([
+            'app_name' => $setting->app_name,
+            'app_logo' => $setting->app_logo,
+        ]);
+
+        Notification::make()
+            ->title('Pengaturan Berhasil Disimpan')
+            ->body('Nama dan logo aplikasi telah berhasil diperbarui.')
+            ->success()
+            ->send();
+    }
+}
+```
+
+---
+
+## 6. View Blade Page (`resources/views/filament/pages/pengaturan-aplikasi.blade.php`)
+
+View ini merender form schema Filament v4 beserta tombol submit simpan.
+
+**File:** `resources/views/filament/pages/pengaturan-aplikasi.blade.php`
+
+```blade
+<x-filament-panels::page>
+    <form wire:submit="save" class="space-y-6">
+        {{ $this->form }}
+
+        <div class="flex items-center justify-start gap-3">
+            <x-filament::button type="submit" icon="heroicon-m-check">
+                Simpan Perubahan
+            </x-filament::button>
+        </div>
+    </form>
+</x-filament-panels::page>
+```
+
+---
+
+## 7. Modifikasi Admin Panel Provider (`app/Providers/Filament/AdminPanelProvider.php`)
+
+Integrasikan brand name, brand logo, dan favicon agar membaca nilai dari `AppSetting` secara dinamis.
+
+**File:** `app/Providers/Filament/AdminPanelProvider.php`
+
+```php
+<?php
+
+namespace App\Providers\Filament;
+
+use App\Models\AppSetting;
+use Filament\Http\Middleware\Authenticate;
+use Illuminate\Support\HtmlString;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Pages\Dashboard;
+use Filament\Panel;
+use Filament\PanelProvider;
+use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
+use Filament\Widgets\FilamentInfoWidget;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+class AdminPanelProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            ->default()
+            ->id('admin')
+            ->path('admin')
+            ->login()
+            ->colors([
+                'primary' => Color::Amber,
+            ])
+            // Branding Dinamis dari AppSetting:
+            ->brandName(fn () => AppSetting::getAppName())
+            ->brandLogo(function () {
+                $logoUrl = AppSetting::getAppLogoUrl();
+                $appName = e(AppSetting::getAppName());
+
+                if (! $logoUrl) {
+                    return null;
+                }
+
+                // Tampilan Khusus Halaman Login / Auth (Elegan, Terpusat, Lebih Besar & Menarik)
+                if (request()->is('admin/login*', 'admin/password-reset*')) {
+                    return new HtmlString("
+                        <div style=\"display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 100%; margin-bottom: 0.25rem;\">
+                            <div style=\"width: 76px; height: 76px; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center;\">
+                                <img src=\"{$logoUrl}\" alt=\"{$appName}\" style=\"height: 100%; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25)); display: block; margin: 0 auto;\" />
+                            </div>
+                            <h2 style=\"font-size: 1.35rem; font-weight: 800; letter-spacing: -0.025em; color: inherit; line-height: 1.3; margin: 0 0 4px 0;\">
+                                {$appName}
+                            </h2>
+                            <p style=\"font-size: 0.825rem; font-weight: 500; color: #94a3b8; margin: 0;\">
+                                Pemerintah Kota Sungai Penuh
+                            </p>
+                        </div>
+                    ");
+                }
+
+                // Tampilan Reguler di Sidebar Admin Panel (Horizontal, Rapi, Compact)
+                return new HtmlString("
+                    <div style=\"display: inline-flex; align-items: center; gap: 10px; max-height: 40px; overflow: hidden;\">
+                        <img src=\"{$logoUrl}\" alt=\"{$appName}\" style=\"height: 32px; max-height: 32px; width: auto; max-width: 34px; object-fit: contain; flex-shrink: 0; display: block;\" />
+                        <span style=\"font-size: 0.875rem; font-weight: 700; line-height: 1.25; color: inherit; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 175px;\">{$appName}</span>
+                    </div>
+                ");
+            })
+            ->brandLogoHeight(fn () => request()->is('admin/login*', 'admin/password-reset*') ? 'auto' : '2.5rem')
+            ->favicon(fn () => AppSetting::getAppLogoUrl())
+            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
+            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->pages([
+                Dashboard::class,
+            ])
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->widgets([
+                AccountWidget::class,
+                FilamentInfoWidget::class,
+            ])
+            ->middleware([
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                AuthenticateSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+                DisableBladeIconComponents::class,
+                DispatchServingFilamentEvent::class,
+            ])
+            ->authMiddleware([
+                Authenticate::class,
+            ]);
+    }
+}
+```
+
+---
+
+## 8. Modifikasi Layout Frontend Publik (`resources/views/layouts/frontend.blade.php`)
+
+Ganti teks nama aplikasi yang masih *hardcoded* (`Dashboard Sungai Penuh` dan `Sungai Penuh Civic Intelligence`) dan pasang logo jika ada.
+
+**File:** `resources/views/layouts/frontend.blade.php`
+
+1. **Tag `<title>` (Baris 9):**
+   ```blade
+   <title>{{ $title ?? \App\Models\AppSetting::getAppName() }}</title>
+   ```
+
+2. **Navbar Brand & Logo (Baris 25-27):**
+   Ganti:
+   ```blade
+   <div class="flex items-center gap-6">
+       <span class="text-2xl font-bold text-[#af101a] tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">Dashboard Sungai Penuh</span>
+   ```
+   Menjadi:
+   ```blade
+   <div class="flex items-center gap-6">
+       <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+           @if($logoUrl = \App\Models\AppSetting::getAppLogoUrl())
+               <img src="{{ $logoUrl }}" alt="Logo Aplikasi" class="h-9 w-auto max-w-[42px] object-contain">
+           @endif
+           <span class="text-2xl font-bold text-[#af101a] tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+               {{ \App\Models\AppSetting::getAppName() }}
+           </span>
+       </a>
+   ```
+
+3. **Footer Copyright (Baris 81):**
+   Ganti:
+   ```blade
+   &copy; {{ date('Y') }} {{ config('app.name', 'Sungai Penuh Civic Intelligence') }}. All rights reserved.
+   ```
+   Menjadi:
+   ```blade
+   &copy; {{ date('Y') }} {{ \App\Models\AppSetting::getAppName() }}. All rights reserved.
+   ```
+
+---
+
+## 9. Detail Mekanisme Penghapusan File Gambar Lama (Clean Storage)
+
+Untuk memastikan tidak ada file gambar yatim (*orphaned image*) tersisa di server, fitur ini mengimplementasikan **Triple Defense System**:
+
+| Lapisan | Komponen | Mekanisme |
+|---|---|---|
+| **Layer 1** | Model Event `updating` (`AppSetting::booted`) | Jika attribute `app_logo` bernilai baru (`isDirty`), sistem mengambil nama file asli via `getOriginal('app_logo')` dan menghapusnya dari `Storage::disk('public')`. |
+| **Layer 2** | Filament `FileUpload::deleteUploadedFileUsing` | Jika pengguna menekan tombol silang/hapus pada file preview sebelum form disubmit, file temporary di storage langsung dihapus. |
+| **Layer 3** | Filament Page `save()` Handler | Pengecekan manual sebelum `$setting->save()`: jika `$oldLogo && $oldLogo !== $newLogo`, hapus file lama dari `Storage::disk('public')`. |
+
+Dengan tiga lapisan ini, baik skenario penggantian file logo, penghapusan logo, maupun pembatalan upload ditangani dengan bersih tanpa sisa.
+
+---
+
+## 10. Panduan Eksekusi Langkah-demi-Langkah (Step-by-Step)
+
+AI Agent atau Software Engineer yang mengimplementasikan plan ini harus mengikuti urutan berikut:
+
+1. **Jalankan Symlink Storage (jika belum):**
+   ```bash
+   php artisan storage:link
+   ```
+2. **Buat File Migration:**
+   Buat file `database/migrations/2026_10_19_000001_create_app_settings_table.php` sesuai kode pada bagian 3.
+3. **Jalankan Migrate Database:**
+   ```bash
+   php artisan migrate
+   ```
+4. **Buat Model `AppSetting`:**
+   Buat file `app/Models/AppSetting.php` sesuai kode pada bagian 4.
+5. **Buat Filament Page & View Blade:**
+   - Buat `app/Filament/Pages/PengaturanAplikasi.php` sesuai kode pada bagian 5.
+   - Buat `resources/views/filament/pages/pengaturan-aplikasi.blade.php` sesuai kode pada bagian 6.
+6. **Modifikasi `AdminPanelProvider.php`:**
+   Daftarkan `brandName()`, `brandLogo()`, `brandLogoHeight()`, dan `favicon()` sesuai kode pada bagian 7.
+7. **Modifikasi `resources/views/layouts/frontend.blade.php`:**
+   Sesuaikan title, navbar brand + logo, dan footer copyright sesuai kode pada bagian 8.
+8. **Clear Cache:**
+   ```bash
+   php artisan optimize:clear
+   ```
+
+---
+
+## 11. Checklist Pengujian & Verifikasi
+
+Setelah seluruh langkah selesai, lakukan verifikasi berikut:
+
+- [ ] **Uji Hak Akses Role ADMIN:**
+  - Login dengan akun `role = 'ADMIN'`.
+  - Pastikan menu **"Pengaturan Sistem > Pengaturan Aplikasi"** muncul di sidebar.
+  - Akses halaman dan pastikan form terbuka dengan baik.
+- [ ] **Uji Hak Akses Role SKPD (Admin SKPD):**
+  - Login dengan akun `role = 'SKPD'`.
+  - Pastikan menu **"Pengaturan Aplikasi"** TIDAK muncul di sidebar.
+  - Buka URL `/admin/pengaturan-aplikasi` secara manual. Pastikan muncul status **403 Forbidden**.
+- [ ] **Uji Hak Akses Role Verifikator (BAPPEDA / BAKEUDA):**
+  - Login dengan akun `role = 'BAPPEDA'` atau `'BAKEUDA'`.
+  - Pastikan menu TIDAK muncul dan URL langsung menghasilkan **403 Forbidden**.
+- [ ] **Uji Ubah Nama Aplikasi:**
+  - Ubah nama menjadi *"Dashboard Kinerja Daerah Contoh"*, klik tombol **Simpan Perubahan**.
+  - Refresh panel admin: nama pada header berubah.
+  - Buka halaman publik (`/` atau `/dashboard`): nama di navbar, tab browser (`<title>`), dan footer berubah.
+- [ ] **Uji Upload Logo Baru:**
+  - Unggah file gambar logo (misal: `logo_pemda.png`).
+  - Simpan perubahan.
+  - Periksa file fisik tersimpan di `storage/app/public/settings/`.
+  - Pastikan logo muncul di header Admin Panel dan navbar Frontend Publik.
+- [ ] **Uji Penggantian Logo (Hapus File Lama):**
+  - Catat nama file logo pertama di folder `storage/app/public/settings/`.
+  - Unggah logo kedua yang berbeda (misal: `logo_baru.png`).
+  - Simpan perubahan.
+  - Periksa folder `storage/app/public/settings/`: pastikan file logo pertama **sudah terhapus** dan hanya tersisa file logo kedua.
+- [ ] **Uji Hapus Logo:**
+  - Hapus logo pada form (klik icon trash/clear), simpan perubahan.
+  - Pastikan file logo di storage terhapus dan tampilan UI kembali fallback ke tampilan teks tanpa broken image icon.
+
