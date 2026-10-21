@@ -1,0 +1,338 @@
+[
+    {
+        "kode_skpd": "DISKOMINFO",
+        "nama_skpd": "DInas Komunikasi, Infomatika Dan Statistik",
+        "kode_bidang": "2.16",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KOMUNIKASI DAN INFORMATIKA",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "BPS",
+        "nama_skpd": "Badan Pusat Statistik",
+        "kode_bidang": "2.20",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG STATISTIK",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "BAPPERIDA",
+        "nama_skpd": "BAPPERIDA",
+        "kode_bidang": "5.1",
+        "nama_bidang": "PERENCANAAN",
+        "nama_urusan": "UNSUR PENUNJANG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "SETDA",
+        "nama_skpd": "Sekretariat Daerah",
+        "kode_bidang": "4.1",
+        "nama_bidang": "SEKRETARIAT DAERAH",
+        "nama_urusan": "UNSUR PENDUKUNG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "SETDPR",
+        "nama_skpd": "Sekretaria DPRD",
+        "kode_bidang": "4.2",
+        "nama_bidang": "SEKRETARIAT DPRD",
+        "nama_urusan": "UNSUR PENDUKUNG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "Inpektorat",
+        "nama_skpd": "Inspektorat Daerah",
+        "kode_bidang": "6.1",
+        "nama_bidang": "INSPEKTORAT DAERAH",
+        "nama_urusan": "UNSUR PENGAWASAN URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "DISDIK",
+        "nama_skpd": "Dinas Pendidikan",
+        "kode_bidang": "1.1",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PENDIDIKAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DINKES",
+        "nama_skpd": "Dinas Kesehatan",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PUPR",
+        "nama_skpd": "Dinas Pekerjaan Umum dan Perumahan Rakyat",
+        "kode_bidang": "1.3",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PEKERJAAN UMUM DAN PENATAAN RUANG",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "SATPOLPPDAMKAR",
+        "nama_skpd": "Satuan Polisi Pamong Praja dan Pemadam Kebakaran",
+        "kode_bidang": "1.5",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KETENTERAMAN DAN KETERTIBAN UMUM SERTA PERLINDUNGAN MASYARAKAT",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DINSOS",
+        "nama_skpd": "Dinas Sosial",
+        "kode_bidang": "1.6",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG SOSIAL",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DPPPAPPKB",
+        "nama_skpd": "Dinas Pemberdayaan Perempuan Perlindungan Anak dan Pengendalian Penduduk KB",
+        "kode_bidang": "2.8",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PEMBERDAYAAN PEREMPUAN DAN PERLINDUNGAN ANAK",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DPKPP",
+        "nama_skpd": "Dinas Pertanian Ketahanan Pangan dan Perikanan",
+        "kode_bidang": "3.27",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PERTANIAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN PILIHAN"
+    },
+    {
+        "kode_skpd": "DLH",
+        "nama_skpd": "Dinas Lingkungan Hidup",
+        "kode_bidang": "2.11",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG LINGKUNGAN HIDUP",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISKDUKCAPIL",
+        "nama_skpd": "Dinas Kependudukan dan Pencatatan Sipil",
+        "kode_bidang": "2.12",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG ADMINISTRASI KEPENDUDUKAN DAN PENCATATAN SIPIL",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DPMD",
+        "nama_skpd": "Dinas Pemberdayaan Masyarakat dan Desa",
+        "kode_bidang": "2.13",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PEMBERDAYAAN MASYARAKAT DAN DESA",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISHUB",
+        "nama_skpd": "Dinas Perhubungan",
+        "kode_bidang": "2.15",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PERHUBUNGAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISKOPNAKER",
+        "nama_skpd": "Dinas Koperasi Usaha Kecil Menengah dan Tenaga Kerja",
+        "kode_bidang": "2.17",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KOPERASI, USAHA KECIL, DAN MENENGAH",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DPMPTSP",
+        "nama_skpd": "Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu",
+        "kode_bidang": "2.18",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PENANAMAN MODAL",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISPERPUSIP",
+        "nama_skpd": "Dinas Perpustakaan dan Kearsipan",
+        "kode_bidang": "2.23",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PERPUSTAKAAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISBUDPAR",
+        "nama_skpd": "Dinas Kebudayaan, Pariwisata, Kepemudaan dan Olahraga",
+        "kode_bidang": "2.22",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KEBUDAYAAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG TIDAK BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "DISPERINDAG",
+        "nama_skpd": "Dinas Perindustrian dan Perdagangan",
+        "kode_bidang": "3.30",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG PERDAGANGAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN PILIHAN"
+    },
+    {
+        "kode_skpd": "BAKEUDA",
+        "nama_skpd": "Badan Keuangan dan Aset Daerah",
+        "kode_bidang": "5.2",
+        "nama_bidang": "KEUANGAN",
+        "nama_urusan": "UNSUR PENUNJANG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "BAPENDA",
+        "nama_skpd": "Badan Pendapatan Daerah",
+        "kode_bidang": "5.2",
+        "nama_bidang": "KEUANGAN",
+        "nama_urusan": "UNSUR PENUNJANG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "BKPSDM",
+        "nama_skpd": "Badan Kepegawaian dan Pengembangan SDM",
+        "kode_bidang": "5.3",
+        "nama_bidang": "KEPEGAWAIAN",
+        "nama_urusan": "UNSUR PENUNJANG URUSAN PEMERINTAHAN"
+    },
+    {
+        "kode_skpd": "BPBD",
+        "nama_skpd": "Badan Penanggulangan Bencana Daerah",
+        "kode_bidang": "1.5",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KETENTERAMAN DAN KETERTIBAN UMUM SERTA PERLINDUNGAN MASYARAKAT",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "KESBANGPOL",
+        "nama_skpd": "Badan Kesatuan Bangsa dan Politik",
+        "kode_bidang": "8.1",
+        "nama_bidang": "KESATUAN BANGSA DAN POLITIK",
+        "nama_urusan": "UNSUR PEMERINTAHAN UMUM"
+    },
+    {
+        "kode_skpd": "KECHR",
+        "nama_skpd": "Kecamatan Hamparan Rawang",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECPB",
+        "nama_skpd": "Kecamatan Pesisir Bukit",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECKD",
+        "nama_skpd": "Kecamatan Kumun Debai",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECTK",
+        "nama_skpd": "Kecamatan Tanah Kampung",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECPT",
+        "nama_skpd": "Kecamatan Pondok Tinggi",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECSB",
+        "nama_skpd": "Kecamatan Sungai Bungkal",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECSPN",
+        "nama_skpd": "Kecamatan Sungai Penuh",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "KECKB",
+        "nama_skpd": "Kecamatan Koto Baru",
+        "kode_bidang": "7.1",
+        "nama_bidang": "KECAMATAN ADMINISTRASI",
+        "nama_urusan": "UNSUR KEWILAYAHAN"
+    },
+    {
+        "kode_skpd": "RSMAYJEN",
+        "nama_skpd": "Rumah Sakit Mayjen H. Thalib Kota Sungai Penuh",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "RSBAKRI",
+        "nama_skpd": "Rumah Sakit H. Bakri Kota Sungai Penuh",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMTR",
+        "nama_skpd": "Puskesmas Tanjung Rawang",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMTK",
+        "nama_skpd": "Puskesmas Tanah Kampung",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMSPN",
+        "nama_skpd": "Puskesmas Sungai Penuh",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMSL",
+        "nama_skpd": "Puskesmas Sungai Liuk",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMSB",
+        "nama_skpd": "Puskesmas Sungai Bungkal",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMRWG",
+        "nama_skpd": "Puskesmas Rawang",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMPT",
+        "nama_skpd": "Puskesmas Pondo Tinggi",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMKD",
+        "nama_skpd": "Puskesmas Kumun Debai",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMKL",
+        "nama_skpd": "Puskesmas Koto Lolo",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMKB",
+        "nama_skpd": "Puskesmas Koto Baru",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    },
+    {
+        "kode_skpd": "PKMDG",
+        "nama_skpd": "Puskesmas Desa Gedang",
+        "kode_bidang": "1.2",
+        "nama_bidang": "URUSAN PEMERINTAHAN BIDANG KESEHATAN",
+        "nama_urusan": "URUSAN PEMERINTAHAN WAJIB YANG BERKAITAN DENGAN PELAYANAN DASAR"
+    }
+]
