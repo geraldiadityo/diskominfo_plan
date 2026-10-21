@@ -11,7 +11,7 @@
             <li>
                 <div class="flex items-center">
                     <span class="mx-2">/</span>
-                    <a href="{{ route('pendapatan.index') }}" class="hover:text-[#af101a] dark:hover:text-[#ffb4ab] transition-colors">Pendapatan</a>
+                    <a href="{{ route('pendapatan.index', ['tahun' => $tahun]) }}" class="hover:text-[#af101a] dark:hover:text-[#ffb4ab] transition-colors">Pendapatan</a>
                 </div>
             </li>
             <li aria-current="page">
@@ -33,6 +33,21 @@
                 <h2 class="text-3xl font-bold text-[#191c1e] dark:text-white tracking-tight transition-colors" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ $skpd->nama_skpd ?? 'SKPD' }}</h2>
                 <p class="text-[#5b403d] dark:text-[#a0a0a0] mt-1 transition-colors">Pendapatan Daerah (PAD) - Tahun {{ $tahun }}</p>
             </div>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center gap-2 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-lg px-3 py-1.5 shadow-sm">
+            <label for="detail-tahun" class="text-xs font-bold uppercase tracking-wider text-[#5b403d] dark:text-[#a0a0a0] flex items-center gap-1.5 whitespace-nowrap">
+                <svg class="w-4 h-4 text-[#af101a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Tahun Realisasi:
+            </label>
+            <select id="detail-tahun" wire:model.live="tahun" class="text-sm font-semibold rounded border-none bg-transparent text-[#191c1e] dark:text-white focus:outline-none focus:ring-0 cursor-pointer">
+                @foreach($availableYears as $yearOption)
+                    <option value="{{ $yearOption }}" {{ $tahun == $yearOption ? 'selected' : '' }} class="bg-white dark:bg-[#1e1e1e] text-[#191c1e] dark:text-white">
+                        {{ $yearOption }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -169,156 +184,188 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener('livewire:initialized', () => {
-        // Overall Donut Chart
-        const detailTarget = {{ $detail['target'] }};
-        const detailRealisasi = {{ $detail['realisasi'] }};
-        const detailSisa = Math.max(detailTarget - detailRealisasi, 0);
+        let donutChart = null;
+        let barChart = null;
 
-        if (detailTarget > 0 || detailRealisasi > 0) {
-            var donutOptions = {
-                series: [detailRealisasi, detailSisa],
-                chart: {
-                    type: 'donut',
-                    height: 350,
-                    fontFamily: 'Inter, sans-serif'
-                },
-                labels: ['Realisasi', 'Sisa Target'],
-                colors: ['#af101a', '#e0e3e6'],
-                dataLabels: {
-                    enabled: true,
-                    formatter: function (val) {
-                        return val.toFixed(1) + "%"
-                    }
-                },
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '65%',
-                            labels: {
-                                show: true,
-                                name: { show: true },
-                                value: {
+        function updateDonutChart(detailTarget, detailRealisasi) {
+            const el = document.querySelector("#overall-donut-chart");
+            if (!el) return;
+
+            const detailSisa = Math.max(detailTarget - detailRealisasi, 0);
+
+            if (detailTarget > 0 || detailRealisasi > 0) {
+                var donutOptions = {
+                    series: [detailRealisasi, detailSisa],
+                    chart: {
+                        type: 'donut',
+                        height: 350,
+                        fontFamily: 'Inter, sans-serif'
+                    },
+                    labels: ['Realisasi', 'Sisa Target'],
+                    colors: ['#af101a', '#e0e3e6'],
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function (val) {
+                            return val.toFixed(1) + "%"
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '65%',
+                                labels: {
                                     show: true,
-                                    formatter: function (val) {
-                                        return "Rp " + parseInt(val).toLocaleString('id-ID')
-                                    }
-                                },
-                                total: {
-                                    show: true,
-                                    showAlways: true,
-                                    label: 'Total Target',
-                                    formatter: function (w) {
-                                        return "Rp " + detailTarget.toLocaleString('id-ID')
+                                    name: { show: true },
+                                    value: {
+                                        show: true,
+                                        formatter: function (val) {
+                                            return "Rp " + parseInt(val).toLocaleString('id-ID')
+                                        }
+                                    },
+                                    total: {
+                                        show: true,
+                                        showAlways: true,
+                                        label: 'Total Target',
+                                        formatter: function (w) {
+                                            return "Rp " + detailTarget.toLocaleString('id-ID')
+                                        }
                                     }
                                 }
                             }
                         }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return "Rp " + parseInt(val).toLocaleString('id-ID')
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'bottom'
                     }
+                };
+
+                if (donutChart) {
+                    donutChart.destroy();
+                }
+                el.innerHTML = "";
+                donutChart = new ApexCharts(el, donutOptions);
+                donutChart.render();
+            } else {
+                if (donutChart) {
+                    donutChart.destroy();
+                    donutChart = null;
+                }
+                el.innerHTML = "<p class='text-center text-[#5b403d] mt-10'>Data target tidak tersedia</p>";
+            }
+        }
+
+        function updateBarChart(rekeningData) {
+            const el = document.querySelector("#pendapatan-chart");
+            if (!el) return;
+
+            if (!rekeningData || rekeningData.length === 0) {
+                if (barChart) {
+                    barChart.destroy();
+                    barChart = null;
+                }
+                el.innerHTML = "<p class='text-center text-[#5b403d] mt-10'>Tidak ada data untuk ditampilkan</p>";
+                return;
+            }
+
+            const categories = rekeningData.map(item => item.nama_rekening.length > 25 ? item.nama_rekening.substring(0, 25) + '...' : item.nama_rekening);
+            const targetData = rekeningData.map(item => item.target);
+            const realisasiData = rekeningData.map(item => item.realisasi);
+
+            var options = {
+                series: [{
+                    name: 'Target (Rp)',
+                    data: targetData
+                }, {
+                    name: 'Realisasi (Rp)',
+                    data: realisasiData
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    toolbar: {
+                        show: false
+                    },
+                    fontFamily: 'Inter, sans-serif'
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded',
+                        borderRadius: 4
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: categories,
+                    labels: {
+                        style: {
+                            colors: '#5b403d'
+                        }
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (val) {
+                            if(val >= 1000000000) {
+                                return (val / 1000000000).toFixed(1) + ' M';
+                            }
+                            if(val >= 1000000) {
+                                return (val / 1000000).toFixed(1) + ' Jt';
+                            }
+                            return val;
+                        },
+                        style: {
+                            colors: '#5b403d'
+                        }
+                    }
+                },
+                colors: ['#005faf', '#af101a'],
+                fill: {
+                    opacity: 1
                 },
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return "Rp " + parseInt(val).toLocaleString('id-ID')
+                            return "Rp " + val.toLocaleString('id-ID')
                         }
                     }
                 },
                 legend: {
-                    position: 'bottom'
+                    position: 'top',
+                    horizontalAlign: 'right'
                 }
             };
-            var donutChart = new ApexCharts(document.querySelector("#overall-donut-chart"), donutOptions);
-            donutChart.render();
-        } else {
-            document.querySelector("#overall-donut-chart").innerHTML = "<p class='text-center text-[#5b403d] mt-10'>Data target tidak tersedia</p>";
-        }
 
-
-        // Per Rekening Bar Chart
-        const rekeningData = @json($rekeningData);
-        
-        if (rekeningData.length === 0) {
-            document.querySelector("#pendapatan-chart").innerHTML = "<p class='text-center text-[#5b403d] mt-10'>Tidak ada data untuk ditampilkan</p>";
-            return;
-        }
-
-        const categories = rekeningData.map(item => item.nama_rekening.length > 25 ? item.nama_rekening.substring(0, 25) + '...' : item.nama_rekening);
-        const targetData = rekeningData.map(item => item.target);
-        const realisasiData = rekeningData.map(item => item.realisasi);
-
-        var options = {
-            series: [{
-                name: 'Target (Rp)',
-                data: targetData
-            }, {
-                name: 'Realisasi (Rp)',
-                data: realisasiData
-            }],
-            chart: {
-                type: 'bar',
-                height: 350,
-                toolbar: {
-                    show: false
-                },
-                fontFamily: 'Inter, sans-serif'
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded',
-                    borderRadius: 4
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: categories,
-                labels: {
-                    style: {
-                        colors: '#5b403d'
-                    }
-                }
-            },
-            yaxis: {
-                labels: {
-                    formatter: function (val) {
-                        if(val >= 1000000000) {
-                            return (val / 1000000000).toFixed(1) + ' M';
-                        }
-                        if(val >= 1000000) {
-                            return (val / 1000000).toFixed(1) + ' Jt';
-                        }
-                        return val;
-                    },
-                    style: {
-                        colors: '#5b403d'
-                    }
-                }
-            },
-            colors: ['#005faf', '#af101a'],
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return "Rp " + val.toLocaleString('id-ID')
-                    }
-                }
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'right'
+            if (barChart) {
+                barChart.destroy();
             }
-        };
+            el.innerHTML = "";
+            barChart = new ApexCharts(el, options);
+            barChart.render();
+        }
 
-        var chart = new ApexCharts(document.querySelector("#pendapatan-chart"), options);
-        chart.render();
+        updateDonutChart({{ $detail['target'] }}, {{ $detail['realisasi'] }});
+        updateBarChart(@json($rekeningData));
+
+        Livewire.on('detail-chart-updated', (data) => {
+            const payload = Array.isArray(data) ? data[0] : data;
+            updateDonutChart(payload.detail.target, payload.detail.realisasi);
+            updateBarChart(payload.rekeningData);
+        });
     });
 </script>

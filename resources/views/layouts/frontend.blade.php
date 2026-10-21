@@ -51,8 +51,8 @@
                                 </div>
                             </div>
 
-                            <!-- 4. Prog Prioritas -->
-                            <a href="{{ route('under-development', ['feature' => 'Program Prioritas']) }}" class="{{ (request()->routeIs('under-development') && request('feature') === 'Program Prioritas') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all whitespace-nowrap" style="font-family: 'Manrope', sans-serif;">Prog Prioritas</a>
+                            <!-- 4. Program Prioritas -->
+                            <a href="{{ route('program-prioritas.index') }}" class="{{ request()->routeIs('program-prioritas.*') ? 'text-[#af101a] dark:text-[#ffb4ab] border-b-2 border-[#af101a] dark:border-[#ffb4ab] font-bold pb-1' : 'text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a]' }} px-3 py-2 rounded-md font-semibold text-sm transition-all whitespace-nowrap" style="font-family: 'Manrope', sans-serif;">Program Prioritas</a>
 
                             <!-- 5. Layanan Aspirasi dan Pengaduan Online (SP4N-LAPOR!) -->
                             <a href="https://www.lapor.go.id" target="_blank" rel="noopener noreferrer" class="text-[#5b403d] dark:text-[#a0a0a0] hover:text-[#af101a] dark:hover:text-white hover:bg-[#f2f4f7] dark:hover:bg-[#2a2a2a] px-3 py-2 rounded-md font-semibold text-sm transition-all flex items-center gap-1.5 whitespace-nowrap" style="font-family: 'Manrope', sans-serif;" title="Layanan Aspirasi dan Pengaduan Online Rakyat (SP4N-LAPOR!)">

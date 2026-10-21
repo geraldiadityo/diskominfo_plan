@@ -4,20 +4,26 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use App\Repositories\DashboardRepositoryInterface;
 
 #[Layout('layouts.frontend')]
 class DetailJenisPendapatan extends Component
 {
     public $jenis;
+
+    #[Url(as: 'tahun')]
     public $tahun;
+
     public $title;
     public $rekeningData = [];
 
     public function mount($jenis)
     {
         $this->jenis = $jenis;
-        $this->tahun = date('Y');
+        if (!$this->tahun) {
+            $this->tahun = (int) request()->query('tahun', date('Y'));
+        }
 
         $titles = [
             'pajak' => 'Pajak Daerah',
@@ -26,6 +32,15 @@ class DetailJenisPendapatan extends Component
             'lain_lain' => 'Lain-lain PAD Sah',
         ];
 
+        if (!array_key_exists($jenis, $titles)) {
+            abort(404);
+        }
+
+        $this->title = $titles[$jenis];
+    }
+
+    public function render(DashboardRepositoryInterface $repository)
+    {
         $categories = [
             'pajak' => '4.1.01',
             'retribusi' => '4.1.02',
@@ -33,17 +48,9 @@ class DetailJenisPendapatan extends Component
             'lain_lain' => '4.1.04',
         ];
 
-        if (!array_key_exists($jenis, $categories)) {
-            abort(404);
-        }
+        $this->rekeningData = $repository->getDetailRekeningByJenis($categories[$this->jenis], $this->tahun);
+        $availableYears = $repository->getAvailablePendapatanYears();
 
-        $this->title = $titles[$jenis];
-        $repository = app(DashboardRepositoryInterface::class);
-        $this->rekeningData = $repository->getDetailRekeningByJenis($categories[$jenis], $this->tahun);
-    }
-
-    public function render()
-    {
         // Hitung total untuk summary di header/kpi
         $totalTarget = collect($this->rekeningData)->sum('target');
         $totalRealisasi = collect($this->rekeningData)->sum('realisasi');
@@ -51,6 +58,7 @@ class DetailJenisPendapatan extends Component
         $persentase = $totalTarget > 0 ? round(($totalRealisasi / $totalTarget) * 100, 2) : 0;
 
         return view('livewire.detail-jenis-pendapatan', [
+            'availableYears' => $availableYears,
             'summary' => [
                 'target' => $totalTarget,
                 'realisasi' => $totalRealisasi,

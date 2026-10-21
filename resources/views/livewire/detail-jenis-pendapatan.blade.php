@@ -11,7 +11,7 @@
             <li>
                 <div class="flex items-center">
                     <span class="mx-2">/</span>
-                    <a href="{{ route('pendapatan.index') }}" class="hover:text-[#af101a] dark:hover:text-[#ffb4ab] transition-colors">Pendapatan</a>
+                    <a href="{{ route('pendapatan.index', ['tahun' => $tahun]) }}" class="hover:text-[#af101a] dark:hover:text-[#ffb4ab] transition-colors">Pendapatan</a>
                 </div>
             </li>
             <li aria-current="page">
@@ -33,6 +33,21 @@
                 <h2 class="text-3xl font-bold text-[#191c1e] dark:text-white tracking-tight transition-colors" style="font-family: 'Plus Jakarta Sans', sans-serif;">{{ $title }}</h2>
                 <p class="text-[#5b403d] dark:text-[#a0a0a0] mt-1 transition-colors">Rincian pendapatan berdasarkan kode rekening - Tahun {{ $tahun }}</p>
             </div>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center gap-2 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-lg px-3 py-1.5 shadow-sm">
+            <label for="jenis-tahun" class="text-xs font-bold uppercase tracking-wider text-[#5b403d] dark:text-[#a0a0a0] flex items-center gap-1.5 whitespace-nowrap">
+                <svg class="w-4 h-4 text-[#af101a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Tahun Realisasi:
+            </label>
+            <select id="jenis-tahun" wire:model.live="tahun" class="text-sm font-semibold rounded border-none bg-transparent text-[#191c1e] dark:text-white focus:outline-none focus:ring-0 cursor-pointer">
+                @foreach($availableYears as $yearOption)
+                    <option value="{{ $yearOption }}" {{ $tahun == $yearOption ? 'selected' : '' }} class="bg-white dark:bg-[#1e1e1e] text-[#191c1e] dark:text-white">
+                        {{ $yearOption }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div>
 

@@ -52,7 +52,7 @@ class TargetPendapatanResource extends Resource
     {
         $query = parent::getEloquentQuery()->with(['transaksi_pendapatan', 'rekening']);
 
-        if (Auth::user()->role === 'SKPD') {
+        if (in_array(strtoupper(Auth::user()?->role ?? ''), ['SKPD', 'ADMIN_SKPD', 'ADMIN SKPD'])) {
             $query->where('skpd_id', Auth::user()->skpd_id);
         }
 

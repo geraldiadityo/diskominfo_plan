@@ -484,6 +484,49 @@ class DashboardRepository implements DashboardRepositoryInterface
         return $result;
     }
 
+    public function getLastUpdatePendapatan(?int $tahun = null): ?string
+    {
+        $tahun = $tahun ?? date('Y');
+
+        $targetUpdate = TargetPendapatan::where('tahun', $tahun)->max('updated_at');
+        $transaksiUpdate = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+            $q->where('tahun', $tahun);
+        })->max('updated_at');
+
+        $latest = collect([$targetUpdate, $transaksiUpdate])->filter()->max();
+
+        if (!$latest) {
+            $targetCreated = TargetPendapatan::where('tahun', $tahun)->max('created_at');
+            $transaksiCreated = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+                $q->where('tahun', $tahun);
+            })->max('created_at');
+            $latest = collect([$targetCreated, $transaksiCreated])->filter()->max();
+        }
+
+        if (!$latest) {
+            $transaksiTanggal = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+                $q->where('tahun', $tahun);
+            })->max('tanggal_setor');
+            if ($transaksiTanggal) {
+                $latest = $transaksiTanggal . ' 00:00:00';
+            }
+        }
+
+        return $latest ? \Carbon\Carbon::parse($latest)->format('Y-m-d H:i:s') : null;
+    }
+
+    public function getAvailablePendapatanYears(): array
+    {
+        $targetYears = TargetPendapatan::select('tahun')->distinct()->pluck('tahun')->map(fn($y) => (int)$y)->toArray();
+        $currentYear = (int) date('Y');
+        $rangeYears = range($currentYear - 2, $currentYear + 4);
+
+        $years = array_unique(array_merge($targetYears, $rangeYears));
+        sort($years);
+
+        return $years;
+    }
+
     public function getIkuData(array $years = [2025, 2026, 2027, 2028, 2029, 2030])
     {
         $kategoris = \App\Models\KategoriIndikator::where('nama_kategori', 'IKU')->with(['indikators.satuan', 'indikators.skpd', 'indikators.target', 'indikators.realisasi'])->get();

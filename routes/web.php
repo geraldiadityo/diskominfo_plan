@@ -21,4 +21,5 @@ Route::get('/renja/{skpdId}', DetailRenja::class)->name('renja.detail');
 Route::get('/iku', \App\Livewire\PublicIku::class)->name('iku.index');
 Route::get('/kinerja-program', \App\Livewire\PublicKinerjaProgram::class)->name('kinerja-program.index');
 Route::get('/kinerja-penyelenggaraan', \App\Livewire\PublicKinerjaPenyelenggaraan::class)->name('kinerja-penyelenggaraan.index');
+Route::get('/program-prioritas', \App\Livewire\PublicProgramPrioritas::class)->name('program-prioritas.index');
 Route::get('/under-development', \App\Livewire\UnderDevelopment::class)->name('under-development');

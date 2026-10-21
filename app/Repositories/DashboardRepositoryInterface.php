@@ -127,6 +127,21 @@ interface DashboardRepositoryInterface
     public function getPendapatanTree(?int $tahun = null): array;
 
     /**
+     * Get the latest update datetime of Pendapatan (targets / transactions) for a specific year.
+     *
+     * @param int|null $tahun
+     * @return string|null
+     */
+    public function getLastUpdatePendapatan(?int $tahun = null): ?string;
+
+    /**
+     * Get available years for Pendapatan data.
+     *
+     * @return array
+     */
+    public function getAvailablePendapatanYears(): array;
+
+    /**
      * Get Indikator Kinerja Utama (IKU) data grouped by category.
      *
      * @param array $years

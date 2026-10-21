@@ -1,0 +1,337 @@
+[
+  {
+    "program": "Sungai Penuh Maju",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Revitalisasi pasar rakyat dan perdagangan",
+        "detail": "Melakukan revitalisasi, rehabilitasi, dan renovasi kepada pasar rakyat serta relokasi terhadap pedagang untuk menjaga ketertiban dan keindahan kota.",
+        "urusan": [
+          "Urusan Perdagangan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pengembangan UMKM, Industri olahan, Koperasi, Pariwisata, dan Pertanian",
+        "detail": "Pengembangan UMKM, Industri Olahan, Koperasi, Pariwisata, dan Pertanian : a. Koperasi dan UMKM Siap Mandiri dan Bantuan Pemberdayaan UMKM melalui pelatihan, permodalan, dan akses produk ke pasar. b. Pengembangan sentra industri olahan melalui inovasi produk, pelatihan tenaga kerja, dan pemasaran serta pengembangan produk secara digital maupun kerjasama dengan toko ataupun pasar.         c. Peningkatan kesejahteraan petani melalui Tani Juara melalui pelatihan dan pendampingan intensif untuk membekali petani dengan pengetahuan pertanian modern, strategi pemasaran efektif, serta pengelolaan keuangan yang optimal. d. Meningkatkan destinasi wisata Kota Sungai Penuh pada objek wisata alam, budaya, religi, kuliner, dan lain-lain. Disamping itu terdapat juga pengembangan desa wisata digital yaitu program pemberdayaan desa wisata melalui pemanfaatan teknologi digital dalam mengembangkan promosi dengan sosial media maupun website yang menarik, serta pelatihan digital marketing.",
+        "urusan": [
+          "Urusan Koperasi dan UMKM",
+          "Urusan Perindustrian",
+          "Urusan Pariwisata",
+          "Urusan Pertanian"
+        ]
+      },
+      {
+        "indikator_kinerja": "Ruang Kreatif Bagi Anak Muda",
+        "detail": "Hadir sebagai wadah bagi anak muda untuk berkreasi, berkolaborasi, dan mengembangkan potensi diri yang dilengkapi dengan fasilitas internet gratis, co-working space yang nyaman, serta pembentukan \nkelompok ekonomi kreatif pada masing masing wilayah.",
+        "urusan": [
+          "Urusan Pariwisata",
+          "Urusan Kepemudaan dan Olahraga"
+        ]
+      },
+      {
+        "indikator_kinerja": "Program Sungai Penuh Bekerja",
+        "detail": "Pelatihan dan sertifikasi keterampilan melalui kerjasama dengan perusahaan lokal untuk penempatan kerja, serta dukungan bagi wirausaha pemula atau start-up.",
+        "urusan": [
+          "Urusan Tenaga Kerja",
+          "Urusan Koperasi dan UMKM"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Sejahtera",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Bantuan seragam gratis kepada siswa",
+        "detail": "Pembagian 2 pasang seragam gratis kepada peserta didik yang masuk  Sekolah Dasar (SD) dan Sekolah Menengah Pertama (SMP) serta MI dan MTS se - Kota Sungai Penuh",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Bantuan Beasiswa Pendidikan (Beasiswa Sungai Penuh Juara)",
+        "detail": "Pemberian Beasiswa kepada peserta didik tingkat Sekolah Dasar (SD) dan Sekolah Menengah Pertama (SMP) bagi siswa kurang mampu dan siswa berprestasi",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Bantuan Beasiswa Bagi Mahasiswa Kedokteran (Beasiswa Sungai Penuh Cerdas)",
+        "detail": "Pemberian Beasiswa kepada mahasiswa kedokteran untuk memfasilitasi mahasiswa berprestasi dari keluarga kurang mampu dalam meraih pendidikan dokter.",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Bantuan Beasiswa Untuk Mahasiswa/i Berprestasi (Hafidz Al-Quran, dll) dan Tidak Mampu Serta Bantuan Biaya Skripsi",
+        "detail": "Memberikan beasiswa kepada mahasiswa/i Kota Sungai Penuh dan Bantuan uang untuk penyelesaian Tugas Akhir bagi mahasiswa kurang mampu.",
+        "urusan": [
+          "Bagian Kesejahteraan Rakyat"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pengembangan Muatan Lokal",
+        "detail": "Meningkatkan kemampuan pemahaman siswa dalam pelajaran Pendidikan Agama Islam (PAI) untuk menghasilkan siswa yang mampu baca, tulis, hafal al-qur'an (BTA) dan mengetahui karakter budaya incung.",
+        "urusan": [
+          "Urusan Pendidikan",
+          "Urusan Kebudayaan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Meningkatkan Honor Guru Ngaji, TPA/TPQ, Guru MDT, Pegawai Syara' Serta Memperhatikan Kesejahteraan Para Pelaku Budaya Dan Seni",
+        "detail": "Pemberian honor kepada guru ngaji, TPA/TPQ, Guru MDT dan Pegawai Syara' yang disalurkan melalui rekening masing-masing setiap triwulan sekali, serta memberikan bantuan hibah terhadap para pelaku Budaya dan Seni.",
+        "urusan": [
+          "Urusan Pendidikan",
+          "Urusan Kebudayaan",
+          "Bagian Kesejahteraan Rakyat"
+        ]
+      },
+      {
+        "indikator_kinerja": "Memperhatikan Kesejahteraan Pimpinan dan Anggota BPD",
+        "detail": "Memperhatikan kesejahteraan Pimpinan dan Anggota BPD untuk memaksimalkan kinerja pemerintahan desa dengan mempertimbangkan kondisi keuangan daerah.",
+        "urusan": [
+          "Urusan Pemberdayaan Masyarakat dan Desa"
+        ]
+      },
+      {
+        "indikator_kinerja": "Berobat Gratis 100%",
+        "detail": "Mencapai angka presentase berobat gratis pada jaminan kesehatan / BPJS (UHC) sebesar 100 % (Seratus Persen).",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Rumah Sakit Melayani Dengan Ramah dan Sepenuh Hati Serta Memberikan Apresiasi Bagi Nakes yang Berprestasi.",
+        "detail": "Meningkatkan Sumber Daya Manusia (SDM) bagi Tenaga Kesehatan Rumah Sakit untuk memberikan pelayanan ramah dan sepenuh hati bagi masyarakat yang berobat dan peningkatan infrastruktur rumah sakit yang nyaman. Dan memberikan penghargaan bagi Tenaga Kesehatan yang berprestasi",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Puskesmas Paripurna",
+        "detail": "Mencapai standar Akreditasi Paripurna (Tingkat Tertinggi) pada seluruh Puskesmas Kota Sungai Penuh dalam memberikan pelayanan terbaik kepada masyarakat.",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Nyaman",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Pembangunan dan pengelolaan TPS3R",
+        "detail": "Pelaksanaan pembangunan infrastruktur Tempat Pengelolaan Sampah Reduce, Reuse, Recycle (TPS3R) atau Tempat Pembuangan Sampah Terpadu (TPST) di Tingkat Desa/Kecamatan/Regional secara bertahap dan menyeluruh.  a. Penanganan dan Pengelolaan sampah di Desa dan Kecamatan  b. Penyelesaian TPS3R (Tempat Pengelolaan Sampah Reduce, Reuse, dan Recycle) Skala Regional c. Pengadaan Armada Pengangkutan Sampah untuk mengangkut sampah-sampah residu d.  Program Penanganan dan Pengelolaan Sampah menjadi sesuatu yang berguna dan bernilai tinggi.",
+        "urusan": [
+          "Urusan Lingkungan Hidup",
+          "Urusan Pemberdayaan Masyarakat dan Desa"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pelayanan Air Bersih 100% dan Berkualitas",
+        "detail": "Pengembangan jaringan pipa distribusi, pemasangan sambungan rumah baru untuk menjangkau masyarakat yang belum terlayani, perbaikan infrastruktur sumber air maupun perpipaan, dan peningakatan pelayanan Perumda Tirta Khayangan.",
+        "urusan": [
+          "Urusan Pekerjaan Umum dan Penataan Ruang"
+        ]
+      },
+      {
+        "indikator_kinerja": "Penyelesaian titik genangan dan pencegahan banjir",
+        "detail": "Fokus pada normalisasi dan perbaikan saluran drainase serta sistem irigasi, dan perbaikan dinding sungai yang menjadi kewenangan Pemerintah Daerah.",
+        "urusan": [
+          "Urusan Pekerjaan Umum dan Penataan Ruang",
+          "Urusan Perumahan dan Kawasan Permukiman"
+        ]
+      },
+      {
+        "indikator_kinerja": "Jalan Lingkungan dan Jalan Perkotaan Mulus Serta Terang Bendenderang",
+        "detail": "Memastikan kondisi seluruh jalan dan jembatan lingkungan maupun perkotaan dalam kondisi Mantap atau Mulus untuk memfasilitasi kelancaran transportasi dan mobilitas Masyarakat serta menjamin ketersediaan infrastruktur dan fasilitas Penerangan Jalan Umum pada titik-titik krusial  yang mendukung kegiatan ekonomi, sosial, dan budaya.",
+        "urusan": [
+          "Urusan Pekerjaan Umum dan Penataan Ruang",
+          "Urusan Perumahan dan Kawasan Permukiman",
+          "Urusan Perhubungan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pengembangan Layanan Berbasis Digitalisasi, Satu Data, dan Inovasi Pelayanan Masyarakat",
+        "detail": "Penguatan Ekosistem Smart City Melalui: a. Digitalisasi pelayanan dengan inovasi aplikasi b. Pembangunan portal Satu Data yang terintegrasi c. Penyediaan internet gratis / WiFi (Sungai Penuh Terkoneksi) bagi masyarakat di fasilitas publik d. Meningkatkan Keamanan Lingkungan Masyarakat Dengan Melengkapi CCTV (CCTV Juara) disetiap Titik Rawan Pada Tingkat Desa dan Kecamatan",
+        "urusan": [
+          "Urusan Komunikasi, Informatika, Statistik dan Persandian",
+          "Urusan Pemberdayaan Masyarakat dan Desa"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Unggul",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Beasiswa bagi yang kurang mampu, berprestasi, dan hafidz",
+        "detail": "Pemberian beasiswa kepada siswa dan mahasiswa kurang mampu, siswa berprestasi, dan hafidz.",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pakaian sekolah gratis",
+        "detail": "Pemberian pakaian sekolah gratis kepada seluruh siswa sekolah negeri yang baru memasuki jenjang sekolah pada setiap tingkatan.",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Peningkatan kompetensi guru dan kurikulum keagamaan",
+        "detail": "Peningkatan kompetensi guru dan kurikulum keagamaan melalui pelatihan penyusunan kurikulum dan RPP muatan lokal keagamaan dan kebudayaan.",
+        "urusan": [
+          "Urusan Pendidikan"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Sehat",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Revitalisasi pelayanan kesehatan",
+        "detail": "Revitalisasi pelayanan kesehatan utamanya pada fasilitas kesehatan Rumah Sakit Umum Daerah (RSUD) Mayjen H.A. Thalib dan Rumah Sakit Umum Daerah (RSUD) H. Bakri melalui peningkatan sarana, prasarana, alat kesehatan, dan SDM kesehatan serta peningkatan kualitas manajemen dan pelayanan RSUD.",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Kesehatan gratis (cakupan 100% BPJS Kesehatan aktif)",
+        "detail": "Penambahan kepesertaan BPJS kelas 3 dan pembayaran kepesertaan BPJS kelas 3 yang tidak aktif.",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Bantuan gizi bagi anak balita dan ibu hamil",
+        "detail": "Program ini bertujuan untuk mengatasi persoalan stunting yang harus ditangani secara langsung dan massal oleh Pemerintah dan Pemerindah Daerah untuk memastikan tercapainya kualitas SDM dan kualitas hidup yang baik.",
+        "urusan": [
+          "Urusan Kesehatan"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Agamais",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Gerakan sholat berjamaah",
+        "detail": "Gerakan Sholat Berjamaah merupakan bagian dari upaya Pemerintah Kota Sungai Penuh untuk menyemarakan tempat ibadah.",
+        "urusan": [
+          "Urusan Sekretariat Daerah"
+        ]
+      },
+      {
+        "indikator_kinerja": "Peningkatan insentif bagi guru ngaji, imam, dan marbot",
+        "detail": "Peningkatan insentif bagi guru ngaji, imam, dan marbot pada masjid di lingkup Kota Sungai Penuh sesuai dengan kewenangan masing-masing.",
+        "urusan": [
+          "Urusan Sekretariat Daerah"
+        ]
+      },
+      {
+        "indikator_kinerja": "Sungai penuh mengaji",
+        "detail": "Sungai Penuh Mengaji merupakan upaya untuk menumbuhkan generasi yang cerdas dan berakhlak mulia melalui Gerakan Tahfidz Qur’an, Pembelajaran Al-Qur’an, dan Kegiatan Mengaji Bersama. Kegiatan ini tidak lepas pula dari bantuan berbagai pihak terkait, seperti Kementerian Agama kota Sungai Penuh, MUI, dan Ormas Islam.",
+        "urusan": [
+          "Urusan Sekretariat Daerah"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Perempuan Berdaya",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Peningkatan insentif kader dan dana operasional posyandu terintegrasi",
+        "detail": "Peningkatan insentif bagi kader PKK dan kader posyandu terintegrasi sesuai dengan kewenangan masing-masing",
+        "urusan": [
+          "Urusan Pemberdayaan Masyarakat dan Desa",
+          "Urusan Kesehatan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Lansia sehat bahagia",
+        "detail": "Inisiatif yang bertujuan untuk meningkatkan kualitas hidup lansia, mencakup aspek kesehatan fisik, mental, spiritual, dan sosial, serta melibatkan keluarga dan masyarakat dalam mendukung kesejahteraan lansia.",
+        "urusan": [
+          "Urusan Kesehatan",
+          "Urusan Pengendalian Penduduk dan Keluarga Berencana"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pemberdayaan serta perlindungan perempuan dan anak",
+        "detail": "Penanganan terpadu tidak kekerasan terhadap perempuan dan anak melalui : Layanan Pengaduan dan Konselor untuk pendampingan penanganan kasus.",
+        "urusan": [
+          "Urusan Pemberdayaan Perempuan dan Perlindungan Anak"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Ilok",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Penataan kota dan peningkatan infrastruktur dasar",
+        "detail": "Penataan kawasan perkotaan dan infrastruktur dasar berupa peningkatan jalan, trotoar, taman kota, layanan air minum, layanan sanitasi, hingga rumah layak huni. Disamping itu, penataan kota juga termasuk pada penataan parkir dan bongkar muat.",
+        "urusan": [
+          "Urusan Pekerjaan Umum dan Penataan Ruang",
+          "Urusan Perumahan dan Permukiman",
+          "Urusan Perhubungan"
+        ]
+      },
+      {
+        "indikator_kinerja": "Penanganan sampah dan banjir secara terpadu",
+        "detail": "Penanganan sampah dan banjir secara terpadu melalui : a.Pembangunan dan pengelolaan sampah melalui TPS3R pada setiap desa dan kelurahan; b. Pembangunan dan pengelolaan sampah melalui TPST; c. Bank Sampah Per Kecamatan dengan tujuan utama untuk mengurangi sampah dari sumber; d. Pembangunan embung dan kolam retensi; e. Penataan jaringan drainase dan revitalisasi saluran drainase; f. Pembangunan tanggul sungai; g. Normalisasi sungai; h. Peningkatan kesadaran dan edukasi kepada masyarakat dalam penanganan sampah dan banjir.",
+        "urusan": [
+          "Urusan Lingkungan Hidup",
+          "Urusan Pekerjaan Umum dan Penataan Ruang",
+          "Urusan Ketentraman dan Ketertiban Umum Serta Perlindungan Masyarakat"
+        ]
+      }
+    ]
+  },
+  {
+    "program": "Sungai Penuh Melayani",
+    "indikator_kinerja": [
+      {
+        "indikator_kinerja": "Digitalisasi pelayanan publik",
+        "detail": "Transformasi layanan publik dari manual menjadi layanan berbasis teknologi digital pada seluruh Perangkat Daerah lingkup Pemerintah Kota Sungai Penuh untuk meningkatkan efisiensi, transparansi, dan kemudahan akses bagi masyarakat.",
+        "urusan": [
+          "Urusan Komunikasi dan Informatika"
+        ]
+      },
+      {
+        "indikator_kinerja": "Optimalisasi PAD",
+        "detail": "Melakukan intensifikasi dan ekstensifikasi subjek dan objek pendapatan daerah. Intensifikasi terhadap objek atau sumber pendapatan daerah yang sudah ada terutama melalui pemanfaatan teknologi informasi guna mempermudah sistem pemungutan pajak. Kemudian melalui upaya ekstensifikasi yaitu mencari sumber penerimaan baru.",
+        "urusan": [
+          "Urusan Keuangan",
+          "PD Pengelola PAD"
+        ]
+      },
+      {
+        "indikator_kinerja": "Pelayanan publik yang prima tanpa pungli dan diskriminasi SARA melalui program walikota mengawasi",
+        "detail": "Pelayanan publik yang cepat, tepat, transparan dan akuntabel tanpa biaya untuk seluruh lapisan masyarakat serta layanan aspirasi dan pengaduan online rakyat kepada Walikota Sungai Penuh melalui website Pemerintah Kota Sungai Penuh.",
+        "urusan": [
+          "Urusan Komunikasi dan Informatika",
+          "Seluruh PD"
+        ]
+      },
+      {
+        "indikator_kinerja": "Kartu Sungai Penuh Juara",
+        "detail": "Kartu Sungai Penuh Juara digunakan bagi masyarakat yang tidak mampu yang multifungsi (untuk akses beasiswa, akses kesehatan, akses permodalan bagi pelaku UMKM Juara, dan hal-hal kebutuhan yang\nterkait dukungan kepada masyarakat yang tidak mampu).",
+        "urusan": [
+          "Urusan Pendidikan",
+          "Urusan Kesehatan",
+          "Urusan Koperasi dan UMKM"
+        ]
+      },
+      {
+        "indikator_kinerja": "Penempatan pejabat ASN sesuai dengan kompetensi dan tanpa gratifikasi",
+        "detail": "Penerapan sistem merit dalam manajemen ASN untuk memastikan ASN yang profesional, berintegritas, dan mampu menjalankan tugas dengan baik.",
+        "urusan": [
+          "Urusan Kepegawaian",
+          "Urusan Pendidikan dan Pelatihan"
+        ]
+      }
+    ]
+  }
+]

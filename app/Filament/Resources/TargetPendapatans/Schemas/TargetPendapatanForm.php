@@ -22,12 +22,17 @@ class TargetPendapatanForm
                 Section::make('Informasi Target Pendapatan')
                     ->schema([
                         Select::make('skpd_id')
-                            ->relationship('skpd', 'nama_skpd')
-                            ->default(fn() => Auth::user()->skpd_id)
-                            ->disabled(fn() => Auth::user()->role === 'SKPD')
+                            ->relationship(
+                                name: 'skpd',
+                                titleAttribute: 'nama_skpd',
+                                modifyQueryUsing: fn(Builder $query) => $query->orderBy('nama_skpd')
+                            )
+                            ->default(fn() => Auth::user()?->skpd_id)
+                            ->disabled(fn() => in_array(strtoupper(Auth::user()?->role ?? ''), ['SKPD', 'ADMIN_SKPD', 'ADMIN SKPD']))
                             ->dehydrated()
                             ->required()
                             ->searchable()
+                            ->preload()
                             ->columnSpanFull(),
 
                         TextInput::make('tahun')

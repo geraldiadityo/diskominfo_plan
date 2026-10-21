@@ -1,23 +1,41 @@
 <div>
     <div class="max-w-[1400px] mx-auto px-4 py-8 sm:px-6 lg:px-8">
         
-        <!-- Page Title -->
-        <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-[#191c1e] text-center w-full" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+        <!-- Page Title & Year Filter -->
+        <div class="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="hidden sm:block w-48"></div>
+            <h1 class="text-2xl font-bold text-[#191c1e] text-center" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 PENDAPATAN KESELURUHAN
             </h1>
+            <div class="flex items-center gap-2 bg-white border border-[#e0e3e6] rounded-[8px] px-3 py-1.5 shadow-sm">
+                <label for="filter-tahun" class="text-xs font-bold uppercase tracking-wider text-[#5b403d] flex items-center gap-1.5 whitespace-nowrap">
+                    <svg class="w-4 h-4 text-[#ba1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Tahun Realisasi:
+                </label>
+                <select id="filter-tahun" wire:model.live="tahun" class="text-sm font-semibold rounded border-none bg-transparent text-[#191c1e] focus:outline-none focus:ring-0 cursor-pointer">
+                    @foreach($availableYears as $yearOption)
+                        <option value="{{ $yearOption }}" {{ $tahun == $yearOption ? 'selected' : '' }}>
+                            {{ $yearOption }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <!-- Info Banner -->
-        <div class="bg-[#f2f4f7] border border-[#e0e3e6] rounded-[8px] p-3 mb-6 flex items-center text-sm" style="font-family: 'Inter', sans-serif;">
-            <div class="mr-2 text-[#ba1a1a]">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+        <div class="bg-[#f2f4f7] border border-[#e0e3e6] rounded-[8px] p-3 mb-6 flex flex-wrap items-center gap-2 text-sm" style="font-family: 'Inter', sans-serif;">
+            <div class="flex items-center">
+                <div class="mr-2 text-[#ba1a1a]">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                </div>
+                <span class="text-[#191c1e] font-semibold mr-1">data yang ditampilkan terakhir update</span> 
+                <span class="text-[#ba1a1a] font-bold">{{ $lastUpdate ?? '-' }}</span>
             </div>
-            <span class="text-[#191c1e] font-semibold mr-1">data yang ditampilkan terakhir update</span> 
-            <span class="text-[#ba1a1a]">{{ $lastUpdate }}</span>
             
             <!-- Link Back -->
-            <a href="{{ route('pendapatan.index') }}" wire:navigate class="ml-auto text-[#005faf] hover:underline font-semibold flex items-center text-sm">
+            <a href="{{ route('pendapatan.index', ['tahun' => $tahun]) }}" wire:navigate class="ml-auto text-[#005faf] hover:underline font-semibold flex items-center text-sm">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Kembali ke Rekapitulasi
             </a>

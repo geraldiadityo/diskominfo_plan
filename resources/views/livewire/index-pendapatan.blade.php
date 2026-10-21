@@ -28,8 +28,25 @@
                 <p class="text-[#5b403d] dark:text-[#a0a0a0] mt-1 transition-colors">Daftar target dan realisasi pendapatan per Organisasi Perangkat Daerah (OPD) - Tahun {{ $tahun }}</p>
             </div>
         </div>
-        <div class="mt-4 md:mt-0">
-            <a href="{{ route('public.pendapatan') }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 bg-[#af101a] hover:bg-[#93000a] text-white rounded-lg font-semibold text-sm transition-colors shadow-sm" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+        <div class="mt-4 md:mt-0 flex flex-wrap items-center gap-3">
+            <!-- Year Filter -->
+            <div class="flex items-center gap-2 bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-lg px-3 py-1.5 shadow-sm">
+                <label for="index-tahun" class="text-xs font-bold uppercase tracking-wider text-[#5b403d] dark:text-[#a0a0a0] flex items-center gap-1.5 whitespace-nowrap">
+                    <svg class="w-4 h-4 text-[#af101a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    Tahun Realisasi:
+                </label>
+                <select id="index-tahun" wire:model.live="tahun" class="text-sm font-semibold rounded border-none bg-transparent text-[#191c1e] dark:text-white focus:outline-none focus:ring-0 cursor-pointer">
+                    @foreach($availableYears as $yearOption)
+                        <option value="{{ $yearOption }}" {{ $tahun == $yearOption ? 'selected' : '' }} class="bg-white dark:bg-[#1e1e1e] text-[#191c1e] dark:text-white">
+                            {{ $yearOption }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <a href="{{ route('public.pendapatan', ['tahun' => $tahun]) }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 bg-[#af101a] hover:bg-[#93000a] text-white rounded-lg font-semibold text-sm transition-colors shadow-sm" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                 Pendapatan Keseluruhan
             </a>
@@ -119,7 +136,7 @@
 
                         <!-- Link -->
                         <div class="text-right mt-auto">
-                            <a href="{{ route('pendapatan.jenis', ['jenis' => $key]) }}" class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity inline-flex items-center gap-1 focus:outline-none cursor-pointer">
+                            <a href="{{ route('pendapatan.jenis', ['jenis' => $key, 'tahun' => $tahun]) }}" class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity inline-flex items-center gap-1 focus:outline-none cursor-pointer">
                                 Lihat Detail 
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
                             </a>
@@ -164,7 +181,7 @@
                             {{ number_format($skpd['sisa'], 0, ',', '.') }}
                         </td>
                         <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <a href="{{ route('pendapatan.detail', $skpd['id']) }}" class="inline-flex items-center gap-1 text-[#005faf] dark:text-[#7bb4ff] hover:text-[#af101a] dark:hover:text-[#ffb4ab] font-semibold transition-colors bg-white dark:bg-[#121212] hover:bg-[#ffdad6] dark:hover:bg-[#2a2a2a] border border-[#005faf] dark:border-[#7bb4ff] hover:border-[#af101a] dark:hover:border-[#ffb4ab] px-3 py-1.5 rounded-lg text-xs" style="font-family: 'Manrope', sans-serif;">
+                            <a href="{{ route('pendapatan.detail', ['skpdId' => $skpd['id'], 'tahun' => $tahun]) }}" class="inline-flex items-center gap-1 text-[#005faf] dark:text-[#7bb4ff] hover:text-[#af101a] dark:hover:text-[#ffb4ab] font-semibold transition-colors bg-white dark:bg-[#121212] hover:bg-[#ffdad6] dark:hover:bg-[#2a2a2a] border border-[#005faf] dark:border-[#7bb4ff] hover:border-[#af101a] dark:hover:border-[#ffb4ab] px-3 py-1.5 rounded-lg text-xs" style="font-family: 'Manrope', sans-serif;">
                                 Lihat Detail
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </a>
@@ -198,68 +215,85 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     document.addEventListener('livewire:initialized', () => {
-        const totalTarget = {{ $skpds->sum('target') }};
-        const totalRealisasi = {{ $skpds->sum('realisasi') }};
-        const sisaTarget = Math.max(totalTarget - totalRealisasi, 0);
-        
-        var options = {
-            series: [totalRealisasi, sisaTarget],
-            chart: {
-                type: 'donut',
-                height: 320,
-                fontFamily: 'Inter, sans-serif'
-            },
-            labels: ['Realisasi', 'Sisa Target'],
-            colors: ['#af101a', '#e0e3e6'],
-            dataLabels: {
-                enabled: true,
-                formatter: function (val) {
-                    return val.toFixed(1) + "%"
-                }
-            },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        labels: {
-                            show: true,
-                            name: {
+        let chart = null;
+
+        function renderOrUpdateChart(totalTarget, totalRealisasi) {
+            const sisaTarget = Math.max(totalTarget - totalRealisasi, 0);
+
+            var options = {
+                series: [totalRealisasi, sisaTarget],
+                chart: {
+                    type: 'donut',
+                    height: 320,
+                    fontFamily: 'Inter, sans-serif'
+                },
+                labels: ['Realisasi', 'Sisa Target'],
+                colors: ['#af101a', '#e0e3e6'],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function (val) {
+                        return val.toFixed(1) + "%"
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '65%',
+                            labels: {
                                 show: true,
-                            },
-                            value: {
-                                show: true,
-                                formatter: function (val) {
-                                    return "Rp " + parseInt(val).toLocaleString('id-ID')
-                                }
-                            },
-                            total: {
-                                show: true,
-                                showAlways: true,
-                                label: 'Total Target',
-                                formatter: function (w) {
-                                    return "Rp " + totalTarget.toLocaleString('id-ID')
+                                name: {
+                                    show: true,
+                                },
+                                value: {
+                                    show: true,
+                                    formatter: function (val) {
+                                        return "Rp " + parseInt(val).toLocaleString('id-ID')
+                                    }
+                                },
+                                total: {
+                                    show: true,
+                                    showAlways: true,
+                                    label: 'Total Target',
+                                    formatter: function (w) {
+                                        return "Rp " + totalTarget.toLocaleString('id-ID')
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return "Rp " + parseInt(val).toLocaleString('id-ID')
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return "Rp " + parseInt(val).toLocaleString('id-ID')
+                        }
                     }
+                },
+                legend: {
+                    position: 'right',
+                    offsetY: 0,
+                    height: 230,
                 }
-            },
-            legend: {
-                position: 'right',
-                offsetY: 0,
-                height: 230,
-            }
-        };
+            };
 
-        var chart = new ApexCharts(document.querySelector("#overall-chart"), options);
-        chart.render();
+            const el = document.querySelector("#overall-chart");
+            if (!el) return;
+
+            if (chart) {
+                chart.updateOptions(options);
+                chart.updateSeries([totalRealisasi, sisaTarget]);
+            } else {
+                chart = new ApexCharts(el, options);
+                chart.render();
+            }
+        }
+
+        renderOrUpdateChart({{ $skpds->sum('target') }}, {{ $skpds->sum('realisasi') }});
+
+        Livewire.on('chart-data-updated', (data) => {
+            const payload = Array.isArray(data) ? data[0] : data;
+            renderOrUpdateChart(payload.target, payload.realisasi);
+        });
     });
 </script>
 </div>

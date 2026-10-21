@@ -7,20 +7,24 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class TargetPendapatansTable
 {
     public static function configure(Table $table): Table
     {
+        $isAdminSkpd = in_array(strtoupper(Auth::user()?->role ?? ''), ['SKPD', 'ADMIN_SKPD', 'ADMIN SKPD']);
+
         return $table
             ->columns([
                 //
                 TextColumn::make('skpd.nama_skpd')
                     ->label('SKPD')
-                    ->hidden(fn() => Auth::user()->role === 'SKPD')
+                    ->hidden(fn() => $isAdminSkpd)
                     ->searchable(),
 
                 TextColumn::make('rekening.uraian')
@@ -59,18 +63,31 @@ class TargetPendapatansTable
                     ->badge(),
             ])
             ->filters([
-                //
+                SelectFilter::make('skpd_id')
+                    ->label('Pilih SKPD')
+                    ->relationship(
+                        name: 'skpd',
+                        titleAttribute: 'nama_skpd',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('nama_skpd')
+                    )
+                    ->searchable()
+                    ->preload()
+                    ->placeholder('Semua SKPD')
+                    ->visible(fn() => !$isAdminSkpd),
+
                 SelectFilter::make('tahun')
-                    ->options([
-                        '2025' => '2025',
-                        '2026' => '2026',
-                        '2027' => '2027',
-                        '2028' => '2028',
-                        '2029' => '2029',
-                        '2030' => '2030'
-                    ])
-                    ->default(date('Y'))
-            ])
+                    ->label('Tahun Realisasi')
+                    ->options(function () {
+                        $dbYears = TargetPendapatan::select('tahun')->distinct()->pluck('tahun')->map(fn($y) => (string) $y)->toArray();
+                        $currentYear = (int) date('Y');
+                        $rangeYears = array_map('strval', range($currentYear - 2, $currentYear + 4));
+                        $all = array_unique(array_merge($dbYears, $rangeYears));
+                        sort($all);
+                        return array_combine($all, $all);
+                    })
+                    ->default(date('Y')),
+            ], layout: FiltersLayout::AboveContent)
+            ->filtersFormColumns(fn() => $isAdminSkpd ? 1 : 2)
             ->recordActions([
                 EditAction::make(),
             ])

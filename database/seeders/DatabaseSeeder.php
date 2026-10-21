@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         //     IndikatorIkuSeeder::class,
         //     RealisasiIndikatorIkuSeeder::class,
         // ]);
+
+        $this->call(ProgulSeeder::class);
     }
 }

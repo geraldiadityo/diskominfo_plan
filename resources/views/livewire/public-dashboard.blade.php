@@ -6,7 +6,7 @@
             <div>
                 <h1 class="text-3xl font-bold text-[#191c1e] dark:text-white tracking-tight"
                     style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                    Anggaran Pendapatan Dan Belanja Daerah
+                    Pendapatan Dan Belanja Daerah
                 </h1>
                 <p class="mt-2 text-[#5b403d] dark:text-[#a0a0a0] text-base" style="font-family: 'Inter', sans-serif;">
                     Visualisasi data statistik kemajuan rencana kerja dan pendapatan daerah.
@@ -105,8 +105,10 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-8">
 
             <!-- Detail Pendapatan Section -->
-            <div class="bg-white dark:bg-[#121212] rounded-[8px] border border-[#e0e3e6] dark:border-[#1f1f1f] shadow-sm overflow-hidden transition-colors" wire:ignore>
-                <div class="px-6 py-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">
+            <div class="bg-white dark:bg-[#121212] rounded-[8px] border border-[#e0e3e6] dark:border-[#1f1f1f] shadow-sm overflow-hidden transition-colors"
+                wire:ignore>
+                <div
+                    class="px-6 py-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">
                     <h3 class="text-lg font-semibold text-[#191c1e] dark:text-white"
                         style="font-family: 'Plus Jakarta Sans', sans-serif;">Pendapatan Daerah Keseluruhan</h3>
                     <a href="{{ route('pendapatan.index') }}"
@@ -118,23 +120,29 @@
                 </div>
                 <div class="p-6">
                     <div class="flex flex-col gap-4 mb-6">
-                        <div class="bg-[#f7f9fc] dark:bg-[#1a1a1a] rounded-[8px] p-4 border border-[#e0e3e6] dark:border-[#1f1f1f] transition-colors">
-                            <div class="text-sm text-[#5b403d] dark:text-[#a0a0a0] mb-1 font-semibold">Total Target Keseluruhan</div>
+                        <div
+                            class="bg-[#f7f9fc] dark:bg-[#1a1a1a] rounded-[8px] p-4 border border-[#e0e3e6] dark:border-[#1f1f1f] transition-colors">
+                            <div class="text-sm text-[#5b403d] dark:text-[#a0a0a0] mb-1 font-semibold">Total Target
+                                Keseluruhan</div>
                             <div class="text-xl font-bold text-[#191c1e] dark:text-white"
                                 style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                 Rp {{ number_format($chartDataPendapatan['target'], 0, ',', '.') }}
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-[#dbf9ff]/30 dark:bg-[#004f58]/20 rounded-[8px] p-4 border border-[#004f58]/20 dark:border-[#004f58]/50 transition-colors">
-                                <div class="text-sm text-[#004f58] dark:text-[#4fd8e6] mb-1 font-semibold">Total Realisasi</div>
+                            <div
+                                class="bg-[#dbf9ff]/30 dark:bg-[#004f58]/20 rounded-[8px] p-4 border border-[#004f58]/20 dark:border-[#004f58]/50 transition-colors">
+                                <div class="text-sm text-[#004f58] dark:text-[#4fd8e6] mb-1 font-semibold">Total
+                                    Realisasi</div>
                                 <div class="text-xl font-bold text-[#004f58] dark:text-[#4fd8e6]"
                                     style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                     Rp {{ number_format($chartDataPendapatan['realisasi'], 0, ',', '.') }}
                                 </div>
                             </div>
-                            <div class="bg-[#ffdad6]/30 dark:bg-[#af101a]/20 rounded-[8px] p-4 border border-[#af101a]/20 dark:border-[#af101a]/50 transition-colors">
-                                <div class="text-sm text-[#af101a] dark:text-[#ffb4ab] mb-1 font-semibold">Sisa Target</div>
+                            <div
+                                class="bg-[#ffdad6]/30 dark:bg-[#af101a]/20 rounded-[8px] p-4 border border-[#af101a]/20 dark:border-[#af101a]/50 transition-colors">
+                                <div class="text-sm text-[#af101a] dark:text-[#ffb4ab] mb-1 font-semibold">Sisa Target
+                                </div>
                                 <div class="text-xl font-bold text-[#af101a] dark:text-[#ffb4ab]"
                                     style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                     Rp
@@ -150,10 +158,12 @@
             </div>
 
             <!-- Detail Renja Section -->
-            <div class="bg-white dark:bg-[#121212] rounded-[8px] border border-[#e0e3e6] dark:border-[#1f1f1f] shadow-sm overflow-hidden transition-colors" wire:ignore>
-                <div class="px-6 py-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">
+            <div class="bg-white dark:bg-[#121212] rounded-[8px] border border-[#e0e3e6] dark:border-[#1f1f1f] shadow-sm overflow-hidden transition-colors"
+                wire:ignore>
+                <div
+                    class="px-6 py-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">
                     <h3 class="text-lg font-semibold text-[#191c1e] dark:text-white"
-                        style="font-family: 'Plus Jakarta Sans', sans-serif;">Belanja Daerah</h3>
+                        style="font-family: 'Plus Jakarta Sans', sans-serif;">Realisasi Belanja Daerah</h3>
                     <a href="{{ route('renja.index') }}"
                         class="text-sm font-semibold text-[#004f58] dark:text-[#4fd8e6] hover:text-[#003840] dark:hover:text-white transition-colors flex items-center gap-1">Lihat
                         Detail <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,23 +173,29 @@
                 </div>
                 <div class="p-6">
                     <div class="flex flex-col gap-4 mb-6">
-                        <div class="bg-[#f7f9fc] dark:bg-[#1a1a1a] rounded-[8px] p-4 border border-[#e0e3e6] dark:border-[#1f1f1f] transition-colors">
-                            <div class="text-sm text-[#5b403d] dark:text-[#a0a0a0] mb-1 font-semibold">Total Pagu/Target Keseluruhan</div>
+                        <div
+                            class="bg-[#f7f9fc] dark:bg-[#1a1a1a] rounded-[8px] p-4 border border-[#e0e3e6] dark:border-[#1f1f1f] transition-colors">
+                            <div class="text-sm text-[#5b403d] dark:text-[#a0a0a0] mb-1 font-semibold">Total Pagu/Target
+                                Keseluruhan</div>
                             <div class="text-xl font-bold text-[#191c1e] dark:text-white"
                                 style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                 Rp {{ number_format($chartDataRenja['target'], 0, ',', '.') }}
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-[#dbf9ff]/30 dark:bg-[#004f58]/20 rounded-[8px] p-4 border border-[#004f58]/20 dark:border-[#004f58]/50 transition-colors">
-                                <div class="text-sm text-[#004f58] dark:text-[#4fd8e6] mb-1 font-semibold">Total Realisasi</div>
+                            <div
+                                class="bg-[#dbf9ff]/30 dark:bg-[#004f58]/20 rounded-[8px] p-4 border border-[#004f58]/20 dark:border-[#004f58]/50 transition-colors">
+                                <div class="text-sm text-[#004f58] dark:text-[#4fd8e6] mb-1 font-semibold">Total
+                                    Realisasi</div>
                                 <div class="text-xl font-bold text-[#004f58] dark:text-[#4fd8e6]"
                                     style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                     Rp {{ number_format($chartDataRenja['realisasi'], 0, ',', '.') }}
                                 </div>
                             </div>
-                            <div class="bg-[#ffdad6]/30 dark:bg-[#af101a]/20 rounded-[8px] p-4 border border-[#af101a]/20 dark:border-[#af101a]/50 transition-colors">
-                                <div class="text-sm text-[#af101a] dark:text-[#ffb4ab] mb-1 font-semibold">Sisa Target</div>
+                            <div
+                                class="bg-[#ffdad6]/30 dark:bg-[#af101a]/20 rounded-[8px] p-4 border border-[#af101a]/20 dark:border-[#af101a]/50 transition-colors">
+                                <div class="text-sm text-[#af101a] dark:text-[#ffb4ab] mb-1 font-semibold">Sisa Target
+                                </div>
                                 <div class="text-xl font-bold text-[#af101a] dark:text-[#ffb4ab]"
                                     style="font-family: 'Plus Jakarta Sans', sans-serif;">
                                     Rp
