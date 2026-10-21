@@ -449,14 +449,46 @@ class DashboardRepository implements DashboardRepositoryInterface
         array_multisort($levels, SORT_DESC, $nodeMap);
 
         $nodeMapById = [];
+        $nodeMapByKode = [];
         foreach ($nodeMap as $node) {
             $nodeMapById[$node['id']] = $node;
+            $nodeMapByKode[trim($node['kode'])] = $node['id'];
         }
 
         foreach ($nodeMapById as $id => $node) {
-            if ($node['parent_id'] && isset($nodeMapById[$node['parent_id']])) {
-                $nodeMapById[$node['parent_id']]['target'] += $nodeMapById[$id]['target'];
-                $nodeMapById[$node['parent_id']]['realisasi'] += $nodeMapById[$id]['realisasi'];
+            $parentId = $node['parent_id'];
+
+            // Jika parent_id kosong, coba cari parent berdasarkan kode prefix (misal 4.1 parentnya 4, 4.1.01 parentnya 4.1)
+            if (!$parentId) {
+                $segments = explode('.', trim($node['kode']));
+                if (count($segments) > 1) {
+                    array_pop($segments);
+                    $parentKode = implode('.', $segments);
+                    $parentId = $nodeMapByKode[$parentKode] ?? null;
+                }
+            }
+
+            if ($parentId && isset($nodeMapById[$parentId])) {
+                $nodeMapById[$parentId]['target'] += $nodeMapById[$id]['target'];
+                $nodeMapById[$parentId]['realisasi'] += $nodeMapById[$id]['realisasi'];
+            }
+        }
+
+        // 4b. Khusus Level 1: Pastikan angka target dan realisasi diambil dari penjumlahan level 2 di bawahnya
+        foreach ($nodeMapById as $id => $node) {
+            if ($node['level'] == 1) {
+                $cleanKode = trim($node['kode']);
+                $prefix = $cleanKode . '.';
+                $targetL2 = 0;
+                $realisasiL2 = 0;
+                foreach ($nodeMapById as $child) {
+                    if ($child['level'] == 2 && str_starts_with(trim($child['kode']), $prefix)) {
+                        $targetL2 += (float) $child['target'];
+                        $realisasiL2 += (float) $child['realisasi'];
+                    }
+                }
+                $nodeMapById[$id]['target'] = $targetL2;
+                $nodeMapById[$id]['realisasi'] = $realisasiL2;
             }
         }
 
@@ -467,17 +499,41 @@ class DashboardRepository implements DashboardRepositoryInterface
         // 6. Filter untuk hanya mengembalikan data dengan awalan kode '4' (Pendapatan) dan level <= 4
         $result = [];
         foreach ($nodeMapById as $node) {
-            if (str_starts_with($node['kode'], '4') && $node['level'] <= 4) {
-                $persentase = $node['target'] > 0 ? round(($node['realisasi'] / $node['target']) * 100, 2) : 0;
+            $cleanKode = trim($node['kode']);
+            if (str_starts_with($cleanKode, '4') && $node['level'] <= 4) {
+                $target = (float) $node['target'];
+                $realisasi = (float) $node['realisasi'];
+                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
                 $result[] = [
-                    'kode' => $node['kode'],
+                    'kode' => $cleanKode,
                     'uraian' => $node['uraian'],
                     'level' => $node['level'],
-                    'target' => $node['target'],
-                    'realisasi' => $node['realisasi'],
-                    'selisih' => max($node['target'] - $node['realisasi'], 0),
+                    'target' => $target,
+                    'realisasi' => $realisasi,
+                    'selisih' => max($target - $realisasi, 0),
                     'persentase' => $persentase,
                 ];
+            }
+        }
+
+        // 7. Pastikan kembali pada hasil akhir result bahwa Level 1 adalah penjumlahan dari Level 2
+        foreach ($result as $i => $row) {
+            if ($row['level'] == 1) {
+                $prefix = $row['kode'] . '.';
+                $sumTarget = 0;
+                $sumRealisasi = 0;
+
+                foreach ($result as $childRow) {
+                    if ($childRow['level'] == 2 && str_starts_with($childRow['kode'], $prefix)) {
+                        $sumTarget += (float) $childRow['target'];
+                        $sumRealisasi += (float) $childRow['realisasi'];
+                    }
+                }
+
+                $result[$i]['target'] = $sumTarget;
+                $result[$i]['realisasi'] = $sumRealisasi;
+                $result[$i]['selisih'] = max($sumTarget - $sumRealisasi, 0);
+                $result[$i]['persentase'] = $sumTarget > 0 ? round(($sumRealisasi / $sumTarget) * 100, 2) : 0;
             }
         }
 
