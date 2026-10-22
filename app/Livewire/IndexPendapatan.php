@@ -22,28 +22,33 @@ class IndexPendapatan extends Component
 
     public function updatedTahun()
     {
-        $repository = app(DashboardRepositoryInterface::class);
-        $skpds = $repository->getAllSkpdPendapatanSummary($this->tahun);
+        $repository     = app(DashboardRepositoryInterface::class);
+        $pendapatanData = $repository->getPendapatanTree($this->tahun);
+        $totalTarget    = collect($pendapatanData)->where('level', 1)->sum('target');
+        $totalRealisasi = collect($pendapatanData)->where('level', 1)->sum('realisasi');
+
         $this->dispatch('chart-data-updated', [
-            'target' => $skpds->sum('target'),
-            'realisasi' => $skpds->sum('realisasi'),
+            'target'    => $totalTarget,
+            'realisasi' => $totalRealisasi,
         ]);
     }
 
     public function render(DashboardRepositoryInterface $repository)
     {
-        $skpds = $repository->getAllSkpdPendapatanSummary($this->tahun);
-
-        // Sort descending by percentage
-        $skpds = $skpds->sortByDesc('persentase')->values();
-
-        $summaryByJenis = $repository->getPendapatanSummaryByJenisRekening($this->tahun);
+        $pendapatanData = $repository->getPendapatanTree($this->tahun);
+        $summaryLevel2  = $repository->getPendapatanSummaryByLevel2($this->tahun);
         $availableYears = $repository->getAvailablePendapatanYears();
 
+        // Untuk grafik donut keseluruhan, ambil node level 1 (kode '4') sebagai total
+        $totalTarget    = collect($pendapatanData)->where('level', 1)->sum('target');
+        $totalRealisasi = collect($pendapatanData)->where('level', 1)->sum('realisasi');
+
         return view('livewire.index-pendapatan', [
-            'skpds' => $skpds,
-            'summaryByJenis' => $summaryByJenis,
+            'pendapatanData' => $pendapatanData,
+            'summaryLevel2'  => $summaryLevel2,
             'availableYears' => $availableYears,
+            'totalTarget'    => $totalTarget,
+            'totalRealisasi' => $totalRealisasi,
         ]);
     }
 }

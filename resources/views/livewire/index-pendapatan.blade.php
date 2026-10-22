@@ -48,7 +48,7 @@
 
             <a href="{{ route('public.pendapatan', ['tahun' => $tahun]) }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 bg-[#af101a] hover:bg-[#93000a] text-white rounded-lg font-semibold text-sm transition-colors shadow-sm" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-                Pendapatan Keseluruhan
+                Pendapatan Asli Daerah
             </a>
         </div>
     </div>
@@ -65,11 +65,11 @@
                 <div class="md:col-span-1 flex flex-col gap-4">
                     <div class="p-4 bg-[#f2f4f7] dark:bg-[#1a1a1a] rounded-lg border border-transparent dark:border-[#2a2a2a] transition-colors">
                         <p class="text-sm font-semibold text-[#5b403d] dark:text-[#a0a0a0] mb-1">Total Target</p>
-                        <p class="text-xl font-bold text-[#005faf] dark:text-[#7bb4ff]">Rp {{ number_format($skpds->sum('target'), 0, ',', '.') }}</p>
+                        <p class="text-xl font-bold text-[#005faf] dark:text-[#7bb4ff]">Rp {{ number_format($totalTarget, 0, ',', '.') }}</p>
                     </div>
                     <div class="p-4 bg-[#ffdad6]/30 dark:bg-[#af101a]/20 rounded-lg border border-transparent dark:border-[#af101a]/30 transition-colors">
                         <p class="text-sm font-semibold text-[#af101a] dark:text-[#ffb4ab] mb-1">Total Realisasi</p>
-                        <p class="text-xl font-bold text-[#af101a] dark:text-[#ffb4ab]">Rp {{ number_format($skpds->sum('realisasi'), 0, ',', '.') }}</p>
+                        <p class="text-xl font-bold text-[#af101a] dark:text-[#ffb4ab]">Rp {{ number_format($totalRealisasi, 0, ',', '.') }}</p>
                     </div>
                 </div>
                 <div class="md:col-span-2" wire:ignore>
@@ -89,111 +89,125 @@
                     return number_format($num);
                 }
             }
-            $colorConfig = [
-                'pajak' => ['border' => 'border-[#113a37]', 'iconBg' => 'bg-[#0f2924]', 'text' => 'text-[#00e1cc]'],
-                'retribusi' => ['border' => 'border-[#3a250a]', 'iconBg' => 'bg-[#291705]', 'text' => 'text-[#f59e0b]'],
-                'kekayaan' => ['border' => 'border-[#0f203a]', 'iconBg' => 'bg-[#0a1629]', 'text' => 'text-[#3b82f6]'],
-                'lain_lain' => ['border' => 'border-[#2c103a]', 'iconBg' => 'bg-[#1e0a29]', 'text' => 'text-[#a855f7]'],
+            $cardColors = [
+                ['border' => 'border-[#113a37]', 'iconBg' => 'bg-[#0f2924]', 'text' => 'text-[#00e1cc]'],
+                ['border' => 'border-[#3a250a]', 'iconBg' => 'bg-[#291705]', 'text' => 'text-[#f59e0b]'],
+                ['border' => 'border-[#0f203a]', 'iconBg' => 'bg-[#0a1629]', 'text' => 'text-[#3b82f6]'],
+                ['border' => 'border-[#2c103a]', 'iconBg' => 'bg-[#1e0a29]', 'text' => 'text-[#a855f7]'],
             ];
             @endphp
 
-            @foreach(['pajak', 'retribusi', 'kekayaan', 'lain_lain'] as $key)
-                @if(isset($summaryByJenis[$key]))
-                    @php $item = $summaryByJenis[$key]; $cfg = $colorConfig[$key]; @endphp
-                    <div class="rounded-xl border {{ $cfg['border'] }} p-5 flex flex-col justify-between relative overflow-hidden" 
-                         style="background-color: #0a0a0a; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 16px 16px;">
-                        
-                        <!-- Icon & Title -->
-                        <div class="flex items-center gap-3 mb-5">
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 {{ $cfg['iconBg'] }}">
-                                <svg class="w-5 h-5 {{ $cfg['text'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="7" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="3" stroke-width="2"/>
-                                </svg>
-                            </div>
-                            <h4 class="text-white font-semibold text-[13px] leading-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                                {{ $item['nama'] }}
-                            </h4>
+            @forelse($summaryLevel2 as $idx => $item)
+                @php
+                    $cfg = $cardColors[$idx % count($cardColors)];
+                @endphp
+                <div class="rounded-xl border {{ $cfg['border'] }} p-5 flex flex-col justify-between relative overflow-hidden" 
+                     style="background-color: #0a0a0a; background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 16px 16px;">
+                    
+                    <!-- Icon & Title -->
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 {{ $cfg['iconBg'] }}">
+                            <svg class="w-5 h-5 {{ $cfg['text'] }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="7" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                            </svg>
                         </div>
-                        
-                        <!-- Target -->
-                        <div class="mb-4">
-                            <p class="text-[#6b7280] text-[10px] font-bold uppercase tracking-wider mb-0.5">Target</p>
-                            <p class="text-white text-lg font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                                Rp {{ formatShortRp($item['target']) }}
-                            </p>
-                        </div>
-
-                        <!-- Realisasi -->
-                        <div class="mb-4">
-                            <p class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider mb-0.5">
-                                Realisasi ({{ $item['persentase'] }}%)
-                            </p>
-                            <p class="{{ $cfg['text'] }} text-lg font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                                Rp {{ formatShortRp($item['realisasi']) }}
-                            </p>
-                        </div>
-
-                        <!-- Link -->
-                        <div class="text-right mt-auto">
-                            <a href="{{ route('pendapatan.jenis', ['jenis' => $key, 'tahun' => $tahun]) }}" class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity inline-flex items-center gap-1 focus:outline-none cursor-pointer">
-                                Lihat Detail 
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19L19 5M19 5v10M19 5H9"></path></svg>
-                            </a>
-                        </div>
+                        <h4 class="text-white font-semibold text-[13px] leading-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                            {{ $item['nama'] }}
+                        </h4>
                     </div>
-                @endif
-            @endforeach
+                    
+                    <!-- Target -->
+                    <div class="mb-4">
+                        <p class="text-[#6b7280] text-[10px] font-bold uppercase tracking-wider mb-0.5">Target</p>
+                        <p class="text-white text-lg font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                            Rp {{ formatShortRp($item['target']) }}
+                        </p>
+                    </div>
+
+                    <!-- Realisasi -->
+                    <div class="mb-4">
+                        <p class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider mb-0.5">
+                            Realisasi ({{ $item['persentase'] }}%)
+                        </p>
+                        <p class="{{ $cfg['text'] }} text-lg font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                            Rp {{ formatShortRp($item['realisasi']) }}
+                        </p>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-2 text-center text-[#6b7280] text-sm py-8">
+                    Belum ada data rekening level 2 untuk tahun {{ $tahun }}.
+                </div>
+            @endforelse
         </div>
     </div>
 
     <!-- Table Section -->
     <div class="bg-white dark:bg-[#121212] border border-[#e0e3e6] dark:border-[#1f1f1f] rounded-xl shadow-sm overflow-hidden flex flex-col transition-colors">
         <div class="p-5 border-b border-[#e0e3e6] dark:border-[#1f1f1f] bg-[#f7f9fc] dark:bg-[#1a1a1a] flex justify-between items-center transition-colors">
-            <div>
-                <h3 class="text-lg font-bold text-[#191c1e] dark:text-white" style="font-family: 'Plus Jakarta Sans', sans-serif;">Daftar OPD</h3>
-            </div>
+            <h3 class="text-lg font-bold text-[#191c1e] dark:text-white" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                Rincian Pendapatan
+            </h3>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#005faf] dark:bg-[#003c73] text-white text-sm uppercase tracking-wider transition-colors" style="font-family: 'Manrope', sans-serif;">
-                        <th class="px-6 py-4 font-semibold whitespace-nowrap">Nama OPD / SKPD</th>
-                        <th class="px-6 py-4 font-semibold text-right whitespace-nowrap">Target (Rp)</th>
-                        <th class="px-6 py-4 font-semibold text-right whitespace-nowrap">Realisasi (Rp)</th>
-                        <th class="px-6 py-4 font-semibold text-center whitespace-nowrap">%</th>
-                        <th class="px-6 py-4 font-semibold text-right whitespace-nowrap">Sisa Target (Rp)</th>
-                        <th class="px-6 py-4 font-semibold text-center whitespace-nowrap">Aksi</th>
+            <table class="w-full text-sm text-left border-collapse" style="font-family: 'Inter', sans-serif;">
+                <thead class="text-white text-center font-semibold bg-[#d32f2f]" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                    <tr>
+                        <th rowspan="2" class="px-4 py-3 border border-[#ba1a20] w-[8%]">No / Kode</th>
+                        <th rowspan="2" class="px-4 py-3 border border-[#ba1a20] w-[32%]">Jenis Pendapatan</th>
+                        <th colspan="2" class="px-4 py-2 border border-[#ba1a20]">{{ $tahun }}</th>
+                        <th colspan="2" class="px-4 py-2 border border-[#ba1a20]">+/-</th>
+                    </tr>
+                    <tr>
+                        <th class="px-4 py-2 border border-[#ba1a20] w-[15%]">Target</th>
+                        <th class="px-4 py-2 border border-[#ba1a20] w-[15%]">Realisasi</th>
+                        <th class="px-4 py-2 border border-[#ba1a20] w-[15%]">Rp</th>
+                        <th class="px-4 py-2 border border-[#ba1a20] w-[15%]">%</th>
                     </tr>
                 </thead>
-                <tbody class="text-sm text-[#191c1e] dark:text-[#e0e0e0] divide-y divide-[#e0e3e6] dark:divide-[#1f1f1f] transition-colors">
-                    @forelse($skpds as $index => $skpd)
-                    <tr class="hover:bg-[#f2f4f7] dark:hover:bg-[#1a1a1a] transition-colors {{ $index % 2 == 0 ? '' : 'bg-[#005faf]/5 dark:bg-[#ffffff]/5' }}">
-                        <td class="px-6 py-4 font-medium text-[#191c1e] dark:text-white">{{ $skpd['nama_skpd'] }}</td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">{{ number_format($skpd['target'], 0, ',', '.') }}</td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap font-medium text-[#005faf] dark:text-[#7bb4ff]">{{ number_format($skpd['realisasi'], 0, ',', '.') }}</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $skpd['persentase'] < 50 ? 'bg-[#ffdad6] dark:bg-[#93000a]/30 text-[#93000a] dark:text-[#ffb4ab]' : 'bg-[#dbf9ff] dark:bg-[#004f58]/30 text-[#004f58] dark:text-[#4fd8e6]' }}">
-                                {{ $skpd['persentase'] }}%
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap font-medium text-[#ba1a1a] dark:text-[#ffb4ab]">
-                            {{ number_format($skpd['sisa'], 0, ',', '.') }}
-                        </td>
-                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <a href="{{ route('pendapatan.detail', ['skpdId' => $skpd['id'], 'tahun' => $tahun]) }}" class="inline-flex items-center gap-1 text-[#005faf] dark:text-[#7bb4ff] hover:text-[#af101a] dark:hover:text-[#ffb4ab] font-semibold transition-colors bg-white dark:bg-[#121212] hover:bg-[#ffdad6] dark:hover:bg-[#2a2a2a] border border-[#005faf] dark:border-[#7bb4ff] hover:border-[#af101a] dark:hover:border-[#ffb4ab] px-3 py-1.5 rounded-lg text-xs" style="font-family: 'Manrope', sans-serif;">
-                                Lihat Detail
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="px-6 py-8 text-center text-[#5b403d] dark:text-[#a0a0a0]">Belum ada data OPD yang memiliki target pendapatan tahun ini.</td>
-                    </tr>
-                    @endforelse
+                <tbody class="text-[#191c1e] dark:text-[#e0e0e0]">
+                    @foreach($pendapatanData as $index => $row)
+                        @php
+                            if ($row['level'] == 1) {
+                                $bgClass = 'bg-[#cce0ff] dark:bg-[#001c3a]';
+                            } elseif ($row['level'] == 2) {
+                                $bgClass = 'bg-[#e6f0ff] dark:bg-[#0a1f3a]';
+                            } elseif ($row['level'] == 3) {
+                                $bgClass = 'bg-[#f2f7ff] dark:bg-[#0f1f2e]';
+                            } else {
+                                $bgClass = $index % 2 === 0 ? 'bg-[#f7f9fc] dark:bg-[#121212]' : 'bg-white dark:bg-[#1a1a1a]';
+                            }
+                            $paddingLeft = max(0, ($row['level'] - 1) * 20);
+                            $textClass   = $row['level'] <= 3 ? 'font-bold' : '';
+                        @endphp
+                        <tr class="{{ $bgClass }} hover:bg-[#e6e8eb] dark:hover:bg-[#1f1f1f] transition-colors">
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-center font-semibold">{{ $row['kode'] }}</td>
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] {{ $textClass }}" style="padding-left: {{ 16 + $paddingLeft }}px;">
+                                {{ $row['uraian'] }}
+                            </td>
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
+                                {{ number_format($row['target'], 2, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
+                                {{ number_format($row['realisasi'], 2, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
+                                {{ number_format($row['selisih'], 2, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-center font-semibold">
+                                {{ number_format($row['persentase'], 2, ',', '.') }}
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
+
+            @if(count($pendapatanData) === 0)
+                <div class="p-8 text-center text-[#5b403d] dark:text-[#a0a0a0]">
+                    Tidak ada data pendapatan untuk tahun {{ $tahun }}.
+                </div>
+            @endif
         </div>
     </div>
 
@@ -212,12 +226,14 @@
     }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    document.addEventListener('livewire:initialized', () => {
+    (() => {
         let chart = null;
 
         function renderOrUpdateChart(totalTarget, totalRealisasi) {
+            const el = document.querySelector("#overall-chart");
+            if (!el) return;
+
             const sisaTarget = Math.max(totalTarget - totalRealisasi, 0);
 
             var options = {
@@ -276,24 +292,34 @@
                 }
             };
 
-            const el = document.querySelector("#overall-chart");
-            if (!el) return;
-
             if (chart) {
-                chart.updateOptions(options);
-                chart.updateSeries([totalRealisasi, sisaTarget]);
-            } else {
-                chart = new ApexCharts(el, options);
-                chart.render();
+                try {
+                    chart.destroy();
+                } catch (e) {}
+                chart = null;
             }
+            el.innerHTML = "";
+            chart = new ApexCharts(el, options);
+            chart.render();
         }
 
-        renderOrUpdateChart({{ $skpds->sum('target') }}, {{ $skpds->sum('realisasi') }});
+        function initChart() {
+            renderOrUpdateChart({{ $totalTarget }}, {{ $totalRealisasi }});
+        }
+
+        // Jalankan saat load awal atau via Livewire navigate
+        document.addEventListener('livewire:navigated', initChart);
+        document.addEventListener('livewire:initialized', initChart);
+
+        // Jika script dijalankan ulang setelah navigasi
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            setTimeout(initChart, 50);
+        }
 
         Livewire.on('chart-data-updated', (data) => {
             const payload = Array.isArray(data) ? data[0] : data;
             renderOrUpdateChart(payload.target, payload.realisasi);
         });
-    });
+    })();
 </script>
 </div>

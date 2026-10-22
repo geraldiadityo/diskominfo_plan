@@ -11,7 +11,7 @@ class RekeningSeeder extends Seeder
     public function run(): void
     {
         // Pastikan nama file sesuai dengan file CSV bersih Anda
-        $csvPath = database_path('seeders/data/akun_belanja_seeder_fixed.csv');
+        $csvPath = database_path('seeders/data/akun_pendapatan_belanja_cleaned.csv');
 
         if (!file_exists($csvPath)) {
             $this->command->error("File CSV tidak ditemukan di: {$csvPath}");
@@ -50,7 +50,7 @@ class RekeningSeeder extends Seeder
                     $parentCode = implode('.', $segments);
 
                     // Ambil ID Parent dari Cache (Jika root/parent teratas tidak ada di CSV, set null)
-                    $parentId = $rekeningCache[$parentCode] ?? null;
+                    $parentId = $rekeningCache[$parentCode] ?? Rekening::where('kode', $parentCode)->value('id');
                 }
 
                 // 3. Simpan ke Database

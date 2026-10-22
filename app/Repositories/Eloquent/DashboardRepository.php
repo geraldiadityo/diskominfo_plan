@@ -48,7 +48,7 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getChartDataPendapatan(): array
     {
         $targetTotal = $this->getTargetPendapatanTotal();
-        $realisasiTotal = (float) TransaksiPendapatan::sum('jumlah_setor');
+        $realisasiTotal = (float) TransaksiPendapatan::where('is_verif', true)->sum('jumlah_setor');
 
         return [
             'target' => $targetTotal,
@@ -73,7 +73,7 @@ class DashboardRepository implements DashboardRepositoryInterface
                 ->where('tahun', $tahun)
                 ->sum('target_anggaran');
 
-            $realisasi = (float) TransaksiPendapatan::whereHas('target_pendapatan', function ($query) use ($skpd, $tahun) {
+            $realisasi = (float) TransaksiPendapatan::where('is_verif', true)->whereHas('target_pendapatan', function ($query) use ($skpd, $tahun) {
                 $query->where('skpd_id', $skpd->id)->where('tahun', $tahun);
             })->sum('jumlah_setor');
 
@@ -90,6 +90,47 @@ class DashboardRepository implements DashboardRepositoryInterface
         });
     }
 
+    public function getAllSkpdPadSummary(?int $tahun = null)
+    {
+        $tahun = $tahun ?? date('Y');
+
+        // Ambil SKPD yang memiliki target pada rekening kode 4.1.*
+        $skpdIds = TargetPendapatan::where('tahun', $tahun)
+            ->whereHas('rekening', function ($q) {
+                $q->where('kode', 'like', '4.1%');
+            })
+            ->pluck('skpd_id')
+            ->unique();
+
+        return Skpd::whereIn('id', $skpdIds)->orderBy('nama_skpd')->get()->map(function ($skpd) use ($tahun) {
+            // Target hanya dari rekening 4.1.*
+            $target = (float) TargetPendapatan::where('skpd_id', $skpd->id)
+                ->where('tahun', $tahun)
+                ->whereHas('rekening', fn($q) => $q->where('kode', 'like', '4.1%'))
+                ->sum('target_anggaran');
+
+            // Realisasi hanya dari transaksi yang is_verif=true dan rekening 4.1.*
+            $realisasi = (float) TransaksiPendapatan::where('is_verif', true)
+                ->whereHas('target_pendapatan', function ($q) use ($skpd, $tahun) {
+                    $q->where('skpd_id', $skpd->id)
+                      ->where('tahun', $tahun)
+                      ->whereHas('rekening', fn($r) => $r->where('kode', 'like', '4.1%'));
+                })
+                ->sum('jumlah_setor');
+
+            $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+
+            return [
+                'id'        => $skpd->id,
+                'nama_skpd' => $skpd->nama_skpd,
+                'target'    => $target,
+                'realisasi' => $realisasi,
+                'sisa'      => max($target - $realisasi, 0),
+                'persentase'=> $persentase,
+            ];
+        })->filter(fn($s) => $s['target'] > 0 || $s['realisasi'] > 0)->values();
+    }
+
     public function getPendapatanDetailBySkpd(int $skpdId, ?int $tahun = null): array
     {
         $tahun = $tahun ?? date('Y');
@@ -98,7 +139,7 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('tahun', $tahun)
             ->sum('target_anggaran');
 
-        $realisasiTotal = (float) TransaksiPendapatan::whereHas('target_pendapatan', function ($query) use ($skpdId, $tahun) {
+        $realisasiTotal = (float) TransaksiPendapatan::where('is_verif', true)->whereHas('target_pendapatan', function ($query) use ($skpdId, $tahun) {
             $query->where('skpd_id', $skpdId)->where('tahun', $tahun);
         })->sum('jumlah_setor');
 
@@ -114,7 +155,10 @@ class DashboardRepository implements DashboardRepositoryInterface
     {
         $tahun = $tahun ?? date('Y');
 
-        return TargetPendapatan::with(['rekening', 'transaksi_pendapatan'])
+        return TargetPendapatan::with([
+                'rekening',
+                'transaksi_pendapatan' => fn($q) => $q->where('is_verif', true)
+            ])
             ->where('skpd_id', $skpdId)
             ->where('tahun', $tahun)
             ->get()
@@ -319,6 +363,8 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getPendapatanSummaryByJenisRekening(?int $tahun = null): array
     {
         $tahun = $tahun ?? date('Y');
+        $tree = $this->getPendapatanTree($tahun);
+        $treeByKode = collect($tree)->keyBy('kode');
 
         $categories = [
             'pajak' => ['kode' => '4.1.01', 'nama' => 'Pajak Daerah'],
@@ -330,79 +376,59 @@ class DashboardRepository implements DashboardRepositoryInterface
         $result = [];
 
         foreach ($categories as $key => $cat) {
-            $kode = $cat['kode'];
-            
-            $targetTotal = (float) \App\Models\TargetPendapatan::whereHas('rekening', function($query) use ($kode) {
-                    $query->where('kode', 'like', $kode . '%');
-                })
-                ->where('tahun', $tahun)
-                ->sum('target_anggaran');
-
-            $realisasiTotal = (float) \App\Models\TransaksiPendapatan::whereHas('target_pendapatan', function($query) use ($kode, $tahun) {
-                    $query->where('tahun', $tahun)
-                          ->whereHas('rekening', function($q) use ($kode) {
-                              $q->where('kode', 'like', $kode . '%');
-                          });
-                })->sum('jumlah_setor');
-
+            $node = $treeByKode->get($cat['kode']);
+            $targetTotal = (float) ($node['target'] ?? 0);
+            $realisasiTotal = (float) ($node['realisasi'] ?? 0);
             $persentase = $targetTotal > 0 ? round(($realisasiTotal / $targetTotal) * 100, 2) : 0;
 
             $result[$key] = [
                 'nama' => $cat['nama'],
                 'target' => $targetTotal,
                 'realisasi' => $realisasiTotal,
-                'persentase' => $persentase
+                'persentase' => $persentase,
             ];
         }
 
         return $result;
     }
 
+    public function getPendapatanSummaryByLevel2(?int $tahun = null): array
+    {
+        $tahun = $tahun ?? date('Y');
+        $tree  = $this->getPendapatanTree($tahun);
+
+        // Ambil hanya node level 2 dari tree
+        $level2Nodes = collect($tree)->filter(fn($row) => $row['level'] === 2)->values();
+
+        return $level2Nodes->map(function ($node) {
+            return [
+                'kode'       => $node['kode'],
+                'nama'       => $node['uraian'],
+                'target'     => (float) $node['target'],
+                'realisasi'  => (float) $node['realisasi'],
+                'persentase' => (float) $node['persentase'],
+            ];
+        })->toArray();
+    }
+
     public function getDetailRekeningByJenis(string $kodePrefix, ?int $tahun = null): array
     {
         $tahun = $tahun ?? date('Y');
-
-        // TargetPendapatan with its Rekening, grouped by Rekening
-        $targets = \App\Models\TargetPendapatan::with(['rekening', 'skpd'])
-            ->whereHas('rekening', function ($query) use ($kodePrefix) {
-                $query->where('kode', 'like', $kodePrefix . '%');
-            })
-            ->where('tahun', $tahun)
-            ->get();
-
-        $rekeningMap = [];
-
-        foreach ($targets as $target) {
-            if (!$target->rekening) continue;
-            
-            $rekId = $target->rekening_id;
-            
-            if (!isset($rekeningMap[$rekId])) {
-                $rekeningMap[$rekId] = [
-                    'kode' => $target->rekening->kode,
-                    'uraian' => $target->rekening->uraian,
-                    'target' => 0,
-                    'realisasi' => 0,
-                ];
-            }
-
-            $rekeningMap[$rekId]['target'] += (float) $target->target_anggaran;
-            
-            $realisasi = (float) \App\Models\TransaksiPendapatan::where('target_pendapatan_id', $target->id)->sum('jumlah_setor');
-            $rekeningMap[$rekId]['realisasi'] += $realisasi;
-        }
+        $tree = $this->getPendapatanTree($tahun);
 
         $list = [];
-        foreach ($rekeningMap as $item) {
-            $persentase = $item['target'] > 0 ? round(($item['realisasi'] / $item['target']) * 100, 2) : 0;
-            $item['persentase'] = $persentase;
-            $list[] = $item;
+        foreach ($tree as $item) {
+            // Tampilkan rekening level 4 yang berada di bawah kategori kodePrefix (contoh: 4.1.01)
+            if ($item['level'] === 4 && str_starts_with($item['kode'], $kodePrefix . '.')) {
+                $list[] = [
+                    'kode' => $item['kode'],
+                    'uraian' => $item['uraian'],
+                    'target' => $item['target'],
+                    'realisasi' => $item['realisasi'],
+                    'persentase' => $item['persentase'],
+                ];
+            }
         }
-
-        // Sort by kode ascending
-        usort($list, function($a, $b) {
-            return strcmp($a['kode'], $b['kode']);
-        });
 
         return $list;
     }
@@ -411,101 +437,125 @@ class DashboardRepository implements DashboardRepositoryInterface
     {
         $tahun = $tahun ?? date('Y');
 
-        // 1. Ambil semua target & realisasi per rekening
-        $targets = \App\Models\TargetPendapatan::with('transaksi_pendapatan')
+        // 1. Ambil semua target & realisasi per rekening (hanya transaksi yang sudah diverifikasi: is_verif = true)
+        $targets = \App\Models\TargetPendapatan::with(['transaksi_pendapatan' => fn($q) => $q->where('is_verif', true)])
             ->where('tahun', $tahun)
             ->get();
-            
+
+        $targetMap = [];
         $realisasiMap = [];
+        $recordsMap = [];
         foreach ($targets as $target) {
             $rekId = $target->rekening_id;
-            if (!isset($realisasiMap[$rekId])) {
-                $realisasiMap[$rekId] = ['target' => 0, 'realisasi' => 0];
-            }
-            
-            $realisasiMap[$rekId]['target'] += (float) $target->target_anggaran;
-            $realisasiMap[$rekId]['realisasi'] += (float) $target->transaksi_pendapatan->sum('jumlah_setor');
+            $targetMap[$rekId] = ($targetMap[$rekId] ?? 0) + (float) $target->target_anggaran;
+            $realisasiMap[$rekId] = ($realisasiMap[$rekId] ?? 0) + (float) $target->transaksi_pendapatan->sum('jumlah_setor');
+            $recordsMap[$rekId] = true;
         }
 
-        // 2. Ambil semua Rekening
-        $rekenings = \App\Models\Rekening::all();
+        // 2. Ambil semua Rekening Pendapatan (kode diawali '4')
+        $rekenings = \App\Models\Rekening::where(function ($q) {
+                $q->where('kode', 'like', '4%')
+                  ->orWhere('kode', 'like', ' 4%');
+            })
+            ->get();
 
-        // 3. Bangun struktur awal
+        // 3. Bangun struktur node
         $nodeMap = [];
+        $childrenMap = [];
+        $nodeByKode = [];
+
         foreach ($rekenings as $rek) {
+            $cleanKode = trim($rek->kode);
             $nodeMap[$rek->id] = [
                 'id' => $rek->id,
                 'parent_id' => $rek->parent_id,
-                'kode' => $rek->kode,
+                'kode' => $cleanKode,
                 'uraian' => $rek->uraian,
-                'level' => $rek->level,
-                'target' => $realisasiMap[$rek->id]['target'] ?? 0,
-                'realisasi' => $realisasiMap[$rek->id]['realisasi'] ?? 0,
+                'level' => (int) $rek->level,
+                'direct_target' => $targetMap[$rek->id] ?? 0,
+                'direct_realisasi' => $realisasiMap[$rek->id] ?? 0,
+                'has_direct_record' => isset($recordsMap[$rek->id]),
+                'target' => 0,
+                'realisasi' => 0,
+                'has_descendant_records' => false,
             ];
+            $nodeByKode[$cleanKode] = $rek->id;
         }
 
-        // 4. Bottom-up Rollup: Urutkan berdasarkan level terbesar (paling anak) ke atas
-        $levels = array_column($nodeMap, 'level');
-        array_multisort($levels, SORT_DESC, $nodeMap);
-
-        $nodeMapById = [];
-        $nodeMapByKode = [];
-        foreach ($nodeMap as $node) {
-            $nodeMapById[$node['id']] = $node;
-            $nodeMapByKode[trim($node['kode'])] = $node['id'];
-        }
-
-        foreach ($nodeMapById as $id => $node) {
-            $parentId = $node['parent_id'];
-
-            // Jika parent_id kosong, coba cari parent berdasarkan kode prefix (misal 4.1 parentnya 4, 4.1.01 parentnya 4.1)
-            if (!$parentId) {
-                $segments = explode('.', trim($node['kode']));
+        // Pastikan parent_id terisi jika level > 1
+        foreach ($nodeMap as $id => $node) {
+            if (!$node['parent_id'] && $node['level'] > 1) {
+                $segments = explode('.', $node['kode']);
                 if (count($segments) > 1) {
                     array_pop($segments);
                     $parentKode = implode('.', $segments);
-                    $parentId = $nodeMapByKode[$parentKode] ?? null;
-                }
-            }
-
-            if ($parentId && isset($nodeMapById[$parentId])) {
-                $nodeMapById[$parentId]['target'] += $nodeMapById[$id]['target'];
-                $nodeMapById[$parentId]['realisasi'] += $nodeMapById[$id]['realisasi'];
-            }
-        }
-
-        // 4b. Khusus Level 1: Pastikan angka target dan realisasi diambil dari penjumlahan level 2 di bawahnya
-        foreach ($nodeMapById as $id => $node) {
-            if ($node['level'] == 1) {
-                $cleanKode = trim($node['kode']);
-                $prefix = $cleanKode . '.';
-                $targetL2 = 0;
-                $realisasiL2 = 0;
-                foreach ($nodeMapById as $child) {
-                    if ($child['level'] == 2 && str_starts_with(trim($child['kode']), $prefix)) {
-                        $targetL2 += (float) $child['target'];
-                        $realisasiL2 += (float) $child['realisasi'];
+                    if (isset($nodeByKode[$parentKode])) {
+                        $nodeMap[$id]['parent_id'] = $nodeByKode[$parentKode];
                     }
                 }
-                $nodeMapById[$id]['target'] = $targetL2;
-                $nodeMapById[$id]['realisasi'] = $realisasiL2;
             }
         }
 
-        // 5. Urutkan secara hierarkis berdasarkan kode ASC
-        $kodeList = array_column($nodeMapById, 'kode');
-        array_multisort($kodeList, SORT_ASC, $nodeMapById);
+        // Bangun relasi anak (children)
+        foreach ($nodeMap as $id => $node) {
+            $pId = $node['parent_id'];
+            if ($pId && isset($nodeMap[$pId])) {
+                $childrenMap[$pId][] = $id;
+            }
+        }
 
-        // 6. Filter untuk hanya mengembalikan data dengan awalan kode '4' (Pendapatan) dan level <= 4
+        // 4. Hitung Bottom-up dari level terbesar (Level 6) ke level 1
+        $sortedIds = array_keys($nodeMap);
+        usort($sortedIds, function ($a, $b) use ($nodeMap) {
+            return $nodeMap[$b]['level'] <=> $nodeMap[$a]['level'];
+        });
+
+        foreach ($sortedIds as $id) {
+            $hasChildren = !empty($childrenMap[$id]);
+
+            if (!$hasChildren) {
+                // Leaf node
+                $nodeMap[$id]['target'] = $nodeMap[$id]['direct_target'];
+                $nodeMap[$id]['realisasi'] = $nodeMap[$id]['direct_realisasi'];
+                $nodeMap[$id]['has_descendant_records'] = $nodeMap[$id]['has_direct_record'];
+            } else {
+                $childrenIds = $childrenMap[$id];
+                $sumChildTarget = 0;
+                $sumChildRealisasi = 0;
+                $childrenHaveData = false;
+
+                foreach ($childrenIds as $childId) {
+                    $sumChildTarget += $nodeMap[$childId]['target'];
+                    $sumChildRealisasi += $nodeMap[$childId]['realisasi'];
+                    if ($nodeMap[$childId]['has_descendant_records'] || $nodeMap[$childId]['target'] > 0 || $nodeMap[$childId]['realisasi'] > 0) {
+                        $childrenHaveData = true;
+                    }
+                }
+
+                // Jika ada anak (level 5/6) yang memiliki data, rollup dari anak
+                // Untuk level 1, 2, 3: selalu rollup dari anak
+                if ($nodeMap[$id]['level'] <= 3 || $childrenHaveData) {
+                    $nodeMap[$id]['target'] = $sumChildTarget;
+                    $nodeMap[$id]['realisasi'] = $sumChildRealisasi;
+                    $nodeMap[$id]['has_descendant_records'] = $childrenHaveData || $nodeMap[$id]['has_direct_record'];
+                } else {
+                    $nodeMap[$id]['target'] = $nodeMap[$id]['direct_target'];
+                    $nodeMap[$id]['realisasi'] = $nodeMap[$id]['direct_realisasi'];
+                    $nodeMap[$id]['has_descendant_records'] = $nodeMap[$id]['has_direct_record'];
+                }
+            }
+        }
+
+        // 5. Filter: Hanya tampilkan Level 1 sampai Level 4 untuk tampilan publik
         $result = [];
-        foreach ($nodeMapById as $node) {
-            $cleanKode = trim($node['kode']);
-            if (str_starts_with($cleanKode, '4') && $node['level'] <= 4) {
+        foreach ($nodeMap as $node) {
+            if ($node['level'] <= 4) {
                 $target = (float) $node['target'];
                 $realisasi = (float) $node['realisasi'];
                 $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+
                 $result[] = [
-                    'kode' => $cleanKode,
+                    'kode' => $node['kode'],
                     'uraian' => $node['uraian'],
                     'level' => $node['level'],
                     'target' => $target,
@@ -516,26 +566,10 @@ class DashboardRepository implements DashboardRepositoryInterface
             }
         }
 
-        // 7. Pastikan kembali pada hasil akhir result bahwa Level 1 adalah penjumlahan dari Level 2
-        foreach ($result as $i => $row) {
-            if ($row['level'] == 1) {
-                $prefix = $row['kode'] . '.';
-                $sumTarget = 0;
-                $sumRealisasi = 0;
-
-                foreach ($result as $childRow) {
-                    if ($childRow['level'] == 2 && str_starts_with($childRow['kode'], $prefix)) {
-                        $sumTarget += (float) $childRow['target'];
-                        $sumRealisasi += (float) $childRow['realisasi'];
-                    }
-                }
-
-                $result[$i]['target'] = $sumTarget;
-                $result[$i]['realisasi'] = $sumRealisasi;
-                $result[$i]['selisih'] = max($sumTarget - $sumRealisasi, 0);
-                $result[$i]['persentase'] = $sumTarget > 0 ? round(($sumRealisasi / $sumTarget) * 100, 2) : 0;
-            }
-        }
+        // 6. Urutkan secara hierarkis berdasarkan kode (Natural Sort: 4, 4.1, 4.1.01, ...)
+        usort($result, function ($a, $b) {
+            return strnatcmp($a['kode'], $b['kode']);
+        });
 
         return $result;
     }
@@ -545,7 +579,7 @@ class DashboardRepository implements DashboardRepositoryInterface
         $tahun = $tahun ?? date('Y');
 
         $targetUpdate = TargetPendapatan::where('tahun', $tahun)->max('updated_at');
-        $transaksiUpdate = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+        $transaksiUpdate = TransaksiPendapatan::where('is_verif', true)->whereHas('target_pendapatan', function ($q) use ($tahun) {
             $q->where('tahun', $tahun);
         })->max('updated_at');
 
@@ -553,14 +587,14 @@ class DashboardRepository implements DashboardRepositoryInterface
 
         if (!$latest) {
             $targetCreated = TargetPendapatan::where('tahun', $tahun)->max('created_at');
-            $transaksiCreated = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+            $transaksiCreated = TransaksiPendapatan::where('is_verif', true)->whereHas('target_pendapatan', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             })->max('created_at');
             $latest = collect([$targetCreated, $transaksiCreated])->filter()->max();
         }
 
         if (!$latest) {
-            $transaksiTanggal = TransaksiPendapatan::whereHas('target_pendapatan', function ($q) use ($tahun) {
+            $transaksiTanggal = TransaksiPendapatan::where('is_verif', true)->whereHas('target_pendapatan', function ($q) use ($tahun) {
                 $q->where('tahun', $tahun);
             })->max('tanggal_setor');
             if ($transaksiTanggal) {

@@ -47,17 +47,15 @@ class TargetPendapatanForm
                             ->relationship(
                                 name: 'rekening',
                                 modifyQueryUsing: fn(Builder $query) => $query
-                                    ->where('level', 4)
-                                    ->where(function (Builder $q) {
-                                        $q->where('kode', 'like', '4%')
-                                            ->orWhere('kode', 'like', ' 4%');
-                                    })
+                                    ->whereBetween('level', [1, 6])
+                                    ->where('kode', 'like', '4%')
                                     ->orderBy('kode', 'asc')
                             )
                             ->getOptionLabelFromRecordUsing(fn($record) => "{$record->kode} - {$record->uraian}")
                             ->searchable(['kode', 'uraian'])
-                            ->optionsLimit(1000)
+                            ->optionsLimit(2000)
                             ->preload()
+                            ->helperText('Pilih rekening pendapatan (Level 1 s/d 6). Disarankan memilih rekening paling spesifik (Level 5 atau 6) yang akan dihitung otomatis ke rekening induk.')
                             ->columnSpanFull(),
 
                         TextInput::make('target_anggaran')

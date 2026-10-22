@@ -46,7 +46,11 @@ class TargetPendapatansTable
 
                 TextColumn::make('realisasi')
                     ->label('Realisasi (Rp)')
-                    ->state(fn(TargetPendapatan $record) => $record->transaksi_pendapatan->sum('jumlah_setor'))
+                    ->state(fn(TargetPendapatan $record) => $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor'))
+                    ->description(function (TargetPendapatan $record): ?string {
+                        $pending = $record->transaksi_pendapatan->where('is_verif', false)->sum('jumlah_setor');
+                        return $pending > 0 ? 'Pending: Rp ' . number_format($pending, 0, ',', '.') : null;
+                    })
                     ->money('IDR', locale: 'id')
                     ->alignRight()
                     ->color('success'),
@@ -54,7 +58,7 @@ class TargetPendapatansTable
                 TextColumn::make('capaian')
                     ->label('Capaian')
                     ->state(function (TargetPendapatan $record) {
-                        $realisasi = $record->transaksi_pendapatan->sum('jumlah_setor');
+                        $realisasi = $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor');
                         return $record->target_anggaran > 0 ? ($realisasi / $record->target_anggaran) * 100 : 0;
                     })
                     ->formatStateUsing(fn($state) => number_format($state, 2) . '%')

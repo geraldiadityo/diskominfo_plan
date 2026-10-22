@@ -49,6 +49,15 @@ interface DashboardRepositoryInterface
     public function getAllSkpdPendapatanSummary(?int $tahun = null);
 
     /**
+     * Get summary of Pendapatan Asli Daerah (PAD) for each SKPD.
+     * Only includes SKPDs that have targets on rekening with kode starting with '4.1'.
+     *
+     * @param int|null $tahun
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllSkpdPadSummary(?int $tahun = null);
+
+    /**
      * Get detailed Pendapatan summary for a specific SKPD.
      *
      * @param int $skpdId
@@ -108,6 +117,14 @@ interface DashboardRepositoryInterface
      * @return array
      */
     public function getPendapatanSummaryByJenisRekening(?int $tahun = null): array;
+
+    /**
+     * Get summary of Pendapatan grouped by Level 2 rekening nodes (e.g. 4.1, 4.2, 4.3).
+     *
+     * @param int|null $tahun
+     * @return array
+     */
+    public function getPendapatanSummaryByLevel2(?int $tahun = null): array;
 
     /**
      * Get detailed list of rekening for a specific PAD category (Pajak, Retribusi, dll)

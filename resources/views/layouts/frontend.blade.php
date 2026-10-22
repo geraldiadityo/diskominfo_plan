@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     @livewireStyles
 </head>
 <body class="bg-[#f7f9fc] dark:bg-[#0a0a0a] text-[#191c1e] dark:text-[#e0e0e0] antialiased min-h-screen flex flex-col transition-colors duration-200" style="font-family: 'Inter', sans-serif;">

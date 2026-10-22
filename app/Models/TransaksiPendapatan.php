@@ -12,6 +12,15 @@ class TransaksiPendapatan extends Model
         'id'
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'is_verif' => 'boolean',
+            'tanggal_setor' => 'date',
+            'jumlah_setor' => 'integer',
+        ];
+    }
+
     public function target_pendapatan(): BelongsTo
     {
         return $this->belongsTo(TargetPendapatan::class, 'target_pendapatan_id');

@@ -20,17 +20,47 @@ class PublicPendapatan extends Component
         }
     }
 
+    public function updatedTahun()
+    {
+        $repository     = app(DashboardRepositoryInterface::class);
+        $padTree        = $repository->getPendapatanTree($this->tahun);
+        $padNode        = collect($padTree)->firstWhere('kode', '4.1');
+        $totalTarget    = (float) ($padNode['target']    ?? 0);
+        $totalRealisasi = (float) ($padNode['realisasi'] ?? 0);
+
+        $this->dispatch('chart-data-updated', [
+            'target'    => $totalTarget,
+            'realisasi' => $totalRealisasi,
+        ]);
+    }
+
     public function render(DashboardRepositoryInterface $repository)
     {
-        // Retrieve the structured and filtered data from repository
-        $pendapatanData = $repository->getPendapatanTree($this->tahun);
-        $lastUpdate = $repository->getLastUpdatePendapatan($this->tahun);
+        // Ambil data tree, filter hanya node PAD (kode 4.1 dan turunannya)
+        $fullTree = $repository->getPendapatanTree($this->tahun);
+
+        // Node 4.1 untuk total PAD
+        $padNode        = collect($fullTree)->firstWhere('kode', '4.1');
+        $totalTarget    = (float) ($padNode['target']    ?? 0);
+        $totalRealisasi = (float) ($padNode['realisasi'] ?? 0);
+
+        // Tabel SKPD — hanya SKPD yang mengisi PAD
+        $skpds = $repository->getAllSkpdPadSummary($this->tahun);
+        $skpds = $skpds->sortByDesc('persentase')->values();
+
+        // Ambil summary 4 kategori PAD (Pajak, Retribusi, Kekayaan, Lain-lain PAD) untuk 4 panel kartu kanan
+        $summaryByJenis = $repository->getPendapatanSummaryByJenisRekening($this->tahun);
+
+        $lastUpdate     = $repository->getLastUpdatePendapatan($this->tahun);
         $availableYears = $repository->getAvailablePendapatanYears();
 
         return view('livewire.public-pendapatan', [
-            'pendapatanData' => $pendapatanData,
-            'tahun' => $this->tahun,
-            'lastUpdate' => $lastUpdate,
+            'totalTarget'    => $totalTarget,
+            'totalRealisasi' => $totalRealisasi,
+            'skpds'          => $skpds,
+            'summaryByJenis' => $summaryByJenis,
+            'tahun'          => $this->tahun,
+            'lastUpdate'     => $lastUpdate,
             'availableYears' => $availableYears,
         ]);
     }
