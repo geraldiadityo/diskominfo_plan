@@ -34,7 +34,7 @@ class RealisasiKegiatan extends Model
     protected static function booted(): void
     {
         static::saved(function (RealisasiKegiatan $model) {
-            if ($model->wasChanged('target_fisik') || $model->wasRecentlyCreated) {
+            if ($model->bukti_fisik()->count() > 0 && ($model->wasChanged('target_fisik') || $model->wasRecentlyCreated)) {
                 $model->recalculateRealisasiFisik();
             }
         });
@@ -48,7 +48,13 @@ class RealisasiKegiatan extends Model
         $totalIndikator = $this->bukti_fisik()->count();
         $targetFisik = (float) ($this->target_fisik ?? 0);
 
-        if ($totalIndikator === 0 || $targetFisik <= 0) {
+        // Bukti fisik bersifat opsional: jika belum/tidak ada indikator bukti fisik,
+        // jangan reset nilai realisasi fisik yang sudah diinput.
+        if ($totalIndikator === 0) {
+            return;
+        }
+
+        if ($targetFisik <= 0) {
             $this->updateQuietly(['realisasi_fisik' => 0]);
             return;
         }

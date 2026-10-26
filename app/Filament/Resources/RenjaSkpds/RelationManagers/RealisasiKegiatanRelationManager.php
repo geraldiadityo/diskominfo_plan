@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
@@ -80,11 +81,13 @@ class RealisasiKegiatanRelationManager extends RelationManager
                     ->minValue(0)
                     ->maxValue(100)
                     ->suffix('%')
-                    ->readOnly()
                     ->label('Realisasi Fisik (%)')
-                    ->helperText('Dihitung otomatis dari Indikator Fisik & Bukti yang disetujui.')
+                    ->readOnly(fn(?RealisasiKegiatan $record): bool => (bool) ($record && $record->bukti_fisik()->count() > 0))
+                    ->helperText(fn(?RealisasiKegiatan $record): string => ($record && $record->bukti_fisik()->count() > 0)
+                        ? 'Dihitung otomatis dari Indikator Fisik & Bukti yang disetujui.'
+                        : 'Dapat diisi langsung jika tidak mengunggah rincian indikator bukti fisik.')
                     ->hint(function (?RealisasiKegiatan $record): ?string {
-                        if (!$record) {
+                        if (!$record || $record->bukti_fisik()->count() === 0) {
                             return null;
                         }
                         $total = $record->bukti_fisik()->count();
@@ -92,8 +95,14 @@ class RealisasiKegiatanRelationManager extends RelationManager
                         return "Disetujui: {$approved}/{$total} Indikator";
                     })
                     ->default(0)
-                    ->disabled()
                     ->dehydrated(),
+
+                Toggle::make('is_verified')
+                    ->label('Verifikasi Triwulan (Data masuk ke perhitungan Renja)')
+                    ->helperText('Hanya data triwulan yang telah diverifikasi yang akan dihitung pada capaian Renja SKPD.')
+                    ->disabled(fn(): bool => Auth::user()?->role === 'SKPD')
+                    ->dehydrated(fn(): bool => Auth::user()?->role !== 'SKPD')
+                    ->columnSpanFull(),
 
                 Textarea::make('catatan')
                     ->label('Catatan / Keterangan (Optional)')
@@ -180,7 +189,22 @@ class RealisasiKegiatanRelationManager extends RelationManager
                         $record->update(['is_verified' => true]);
                         Notification::make()
                             ->title('Berhasil diverifikasi')
+                            ->body('Data realisasi triwulan ini sekarang masuk ke perhitungan Renja.')
                             ->success()
+                            ->send();
+                    }),
+                Action::make('batal_verifikasi')
+                    ->label('Batal Verif')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->visible(fn(RealisasiKegiatan $record): bool => Auth::user()?->role !== 'SKPD' && $record->is_verified)
+                    ->action(function (RealisasiKegiatan $record): void {
+                        $record->update(['is_verified' => false]);
+                        Notification::make()
+                            ->title('Verifikasi dibatalkan')
+                            ->body('Data realisasi triwulan ini dikeluarkan dari perhitungan Renja.')
+                            ->warning()
                             ->send();
                     }),
                 Action::make('kelola_bukti_fisik')

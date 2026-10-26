@@ -104,25 +104,30 @@ class BuktiFisikRelationManager extends RelationManager
                     ->label('Upload Bukti')
                     ->icon('heroicon-o-arrow-up-tray')
                     ->color('primary')
+                    ->fillForm(fn(BuktiFisikRealisasi $record): array => [
+                        'realisasi' => $record->realisasi,
+                        'file_bukti' => $record->file_bukti,
+                    ])
                     ->form([
                         TextInput::make('realisasi')
                             ->label('Hasil Realisasi (contoh: 1 Laporan / 100%)')
                             ->required(),
                         FileUpload::make('file_bukti')
-                            ->label('Upload Bukti Dokumen (PDF)')
+                            ->label('Upload Bukti Dokumen (PDF) - Opsional')
                             ->disk('public')
                             ->directory('bukti-realisasi-fisik')
                             ->acceptedFileTypes(['application/pdf'])
-                            ->required(),
+                            ->nullable(),
                     ])
                     ->action(function (BuktiFisikRealisasi $record, array $data): void {
-                        if ($record->file_bukti && $record->file_bukti !== $data['file_bukti'] && \Illuminate\Support\Facades\Storage::disk('public')->exists($record->file_bukti)) {
+                        $newFile = $data['file_bukti'] ?? null;
+                        if ($record->file_bukti && $newFile && $record->file_bukti !== $newFile && \Illuminate\Support\Facades\Storage::disk('public')->exists($record->file_bukti)) {
                             \Illuminate\Support\Facades\Storage::disk('public')->delete($record->file_bukti);
                         }
 
                         $record->update([
                             'realisasi' => $data['realisasi'],
-                            'file_bukti' => $data['file_bukti'],
+                            'file_bukti' => $newFile,
                             'status_verifikasi' => 'menunggu_verifikasi',
                         ]);
                     })

@@ -27,7 +27,7 @@ class DashboardRepository implements DashboardRepositoryInterface
      */
     public function getRealisasiKeuanganTotal(): float
     {
-        return (float) RealisasiKegiatan::sum('realisasi_keuangan');
+        return (float) RealisasiKegiatan::where('is_verified', true)->sum('realisasi_keuangan');
     }
 
     /**
@@ -180,7 +180,7 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getChartDataRenja(): array
     {
         $targetTotal = (float) \App\Models\RenjaSkpd::sum('target_keuangan');
-        $realisasiTotal = (float) \App\Models\RealisasiKegiatan::sum('realisasi_keuangan');
+        $realisasiTotal = (float) \App\Models\RealisasiKegiatan::where('is_verified', true)->sum('realisasi_keuangan');
 
         return [
             'target' => $targetTotal,
@@ -196,7 +196,9 @@ class DashboardRepository implements DashboardRepositoryInterface
         $skpdIds = \App\Models\RenjaSkpd::where('tahun', $tahun)->pluck('skpd_id')->unique();
 
         return Skpd::whereIn('id', $skpdIds)->orderBy('nama_skpd')->get()->map(function ($skpd) use ($tahun) {
-            $renjas = \App\Models\RenjaSkpd::with('realisasi_kegiatans')
+            $renjas = \App\Models\RenjaSkpd::with([
+                    'realisasi_kegiatans' => fn($q) => $q->where('is_verified', true)
+                ])
                 ->where('skpd_id', $skpd->id)
                 ->where('tahun', $tahun)
                 ->get();
@@ -212,7 +214,12 @@ class DashboardRepository implements DashboardRepositoryInterface
                 $realisasi += (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
 
                 $sumTargetFisik += (float) $renja->target_fisik;
-                $sumRealisasiFisik += (float) $renja->realisasi_kegiatans->sum('realisasi_fisik');
+
+                // Realisasi fisik per renja = RATA-RATA dari semua triwulan yang terverifikasi (bukan sum)
+                $countTw = $renja->realisasi_kegiatans->count();
+                $sumRealisasiFisik += $countTw > 0
+                    ? round($renja->realisasi_kegiatans->sum('realisasi_fisik') / $countTw, 2)
+                    : 0;
             }
 
             $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
@@ -241,9 +248,10 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('tahun', $tahun)
             ->sum('target_keuangan');
 
-        $realisasiTotal = (float) \App\Models\RealisasiKegiatan::whereHas('renja_skpd', function ($query) use ($skpdId, $tahun) {
-            $query->where('skpd_id', $skpdId)->where('tahun', $tahun);
-        })->sum('realisasi_keuangan');
+        $realisasiTotal = (float) \App\Models\RealisasiKegiatan::where('is_verified', true)
+            ->whereHas('renja_skpd', function ($query) use ($skpdId, $tahun) {
+                $query->where('skpd_id', $skpdId)->where('tahun', $tahun);
+            })->sum('realisasi_keuangan');
 
         return [
             'target' => $targetTotal,
@@ -257,24 +265,36 @@ class DashboardRepository implements DashboardRepositoryInterface
     {
         $tahun = $tahun ?? date('Y');
 
-        return \App\Models\RenjaSkpd::with(['subKegiatan', 'realisasi_kegiatans'])
+        return \App\Models\RenjaSkpd::with([
+                'subKegiatan',
+                'realisasi_kegiatans' => fn($q) => $q->where('is_verified', true)
+            ])
             ->where('skpd_id', $skpdId)
             ->where('tahun', $tahun)
             ->get()
             ->map(function ($renja) use ($skpdId) {
-                $realisasi = (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
+                $realisasiKeuangan = (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
                 $target = (float) $renja->target_keuangan;
-                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+                $persentase = $target > 0 ? round(($realisasiKeuangan / $target) * 100, 2) : 0;
                 
+                // Realisasi fisik = rata-rata dari semua triwulan
+                $countTw = $renja->realisasi_kegiatans->count();
+                $realisasiFisik = $countTw > 0
+                    ? round($renja->realisasi_kegiatans->sum('realisasi_fisik') / $countTw, 2)
+                    : 0.0;
+
                 return [
                     'kode_rekening' => Skpd::formatDisplayKode($renja->subKegiatan->kode_lengkap ?? '-', $skpdId),
                     'nama_rekening' => Skpd::formatDisplayNomenklatur($renja->subKegiatan->nomenklatur ?? '-', $skpdId),
                     'target' => $target,
-                    'realisasi' => $realisasi,
-                    'selisih' => $target - $realisasi,
+                    'realisasi' => $realisasiKeuangan,
+                    'selisih' => $target - $realisasiKeuangan,
                     'persentase' => $persentase,
                     'target_fisik' => (float) $renja->target_fisik,
-                    'realisasi_fisik' => (float) $renja->realisasi_kegiatans->sum('realisasi_fisik'),
+                    'realisasi_fisik' => $realisasiFisik,
+                    'persentase_fisik' => $renja->target_fisik > 0
+                        ? round(($realisasiFisik / $renja->target_fisik) * 100, 2)
+                        : 0,
                 ];
             });
     }
@@ -285,7 +305,7 @@ class DashboardRepository implements DashboardRepositoryInterface
 
         $renjaData = \App\Models\RenjaSkpd::with([
             'subKegiatan.kegiatan.program',
-            'realisasi_kegiatans'
+            'realisasi_kegiatans' => fn($q) => $q->where('is_verified', true)
         ])
         ->where('skpd_id', $skpdId)
         ->where('tahun', $tahun)
@@ -305,7 +325,10 @@ class DashboardRepository implements DashboardRepositoryInterface
             $kegiatanId = $kegiatan->id;
 
             $realisasiKeuangan = (float) $renja->realisasi_kegiatans->sum('realisasi_keuangan');
-            $realisasiFisik = (float) $renja->realisasi_kegiatans->sum('realisasi_fisik');
+            $countTw = $renja->realisasi_kegiatans->count();
+            $realisasiFisik = $countTw > 0
+                ? round($renja->realisasi_kegiatans->sum('realisasi_fisik') / $countTw, 2)
+                : 0.0;
 
             $kodeProg = Skpd::formatDisplayKode($program->kode_lengkap ?? '', $skpdId);
             $namaProg = Skpd::formatDisplayNomenklatur($program->nomenklatur ?? '', $skpdId);
