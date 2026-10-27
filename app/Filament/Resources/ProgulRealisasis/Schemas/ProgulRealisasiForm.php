@@ -20,14 +20,16 @@ class ProgulRealisasiForm
         return $schema
             ->columns(1)
             ->components([
-                Section::make('Identitas Realisasi')
+                Section::make('Identitas Sub Kegiatan & Triwulan')
                     ->schema([
                         Select::make('indikator_id')
-                            ->label('Indikator Kinerja Program Unggulan')
-                            ->options(fn () => ProgulIndikator::with('program')
+                            ->label('Sub Kegiatan / Indikator Program Unggulan')
+                            ->options(fn () => ProgulIndikator::with(['program', 'subKegiatan'])
                                 ->get()
                                 ->mapWithKeys(fn ($ind) => [
-                                    $ind->id => '[' . ($ind->program?->nama_program ?? '-') . '] ' . $ind->nama_indikator,
+                                    $ind->id => '[' . ($ind->program?->nama_program ?? '-') . '] '
+                                        . ($ind->subKegiatan?->kode_lengkap ? '(' . $ind->subKegiatan->kode_lengkap . ') ' : '')
+                                        . $ind->nama_indikator,
                                 ])
                             )
                             ->searchable()
@@ -51,16 +53,16 @@ class ProgulRealisasiForm
                             ->required()
                             ->disabled($isSkpd),
 
-                        TextInput::make('target_tahunan')
-                            ->label('Target Tahunan')
-                            ->nullable()
-                            ->placeholder('Contoh: 100%, 5 unit')
+                        Select::make('triwulan')
+                            ->label('Triwulan')
+                            ->options([
+                                1 => 'Triwulan I',
+                                2 => 'Triwulan II',
+                                3 => 'Triwulan III',
+                                4 => 'Triwulan IV',
+                            ])
+                            ->required()
                             ->disabled($isSkpd),
-
-                        TextInput::make('nilai_realisasi')
-                            ->label('Capaian / Nilai Realisasi')
-                            ->nullable()
-                            ->placeholder('Isi nilai realisasi aktual'),
 
                         Select::make('status')
                             ->label('Status')
@@ -76,6 +78,36 @@ class ProgulRealisasiForm
                     ])
                     ->columns(2),
 
+                Section::make('Target & Realisasi Kinerja (Fisik & Keuangan)')
+                    ->schema([
+                        TextInput::make('target_fisik')
+                            ->label('Target Fisik (%)')
+                            ->numeric()
+                            ->suffix('%')
+                            ->placeholder('Contoh: 25.00')
+                            ->disabled($isSkpd),
+
+                        TextInput::make('realisasi_fisik')
+                            ->label('Realisasi Fisik (%)')
+                            ->numeric()
+                            ->suffix('%')
+                            ->placeholder('Contoh: 25.00'),
+
+                        TextInput::make('target_keuangan')
+                            ->label('Target Keuangan (Rp)')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('0')
+                            ->disabled($isSkpd),
+
+                        TextInput::make('realisasi_keuangan')
+                            ->label('Realisasi Keuangan (Rp)')
+                            ->numeric()
+                            ->prefix('Rp')
+                            ->placeholder('0'),
+                    ])
+                    ->columns(2),
+
                 Section::make('Catatan Evaluasi Bappeda')
                     ->visible(fn ($record) => !$isSkpd || ($record && $record->catatan_bappeda))
                     ->schema([
@@ -88,4 +120,3 @@ class ProgulRealisasiForm
             ]);
     }
 }
-

@@ -12,6 +12,8 @@ class ProgulIndikator extends Model
 
     protected $fillable = [
         'program_id',
+        'sub_kegiatan_id',
+        'rincian',
         'nama_indikator',
         'detail',
         'urutan',
@@ -22,6 +24,11 @@ class ProgulIndikator extends Model
         return $this->belongsTo(ProgulProgram::class, 'program_id');
     }
 
+    public function subKegiatan(): BelongsTo
+    {
+        return $this->belongsTo(ProgramSubKegiatan::class, 'sub_kegiatan_id');
+    }
+
     public function urusan(): HasMany
     {
         return $this->hasMany(ProgulIndikatorUrusan::class, 'indikator_id');
@@ -29,7 +36,6 @@ class ProgulIndikator extends Model
 
     public function realisasis(): HasMany
     {
-        return $this->hasMany(ProgulRealisasi::class, 'indikator_id')->orderBy('tahun');
+        return $this->hasMany(ProgulRealisasi::class, 'indikator_id')->orderBy('tahun')->orderBy('triwulan');
     }
 }
-

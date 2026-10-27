@@ -4,7 +4,7 @@
         style="background-image: linear-gradient(to right, rgba(45, 212, 191, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(45, 212, 191, 0.15) 1px, transparent 1px); background-size: 44px 44px;">
     </div>
 
-    <div class="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb & Header Box -->
         <div class="mb-8">
             <!-- Breadcrumbs -->
@@ -40,11 +40,11 @@
 
             <!-- Description Paragraph -->
             <p class="mt-4 text-xs sm:text-sm text-gray-300/80 leading-relaxed max-w-4xl">
-                Pantau kinerja dan capaian program prioritas pemerintah Kota Sungai Penuh untuk mewujudkan masyarakat yang lebih sejahtera, mandiri, dan berkeadilan. Klik salah satu program di bawah untuk melihat rincian indikator kinerja serta target dan realisasi tahunannya.
+                Pantau kinerja dan capaian program prioritas pemerintah Kota Sungai Penuh hingga tingkat sub kegiatan. Data target dan realisasi diambil langsung dari Renja SKPD per triwulan. Pilih tahun evaluasi dan klik program untuk melihat rincian kegiatan.
             </p>
         </div>
 
-        <!-- 3-Column Program Cards Grid (Matching Mockup) -->
+        <!-- 3-Column Program Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
             @foreach ($programs as $program)
                 @php
@@ -67,7 +67,7 @@
                                 {{ $program->nama_program }}
                             </h3>
                             <p class="text-xs font-medium text-teal-200/70 mt-1">
-                                {{ $program->indikators_count }} Indikator Kinerja
+                                {{ $program->indikators_count }} Sub Kegiatan Terdaftar
                             </p>
                         </div>
 
@@ -75,14 +75,14 @@
                         <div class="mt-4 flex items-center">
                             @if ($isSelected)
                                 <span class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-300 tracking-wide">
-                                    <span>Lihat Detail</span>
+                                    <span>Sedang Dilihat</span>
                                     <svg class="w-3.5 h-3.5 text-teal-300 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
                                     </svg>
                                 </span>
                             @else
                                 <span class="inline-flex items-center gap-1.5 text-xs font-medium text-teal-400/60 group-hover:text-teal-300 transition-colors">
-                                    <span>Lihat Detail</span>
+                                    <span>Lihat Detail Sub Kegiatan</span>
                                     <svg class="w-3 h-3 text-teal-400/60 group-hover:text-teal-300 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                     </svg>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
 
-                    <!-- Faded Background Watermark Icon (Matching Mockup) -->
+                    <!-- Faded Background Watermark Icon -->
                     <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-500 group-hover:scale-110">
                         @if ($iconType === 'shield-check')
                             <svg class="w-20 h-20 text-teal-400/15 group-hover:text-teal-400/25 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +147,7 @@
                                 Program Prioritas #{{ $selectedProgram->urutan }}
                             </span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">
-                                • {{ $indikators->count() }} Indikator Terdaftar
+                                • {{ $indikators->count() }} Sub Kegiatan Terdaftar
                             </span>
                         </div>
                         <h2 class="text-xl sm:text-2xl font-extrabold uppercase text-[#1a3c6b] dark:text-teal-400 tracking-tight" style="font-family: 'Plus Jakarta Sans', sans-serif;">
@@ -174,14 +174,35 @@
 
                 <!-- Filter & Search Panel -->
                 <div class="px-6 py-4 bg-[#f1f5f9] dark:bg-[#1a1a1a] border-b border-[#e0e3e6] dark:border-[#1f1f1f]">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <!-- Year Selector Pills -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-gray-700 dark:text-gray-300 flex items-center gap-1.5 mr-1">
+                                <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>Tahun:</span>
+                            </span>
+                            <div class="inline-flex rounded-xl p-1 bg-white dark:bg-[#242424] border border-gray-300 dark:border-gray-700 shadow-sm">
+                                @foreach ($years as $y)
+                                    <button
+                                        type="button"
+                                        wire:click="setTahun({{ $y }})"
+                                        class="px-3.5 py-1 text-xs font-bold rounded-lg transition-all {{ $tahun === $y ? 'bg-gradient-to-r from-teal-600 to-emerald-600 text-white shadow-sm shadow-teal-500/25' : 'text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-300 hover:bg-gray-100 dark:hover:bg-[#2e2e2e]' }}">
+                                        {{ $y }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Search & SKPD Filter -->
                         <div class="flex flex-wrap items-center gap-2">
                             <!-- Search Input -->
                             <div class="relative min-w-[240px]">
                                 <input
                                     type="text"
                                     wire:model.live.debounce.300ms="search"
-                                    placeholder="Cari indikator kinerja / detail..."
+                                    placeholder="Cari rincian, sub kegiatan..."
                                     class="w-full text-xs pl-8 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#242424] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-teal-500">
                                 <svg class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -193,7 +214,7 @@
                                 <select
                                     wire:model.live="selectedSkpd"
                                     class="text-xs px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#242424] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-1 focus:ring-teal-500 max-w-[260px] cursor-pointer">
-                                    <option value="">Semua SKPD Penanggung Jawab</option>
+                                    <option value="">Semua Penanggung Jawab</option>
                                     @foreach ($skpdList as $skpdName)
                                         <option value="{{ $skpdName }}">{{ $skpdName }}</option>
                                     @endforeach
@@ -209,122 +230,202 @@
                                 </button>
                             @endif
                         </div>
-
-                        <div class="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
-                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-teal-500"></span>
-                            <span>Target & Realisasi 5 Tahun (2025–2029)</span>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Table Content (Styled like IKU Table) -->
+                <!-- Table Content: Grouped by Rincian (No duplicates, matching screenshot) -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left border-collapse border border-gray-300 dark:border-gray-700">
                         <!-- Table Header -->
                         <thead>
                             <!-- Row 1: Main Headers -->
                             <tr class="bg-[#1a3c6b] text-white">
-                                <th rowspan="2" class="px-3 py-3 border border-blue-900 text-center font-bold align-middle w-12 uppercase tracking-wider">
-                                    No.
+                                <th rowspan="2" class="px-3 py-3 border border-blue-900 text-left font-bold align-middle min-w-[180px] uppercase tracking-wider">
+                                    Rincian Program Prioritas
                                 </th>
-                                <th rowspan="2" class="px-4 py-3 border border-blue-900 text-center font-bold align-middle min-w-[300px] uppercase tracking-wider">
-                                    Indikator Kinerja & Detail
+                                <th rowspan="2" class="px-3 py-3 border border-blue-900 text-left font-bold align-middle min-w-[220px] uppercase tracking-wider">
+                                    Penjelasan
                                 </th>
-                                @foreach ($years as $year)
-                                    <th colspan="2" class="px-3 py-2 border border-blue-900 text-center font-bold uppercase tracking-wider">
-                                        {{ $year }}
-                                    </th>
-                                @endforeach
-                                <th rowspan="2" class="px-4 py-3 border border-blue-900 text-center font-bold align-middle min-w-[220px] uppercase tracking-wider">
-                                    SKPD Penanggung Jawab
+                                <th rowspan="2" class="px-3 py-3 border border-blue-900 text-left font-bold align-middle min-w-[280px] uppercase tracking-wider">
+                                    Program / Kegiatan / Sub Kegiatan
+                                </th>
+                                <th colspan="2" class="px-2 py-2 border border-blue-900 text-center font-bold uppercase tracking-wider">
+                                    Realisasi Triwulan I
+                                </th>
+                                <th colspan="2" class="px-2 py-2 border border-blue-900 text-center font-bold uppercase tracking-wider">
+                                    Realisasi Triwulan II
+                                </th>
+                                <th colspan="2" class="px-2 py-2 border border-blue-900 text-center font-bold uppercase tracking-wider">
+                                    Realisasi Triwulan III
+                                </th>
+                                <th colspan="2" class="px-2 py-2 border border-blue-900 text-center font-bold uppercase tracking-wider">
+                                    Realisasi Triwulan IV
+                                </th>
+                                <th rowspan="2" class="px-3 py-3 border border-blue-900 text-center font-bold align-middle min-w-[160px] uppercase tracking-wider">
+                                    Penanggung Jawab
                                 </th>
                             </tr>
 
-                            <!-- Row 2: Sub-headers for 5 Years (Target & Realisasi) -->
-                            <tr class="bg-[#214a82] text-white">
-                                @foreach ($years as $year)
-                                    <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold text-[11px] w-20">
-                                        Target
-                                    </th>
-                                    <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold text-[11px] w-20 bg-[#1c3e6d]">
-                                        Realisasi
-                                    </th>
-                                @endforeach
+                            <!-- Row 2: Sub-headers for Triwulans -->
+                            <tr class="bg-[#214a82] text-white text-[11px]">
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-20">Fisik</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-24 bg-[#1c3e6d]">Keuangan</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-20">Fisik</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-24 bg-[#1c3e6d]">Keuangan</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-20">Fisik</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-24 bg-[#1c3e6d]">Keuangan</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-20">Fisik</th>
+                                <th class="px-2 py-1.5 border border-blue-900 text-center font-semibold w-24 bg-[#1c3e6d]">Keuangan</th>
                             </tr>
                         </thead>
 
                         <!-- Table Body -->
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100">
-                            @forelse ($indikators as $index => $ind)
+                            @php
+                                $groupedRincian = $indikators->groupBy(fn ($i) => $i->rincian ?: 'Umum');
+                            @endphp
+
+                            @forelse ($groupedRincian as $rincianName => $items)
                                 @php
-                                    $realisasisByYear = $ind->realisasis->keyBy('tahun');
-                                    $primarySkpd = $ind->realisasis->first()?->skpd?->nama_skpd;
+                                    $itemsList = $items->values();
+                                    $totalItems = $itemsList->count();
+                                    $firstItem = $itemsList->first();
+
+                                    // Precalculate contiguous SKPD spans within this rincian block
+                                    $skpdSpans = [];
+                                    $currSkpd = null;
+                                    $startIdx = 0;
+                                    $count = 0;
+
+                                    foreach ($itemsList as $idx => $ind) {
+                                        $skpd = $ind->urusan->first()?->nama_urusan
+                                            ?? ($ind->realisasis->first()?->skpd?->nama_skpd ?? 'Lintas SKPD');
+                                        if ($skpd !== $currSkpd) {
+                                            if ($currSkpd !== null) {
+                                                $skpdSpans[$startIdx] = ['name' => $currSkpd, 'span' => $count];
+                                            }
+                                            $currSkpd = $skpd;
+                                            $startIdx = $idx;
+                                            $count = 1;
+                                        } else {
+                                            $count++;
+                                        }
+                                    }
+                                    if ($currSkpd !== null) {
+                                        $skpdSpans[$startIdx] = ['name' => $currSkpd, 'span' => $count];
+                                    }
                                 @endphp
-                                <tr class="hover:bg-blue-50/40 dark:hover:bg-[#1a2333]/50 transition-colors {{ $loop->even ? 'bg-gray-50/50 dark:bg-[#161616]' : 'bg-white dark:bg-[#121212]' }}">
-                                    <!-- No -->
-                                    <td class="px-3 py-3 border border-gray-300 dark:border-gray-700 text-center font-medium text-gray-700 dark:text-gray-300 align-top">
-                                        {{ $index + 1 }}
-                                    </td>
 
-                                    <!-- Indikator & Detail & Urusan -->
-                                    <td class="px-4 py-3 border border-gray-300 dark:border-gray-700 align-top whitespace-normal">
-                                        <div class="font-bold text-gray-900 dark:text-white text-[13px] leading-snug">
-                                            {{ $ind->nama_indikator }}
-                                        </div>
+                                @foreach ($itemsList as $itemIdx => $ind)
+                                    @php
+                                        $sub = $ind->subKegiatan;
+                                        $kodeLengkap = $sub?->kode_lengkap;
+                                        $progName = $sub?->kegiatan?->program?->nomenklatur;
+                                        $kegName = $sub?->kegiatan?->nomenklatur;
+                                        $subName = $sub?->nomenklatur ?? $ind->nama_indikator;
+                                    @endphp
 
-                                        @if ($ind->detail)
-                                            <div class="mt-1.5 text-[11px] text-gray-600 dark:text-gray-300 leading-relaxed bg-[#f8fafc] dark:bg-[#1c1c1c] p-2.5 rounded-md border border-gray-200 dark:border-gray-700/60">
-                                                {{ $ind->detail }}
+                                    <tr class="hover:bg-blue-50/40 dark:hover:bg-[#1a2333]/50 transition-colors {{ $loop->even ? 'bg-gray-50/30 dark:bg-[#151515]' : 'bg-white dark:bg-[#121212]' }}">
+                                        <!-- Rincian Program Prioritas (Rowspan across this group, no double) -->
+                                        @if ($itemIdx === 0)
+                                            <td rowspan="{{ $totalItems }}" class="px-3.5 py-3 border border-gray-300 dark:border-gray-700 align-top font-bold text-gray-900 dark:text-white text-[12px] leading-snug bg-gray-50/70 dark:bg-[#161616]">
+                                                {{ $rincianName }}
+                                            </td>
+
+                                            <!-- Penjelasan (Rowspan across this group, no double) -->
+                                            <td rowspan="{{ $totalItems }}" class="px-3.5 py-3 border border-gray-300 dark:border-gray-700 align-top text-[11px] text-gray-600 dark:text-gray-300 leading-relaxed bg-gray-50/40 dark:bg-[#141414]">
+                                                {{ $firstItem->detail ?? '-' }}
+                                            </td>
+                                        @endif
+
+                                        <!-- Program / Kegiatan / Sub Kegiatan -->
+                                        <td class="px-3 py-2.5 border border-gray-300 dark:border-gray-700 align-top whitespace-normal">
+                                            @if ($progName)
+                                                <div class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                                    {{ $progName }}
+                                                </div>
+                                            @endif
+
+                                            @if ($kegName)
+                                                <div class="text-[10px] text-gray-600 dark:text-gray-300 ml-1.5 pl-1.5 border-l border-teal-500/30">
+                                                    {{ $kegName }}
+                                                </div>
+                                            @endif
+
+                                            <div class="font-bold text-gray-900 dark:text-teal-300 text-[12px] mt-0.5 ml-2 pl-1.5 border-l-2 border-teal-500">
+                                                {{ $subName }}
                                             </div>
-                                        @endif
-
-                                        @if ($ind->urusan->count() > 0)
-                                            <div class="mt-2 flex flex-wrap gap-1">
-                                                @foreach ($ind->urusan as $u)
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800">
-                                                        {{ $u->nama_urusan }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </td>
-
-                                    <!-- 5 Years (Target & Realisasi) -->
-                                    @foreach ($years as $year)
-                                        @php
-                                            $itemYear = $realisasisByYear->get($year);
-                                            $valTarget = $itemYear?->target_tahunan;
-                                            $valRealisasi = $itemYear?->nilai_realisasi;
-                                        @endphp
-                                        <!-- Target -->
-                                        <td class="px-2 py-3 border border-gray-300 dark:border-gray-700 text-center text-gray-800 dark:text-gray-200 align-middle font-medium">
-                                            {{ $valTarget !== null && $valTarget !== '' ? $valTarget : '-' }}
                                         </td>
-                                        <!-- Realisasi -->
-                                        <td class="px-2 py-3 border border-gray-300 dark:border-gray-700 text-center font-bold text-blue-700 dark:text-blue-400 bg-blue-50/30 dark:bg-blue-950/20 align-middle">
-                                            {{ $valRealisasi !== null && $valRealisasi !== '' ? $valRealisasi : '-' }}
-                                        </td>
-                                    @endforeach
 
-                                    <!-- SKPD Penanggung Jawab -->
-                                    <td class="px-4 py-3 border border-gray-300 dark:border-gray-700 text-center text-gray-700 dark:text-gray-300 align-middle whitespace-normal">
-                                        @if ($primarySkpd)
-                                            <span class="inline-block px-2.5 py-1 rounded bg-gray-100 dark:bg-gray-800 font-semibold text-[11px] text-gray-800 dark:text-gray-200">
-                                                {{ $primarySkpd }}
-                                            </span>
-                                        @else
-                                            <span class="text-gray-400 italic">- Lintas SKPD -</span>
+                                        <!-- 4 Triwulans: Real-time from Renja SKPD (or fallback to seeder, - if no data) -->
+                                        @for ($tw = 1; $tw <= 4; $tw++)
+                                            @php
+                                                // 1. Check live Renja first
+                                                $rk = $ind->liveRenja?->realisasi_kegiatans?->firstWhere('triwulan', $tw);
+                                                // 2. Fallback to ProgulRealisasi
+                                                $pr = $ind->realisasis->firstWhere('triwulan', $tw);
+
+                                                $targetF = $rk?->target_fisik ?? $pr?->target_fisik;
+                                                $realF   = $rk?->realisasi_fisik ?? $pr?->realisasi_fisik;
+                                                $targetK = $rk?->target_keuangan ?? $pr?->target_keuangan;
+                                                $realK   = $rk?->realisasi_keuangan ?? $pr?->realisasi_keuangan;
+
+                                                // Clean display: '-' if null or 0 without renja
+                                                $hasFisik = ($targetF !== null || $realF !== null);
+                                                $hasKeu   = ($targetK !== null || $realK !== null);
+                                            @endphp
+
+                                            <!-- Fisik -->
+                                            <td class="px-2 py-2 border border-gray-300 dark:border-gray-700 text-center align-middle font-medium">
+                                                @if ($hasFisik)
+                                                    <div class="flex flex-col items-center gap-0.5">
+                                                        <div class="text-[10px] text-gray-500 dark:text-gray-400">
+                                                            Tgt: <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $targetF !== null ? (float)$targetF . '%' : '-' }}</span>
+                                                        </div>
+                                                        <div class="text-[11px] font-extrabold {{ $realF !== null ? 'text-teal-600 dark:text-teal-400' : 'text-gray-400' }}">
+                                                            {{ $realF !== null ? (float)$realF . '%' : '-' }}
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <span class="text-gray-400 text-xs">-</span>
+                                                @endif
+                                            </td>
+
+                                            <!-- Keuangan -->
+                                            <td class="px-2 py-2 border border-gray-300 dark:border-gray-700 text-center align-middle bg-blue-50/15 dark:bg-blue-950/10">
+                                                @if ($hasKeu && ($targetK > 0 || $realK > 0))
+                                                    <div class="flex flex-col items-center gap-0.5">
+                                                        <div class="text-[9px] text-gray-500 dark:text-gray-400">
+                                                            {{ $targetK > 0 ? 'Rp ' . number_format($targetK, 0, ',', '.') : '-' }}
+                                                        </div>
+                                                        <div class="text-[10px] font-bold {{ $realK > 0 ? 'text-blue-700 dark:text-blue-400' : 'text-gray-400' }}">
+                                                            {{ $realK > 0 ? 'Rp ' . number_format($realK, 0, ',', '.') : '-' }}
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <span class="text-gray-400 text-xs">-</span>
+                                                @endif
+                                            </td>
+                                        @endfor
+
+                                        <!-- Penanggung Jawab (Merged by contiguous SKPD block, no double) -->
+                                        @if (isset($skpdSpans[$itemIdx]))
+                                            <td rowspan="{{ $skpdSpans[$itemIdx]['span'] }}" class="px-3 py-3 border border-gray-300 dark:border-gray-700 text-center align-middle font-semibold text-[11px] text-gray-800 dark:text-gray-200 bg-gray-50/60 dark:bg-[#161616] whitespace-normal">
+                                                <span class="inline-block px-2.5 py-1 rounded bg-white dark:bg-[#242424] border border-gray-300 dark:border-gray-700/80 shadow-sm">
+                                                    {{ $skpdSpans[$itemIdx]['name'] }}
+                                                </span>
+                                            </td>
                                         @endif
-                                    </td>
-                                </tr>
+                                    </tr>
+                                @endforeach
                             @empty
                                 <tr>
-                                    <td colspan="{{ 3 + (count($years) * 2) }}" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                    <td colspan="12" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                                         <div class="flex flex-col items-center justify-center gap-2">
                                             <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
-                                            <span class="text-sm font-medium">Tidak ada indikator kinerja yang cocok dengan filter pencarian.</span>
+                                            <span class="text-sm font-medium">Tidak ada sub kegiatan yang cocok dengan filter tahun {{ $tahun }} atau pencarian.</span>
                                             <button
                                                 wire:click="resetFilter"
                                                 class="mt-2 text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline cursor-pointer">
@@ -345,7 +446,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
                 <p class="text-xs text-teal-200 font-medium">
-                    Silakan klik salah satu kartu program prioritas di atas untuk membuka tabel indikator kinerja, target, dan realisasinya.
+                    Silakan klik salah satu kartu program prioritas di atas untuk membuka tabel sub kegiatan, target, dan realisasinya per triwulan.
                 </p>
             </div>
         @endif

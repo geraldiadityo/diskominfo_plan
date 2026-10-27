@@ -14,8 +14,11 @@ class ProgulRealisasi extends Model
         'indikator_id',
         'skpd_id',
         'tahun',
-        'target_tahunan',
-        'nilai_realisasi',
+        'triwulan',
+        'target_fisik',
+        'target_keuangan',
+        'realisasi_fisik',
+        'realisasi_keuangan',
         'status',
         'catatan_bappeda',
         'submitted_at',
@@ -25,8 +28,13 @@ class ProgulRealisasi extends Model
     protected function casts(): array
     {
         return [
-            'submitted_at' => 'datetime',
-            'verified_at'  => 'datetime',
+            'triwulan'           => 'integer',
+            'target_fisik'       => 'decimal:2',
+            'target_keuangan'    => 'decimal:2',
+            'realisasi_fisik'    => 'decimal:2',
+            'realisasi_keuangan' => 'decimal:2',
+            'submitted_at'       => 'datetime',
+            'verified_at'        => 'datetime',
         ];
     }
 
@@ -45,4 +53,3 @@ class ProgulRealisasi extends Model
         return $this->hasMany(ProgulBuktiDukung::class, 'realisasi_id');
     }
 }
-

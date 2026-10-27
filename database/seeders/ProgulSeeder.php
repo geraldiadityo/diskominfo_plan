@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProgramSubKegiatan;
 use App\Models\ProgulIndikator;
 use App\Models\ProgulIndikatorUrusan;
 use App\Models\ProgulProgram;
 use App\Models\ProgulRealisasi;
+use App\Models\RenjaSkpd;
 use App\Models\Skpd;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +24,8 @@ class ProgulSeeder extends Seeder
         'kepemudaan' => 'Dinas Kebudayaan, Pariwisata, Kepemudaan dan Olahraga',
         'kebudayaan' => 'Dinas Kebudayaan, Pariwisata, Kepemudaan dan Olahraga',
         'pertanian' => 'Dinas Pertanian Ketahanan Pangan dan Perikanan',
+        'perikanan' => 'Dinas Pertanian Ketahanan Pangan dan Perikanan',
+        'ketahanan pangan' => 'Dinas Pertanian Ketahanan Pangan dan Perikanan',
         'pendidikan' => 'Dinas Pendidikan',
         'kesejahteraan rakyat' => 'Sekretariat Daerah',
         'pemberdayaan masyarakat' => 'Dinas Pemberdayaan Masyarakat dan Desa',
@@ -41,23 +45,75 @@ class ProgulSeeder extends Seeder
         'keluarga berencana' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Pengendalian Penduduk KB',
         'perempuan' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Pengendalian Penduduk KB',
         'perlindungan anak' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Pengendalian Penduduk KB',
-        'ketentraman' => 'Satuan Polisi Pamong Praja dan Pemadam Kebakaran',
-        'keuangan' => 'Badan Pendapatan Daerah',
+        'penanaman modal' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+        'ptsp' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+        'pendapatan daerah' => 'Badan Pendapatan Daerah',
         'pad' => 'Badan Pendapatan Daerah',
-        'kepegawaian' => 'Badan Kepegawaian dan Pengembangan SDM',
     ];
 
-    protected function resolveSkpd(array $urusanList): ?Skpd
+    protected function resolveSkpd(?string $namaSkpd): ?Skpd
     {
-        foreach ($urusanList as $urusan) {
-            $uLower = strtolower(trim($urusan));
-            foreach ($this->skpdKeywords as $keyword => $targetSkpd) {
-                if (str_contains($uLower, $keyword)) {
-                    $skpd = Skpd::where('nama_skpd', 'LIKE', '%' . $targetSkpd . '%')->first();
-                    if ($skpd) {
-                        return $skpd;
-                    }
+        if (empty($namaSkpd)) {
+            return null;
+        }
+
+        $sLower = strtolower(trim($namaSkpd));
+
+        // 1. Direct search by keyword
+        foreach ($this->skpdKeywords as $keyword => $targetSkpd) {
+            if (str_contains($sLower, $keyword)) {
+                $skpd = Skpd::where('nama_skpd', 'LIKE', '%' . $targetSkpd . '%')->first();
+                if ($skpd) {
+                    return $skpd;
                 }
+            }
+        }
+
+        // 2. Direct search by string
+        return Skpd::where('nama_skpd', 'LIKE', '%' . trim($namaSkpd) . '%')->first();
+    }
+
+    protected function resolveSubKegiatan(?string $kodeRekening, string $namaSubKegiatan): ?ProgramSubKegiatan
+    {
+        // 1. Try by exact kode_lengkap if provided
+        if (!empty($kodeRekening)) {
+            $sub = ProgramSubKegiatan::where('kode_lengkap', trim($kodeRekening))->first();
+            if ($sub) {
+                return $sub;
+            }
+        }
+
+        $clean = trim(preg_replace('/^[0-9]+(\.[0-9]+)*\.?\s*/', '', $namaSubKegiatan));
+        $clean = preg_replace('/\s+/', ' ', $clean);
+
+        if (empty($clean) || strlen($clean) < 4) {
+            return null;
+        }
+
+        // 2. Exact nomenklatur match
+        $sub = ProgramSubKegiatan::where('nomenklatur', $clean)->first();
+        if ($sub) {
+            return $sub;
+        }
+
+        // 3. Normalized without spaces
+        $sub = ProgramSubKegiatan::whereRaw('LOWER(REPLACE(nomenklatur, " ", "")) = ?', [strtolower(str_replace(' ', '', $clean))])->first();
+        if ($sub) {
+            return $sub;
+        }
+
+        // 4. Keyword search
+        $words = explode(' ', $clean);
+        $filteredWords = array_values(array_filter($words, fn($w) => strlen($w) > 3 && !in_array(strtolower($w), ['yang', 'pada', 'dalam', 'dan', 'atau', 'untuk', 'kabupaten/kota', 'daerah'])));
+
+        if (count($filteredWords) >= 2) {
+            $q = ProgramSubKegiatan::query();
+            foreach (array_slice($filteredWords, 0, 4) as $w) {
+                $q->where('nomenklatur', 'like', "%{$w}%");
+            }
+            $sub = $q->first();
+            if ($sub) {
+                return $sub;
             }
         }
 
@@ -80,95 +136,134 @@ class ProgulSeeder extends Seeder
             return;
         }
 
-        $this->command->info("Memulai seeder Program Prioritas / Unggulan...");
+        $this->command->info("Memulai seeder Program Prioritas / Unggulan (Level Sub Kegiatan & Triwulan)...");
 
-        $years = [2025, 2026, 2027, 2028, 2029];
+        $totalSubKegiatan = 0;
         $totalRealisasi = 0;
 
-        DB::transaction(function () use ($data, $years, &$totalRealisasi) {
-            foreach ($data as $urutan => $item) {
-                $namaProgram = trim($item['program'] ?? '');
+        DB::transaction(function () use ($data, &$totalSubKegiatan, &$totalRealisasi) {
+            // Remove any legacy indicators that don't have triwulan realisasis
+            ProgulIndikator::doesntHave('realisasis')->delete();
+
+            foreach ($data as $urutanProg => $item) {
+                $namaProgram = trim($item['program_unggulan'] ?? '');
                 if ($namaProgram === '') {
                     continue;
                 }
 
-                // Upsert Program
+                // Upsert Program Unggulan
                 $program = ProgulProgram::updateOrCreate(
                     ['nama_program' => $namaProgram],
-                    ['urutan' => $urutan + 1]
+                    ['urutan' => $urutanProg + 1]
                 );
 
-                $this->command->line("  ✓ Program: {$namaProgram}");
+                $this->command->line("  ✓ Program Unggulan: {$namaProgram}");
 
-                foreach (($item['indikator_kinerja'] ?? []) as $urutanInd => $ind) {
-                    $namaIndikator = trim($ind['indikator_kinerja'] ?? '');
-                    $detail        = trim($ind['detail'] ?? '');
-                    $urusanList    = $ind['urusan'] ?? [];
+                $subList = $item['sub_kegiatan'] ?? [];
 
-                    if ($namaIndikator === '') {
+                foreach ($subList as $urutanSub => $sub) {
+                    $namaSubKeg = trim($sub['nama_sub_kegiatan'] ?? '');
+                    if ($namaSubKeg === '') {
                         continue;
                     }
 
-                    // Upsert Indikator
+                    $subKegiatan = $this->resolveSubKegiatan($sub['kode_rekening'] ?? null, $namaSubKeg);
+                    $skpd = $this->resolveSkpd($sub['penanggung_jawab'] ?? null);
+
+                    // Upsert Indikator (Level Sub Kegiatan)
                     $indikator = ProgulIndikator::updateOrCreate(
                         [
                             'program_id'     => $program->id,
-                            'nama_indikator' => $namaIndikator,
+                            'nama_indikator' => $subKegiatan ? $subKegiatan->nomenklatur : $namaSubKeg,
                         ],
                         [
-                            'detail' => $detail ?: null,
-                            'urutan' => $urutanInd + 1,
+                            'sub_kegiatan_id' => $subKegiatan?->id,
+                            'rincian'         => $sub['rincian'] ?? null,
+                            'detail'          => $sub['penjelasan'] ?? null,
+                            'urutan'          => $urutanSub + 1,
                         ]
                     );
 
                     // Sync Urusan
                     ProgulIndikatorUrusan::where('indikator_id', $indikator->id)->delete();
-
-                    foreach ($urusanList as $namaUrusan) {
-                        $namaUrusan = trim($namaUrusan);
-                        if ($namaUrusan === '') {
-                            continue;
-                        }
-
+                    if (!empty($sub['penanggung_jawab'])) {
                         ProgulIndikatorUrusan::create([
                             'indikator_id' => $indikator->id,
-                            'nama_urusan'  => $namaUrusan,
+                            'nama_urusan'  => $sub['penanggung_jawab'],
                         ]);
                     }
 
-                    // Resolve SKPD Penanggung Jawab
-                    $skpd = $this->resolveSkpd($urusanList);
+                    // Seed Realisasi per Tahun & Triwulan
+                    $realisasiTahunan = $sub['realisasi_tahunan'] ?? [];
 
-                    // Seed 5 Years Target & Realisasi
-                    foreach ($years as $index => $year) {
-                        $target = '100%';
-                        $realisasi = $year === 2025 ? '100%' : null;
-                        $status = $year === 2025 ? 'disetujui' : 'draf';
+                    foreach ($realisasiTahunan as $tahunan) {
+                        $tahun = (int) ($tahunan['tahun'] ?? 2025);
 
-                        ProgulRealisasi::updateOrCreate(
-                            [
-                                'indikator_id' => $indikator->id,
-                                'skpd_id'      => $skpd?->id,
-                                'tahun'        => $year,
-                            ],
-                            [
-                                'target_tahunan'  => $target,
-                                'nilai_realisasi' => $realisasi,
-                                'status'          => $status,
-                            ]
-                        );
+                        // Check if RenjaSkpd exists for this sub_kegiatan & tahun
+                        $renja = null;
+                        if ($subKegiatan) {
+                            $renjaQuery = RenjaSkpd::with('realisasi_kegiatans')
+                                ->where('sub_kegiatan_id', $subKegiatan->id)
+                                ->where('tahun', $tahun);
 
-                        $totalRealisasi++;
+                            if ($skpd) {
+                                $renjaQuery->where('skpd_id', $skpd->id);
+                            }
+                            $renja = $renjaQuery->first();
+                        }
+
+                        $triwulanList = $tahunan['triwulan'] ?? [];
+
+                        foreach ($triwulanList as $tw) {
+                            $twNum = (int) ($tw['triwulan'] ?? 1);
+
+                            // Default values from JSON (null if not in Renja)
+                            $targetFisik = $tw['target_fisik'] ?? null;
+                            $targetKeuangan = $tw['target_keuangan'] ?? null;
+                            $realisasiFisik = $tw['realisasi_fisik'] ?? null;
+                            $realisasiKeuangan = $tw['realisasi_keuangan'] ?? null;
+                            $status = 'draf';
+
+                            // If RenjaSkpd has realisasi for this triwulan, sync from Renja
+                            if ($renja && $renja->realisasi_kegiatans) {
+                                $rk = $renja->realisasi_kegiatans->firstWhere('triwulan', $twNum);
+                                if ($rk) {
+                                    if ($rk->target_fisik !== null) $targetFisik = (float) $rk->target_fisik;
+                                    if ($rk->target_keuangan !== null) $targetKeuangan = (float) $rk->target_keuangan;
+                                    if ($rk->realisasi_fisik !== null) $realisasiFisik = (float) $rk->realisasi_fisik;
+                                    if ($rk->realisasi_keuangan !== null) $realisasiKeuangan = (float) $rk->realisasi_keuangan;
+                                    if ($rk->is_verified) $status = 'disetujui';
+                                }
+                            }
+
+                            ProgulRealisasi::updateOrCreate(
+                                [
+                                    'indikator_id' => $indikator->id,
+                                    'skpd_id'      => $skpd?->id,
+                                    'tahun'        => $tahun,
+                                    'triwulan'     => $twNum,
+                                ],
+                                [
+                                    'target_fisik'       => $targetFisik,
+                                    'target_keuangan'    => $targetKeuangan,
+                                    'realisasi_fisik'    => $realisasiFisik,
+                                    'realisasi_keuangan' => $realisasiKeuangan,
+                                    'status'             => $status,
+                                ]
+                            );
+
+                            $totalRealisasi++;
+                        }
                     }
 
-                    $this->command->line("    → Indikator: {$namaIndikator} (" . ($skpd?->nama_skpd ?? 'Lintas SKPD') . ")");
+                    $totalSubKegiatan++;
                 }
             }
         });
 
-        $totalProgram   = ProgulProgram::count();
+        $totalProgram = ProgulProgram::count();
         $totalIndikator = ProgulIndikator::count();
 
-        $this->command->info("Selesai! {$totalProgram} program, {$totalIndikator} indikator, dan {$totalRealisasi} data tahunan berhasil di-seed.");
+        $this->command->info("Selesai! {$totalProgram} program unggulan, {$totalIndikator} sub-kegiatan indikator, dan {$totalRealisasi} data triwulan berhasil di-seed.");
     }
 }

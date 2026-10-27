@@ -23,16 +23,22 @@ class ProgulRealisasisTable
                     ->sortable()
                     ->searchable(),
 
+                TextColumn::make('indikator.subKegiatan.kode_lengkap')
+                    ->label('Kode Rekening')
+                    ->fontFamily('mono')
+                    ->placeholder('-')
+                    ->searchable(),
+
                 TextColumn::make('indikator.nama_indikator')
-                    ->label('Indikator Kinerja')
+                    ->label('Sub Kegiatan / Indikator')
                     ->wrap()
-                    ->limit(100)
+                    ->limit(80)
                     ->searchable(),
 
                 TextColumn::make('skpd.nama_skpd')
                     ->label('SKPD Pelaksana')
                     ->placeholder('- Lintas SKPD -')
-                    ->limit(35)
+                    ->limit(30)
                     ->wrap(),
 
                 TextColumn::make('tahun')
@@ -41,15 +47,35 @@ class ProgulRealisasisTable
                     ->color('info')
                     ->sortable(),
 
-                TextColumn::make('target_tahunan')
-                    ->label('Target')
-                    ->placeholder('-')
+                TextColumn::make('triwulan')
+                    ->label('TW')
+                    ->formatStateUsing(fn ($state) => 'TW ' . $state)
+                    ->badge()
+                    ->color('primary')
+                    ->alignCenter()
+                    ->sortable(),
+
+                TextColumn::make('target_fisik')
+                    ->label('Target Fisik')
+                    ->formatStateUsing(fn ($state) => $state !== null ? $state . '%' : '-')
                     ->alignCenter(),
 
-                TextColumn::make('nilai_realisasi')
-                    ->label('Realisasi')
-                    ->placeholder('Belum diisi')
+                TextColumn::make('realisasi_fisik')
+                    ->label('Real. Fisik')
+                    ->formatStateUsing(fn ($state) => $state !== null ? $state . '%' : '-')
                     ->alignCenter(),
+
+                TextColumn::make('target_keuangan')
+                    ->label('Target Keu.')
+                    ->formatStateUsing(fn ($state) => $state ? 'Rp ' . number_format($state, 0, ',', '.') : '-')
+                    ->alignRight()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('realisasi_keuangan')
+                    ->label('Real. Keu.')
+                    ->formatStateUsing(fn ($state) => $state ? 'Rp ' . number_format($state, 0, ',', '.') : '-')
+                    ->alignRight()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('status')
                     ->label('Status')
@@ -87,6 +113,15 @@ class ProgulRealisasisTable
                     ->label('Tahun')
                     ->options(array_combine(range(2025, 2029), range(2025, 2029))),
 
+                SelectFilter::make('triwulan')
+                    ->label('Triwulan')
+                    ->options([
+                        1 => 'Triwulan I',
+                        2 => 'Triwulan II',
+                        3 => 'Triwulan III',
+                        4 => 'Triwulan IV',
+                    ]),
+
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
@@ -114,4 +149,3 @@ class ProgulRealisasisTable
             ]);
     }
 }
-
