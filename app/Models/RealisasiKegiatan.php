@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 
 class RealisasiKegiatan extends Model
 {
@@ -37,7 +38,37 @@ class RealisasiKegiatan extends Model
             if ($model->bukti_fisik()->count() > 0 && ($model->wasChanged('target_fisik') || $model->wasRecentlyCreated)) {
                 $model->recalculateRealisasiFisik();
             }
+
+            Cache::forget("realisasi_kegiatans:{$model->renja_skpd_id}");
+            if ($model->renja_skpd) {
+                Cache::forget("renja_skpds:{$model->renja_skpd->skpd_id}:{$model->renja_skpd->tahun}");
+                Cache::forget("dashboard:chart_renja:{$model->renja_skpd->tahun}");
+                Cache::forget("dashboard:skpd_renja_summary:{$model->renja_skpd->tahun}");
+            }
+            $tahun = date('Y');
+            Cache::forget("dashboard:realisasi_keuangan:{$tahun}");
         });
+
+        static::deleted(function (RealisasiKegiatan $model) {
+            Cache::forget("realisasi_kegiatans:{$model->renja_skpd_id}");
+            if ($model->renja_skpd) {
+                Cache::forget("renja_skpds:{$model->renja_skpd->skpd_id}:{$model->renja_skpd->tahun}");
+                Cache::forget("dashboard:chart_renja:{$model->renja_skpd->tahun}");
+                Cache::forget("dashboard:skpd_renja_summary:{$model->renja_skpd->tahun}");
+            }
+            $tahun = date('Y');
+            Cache::forget("dashboard:realisasi_keuangan:{$tahun}");
+        });
+    }
+
+    /**
+     * Ambil realisasi kegiatan per renja_skpd (cached 10 menit).
+     */
+    public static function getByRenjaCached(int $renjaSkpdId): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember("realisasi_kegiatans:{$renjaSkpdId}", 600, fn() =>
+            static::with('bukti_fisik')->where('renja_skpd_id', $renjaSkpdId)->get()
+        );
     }
 
     /**

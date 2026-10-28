@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Skpd extends Model
 {
@@ -14,6 +15,37 @@ class Skpd extends Model
         'nama_skpd',
         'bidang_id',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            Cache::forget('skpds:all');
+            Cache::forget('skpds:with_bidang');
+            Cache::forget('dashboard:skpd_count');
+        });
+
+        static::deleted(function () {
+            Cache::forget('skpds:all');
+            Cache::forget('skpds:with_bidang');
+            Cache::forget('dashboard:skpd_count');
+        });
+    }
+
+    /**
+     * Ambil semua SKPD (cached 60 menit).
+     */
+    public static function getAllCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('skpds:all', 3600, fn() => static::orderBy('nama_skpd')->get());
+    }
+
+    /**
+     * Ambil semua SKPD dengan relasi bidang (cached 60 menit).
+     */
+    public static function getAllWithBidangCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('skpds:with_bidang', 3600, fn() => static::with('bidang')->orderBy('nama_skpd')->get());
+    }
 
     public function bidang(): BelongsTo
     {
@@ -92,12 +124,7 @@ class Skpd extends Model
             return $kode;
         }
 
-        static $skpdCache = [];
-        if (!isset($skpdCache[$skpdId])) {
-            $skpdCache[$skpdId] = static::with('bidang')->find($skpdId);
-        }
-
-        $skpd = $skpdCache[$skpdId];
+        $skpd = static::getAllWithBidangCached()->firstWhere('id', $skpdId);
         if ($skpd?->bidang?->kode_lengkap) {
             return str_ireplace('X.XX', $skpd->bidang->kode_lengkap, $kode);
         }
@@ -125,12 +152,7 @@ class Skpd extends Model
             return $nomenklatur;
         }
 
-        static $skpdCache = [];
-        if (!isset($skpdCache[$skpdId])) {
-            $skpdCache[$skpdId] = static::with('bidang')->find($skpdId);
-        }
-
-        $skpd = $skpdCache[$skpdId];
+        $skpd = static::getAllWithBidangCached()->firstWhere('id', $skpdId);
         if ($skpd?->bidang) {
             $result = str_ireplace('X.XX', $skpd->bidang->kode_lengkap, $nomenklatur);
             $result = str_ireplace('BIDANG XX', 'BIDANG ' . $skpd->bidang->kode_lengkap . ' (' . $skpd->bidang->nomenklatur . ')', $result);

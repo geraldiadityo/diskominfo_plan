@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class ProgulIndikator extends Model
 {
@@ -18,6 +19,26 @@ class ProgulIndikator extends Model
         'detail',
         'urutan',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            Cache::forget('progul_indikators:all');
+            Cache::forget('progul_programs:with_indikators');
+        });
+
+        static::deleted(function () {
+            Cache::forget('progul_indikators:all');
+            Cache::forget('progul_programs:with_indikators');
+        });
+    }
+
+    public static function getAllCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('progul_indikators:all', 3600, fn() =>
+            static::with(['program', 'urusan', 'subKegiatan'])->orderBy('urutan')->get()
+        );
+    }
 
     public function program(): BelongsTo
     {

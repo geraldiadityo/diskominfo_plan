@@ -6,6 +6,7 @@ use App\Enums\StatusRealisasi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class MasterIndikator extends Model
 {
@@ -83,6 +84,57 @@ class MasterIndikator extends Model
                         ]);
                 }
             }
+        });
+
+        static::saved(function () {
+            Cache::forget('master_indikators:all');
+            Cache::forget('master_indikators:iku');
+            Cache::forget('master_indikators:penyelenggaraan');
+        });
+
+        static::deleted(function () {
+            Cache::forget('master_indikators:all');
+            Cache::forget('master_indikators:iku');
+            Cache::forget('master_indikators:penyelenggaraan');
+        });
+    }
+
+    public static function getAllCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('master_indikators:all', 3600, fn() => static::all());
+    }
+
+    /**
+     * Ambil semua master indikator untuk laporan IKU (cached 60 menit).
+     */
+    public static function getIkuCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('master_indikators:iku', 3600, function () {
+            $kategoriIku = KategoriIndikator::where('nama_kategori', 'IKU')->value('id');
+            return static::with(['satuan', 'skpd', 'target', 'realisasi', 'childIndikators.satuan'])
+                ->where('kategori_id', $kategoriIku)
+                ->whereNull('parent_id')
+                ->orderBy('id')
+                ->get();
+        });
+    }
+
+    /**
+     * Ambil semua master indikator untuk laporan Penyelenggaraan (cached 60 menit).
+     */
+    public static function getPenyelenggaraanCached(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember('master_indikators:penyelenggaraan', 3600, function () {
+            $kategoriId = KategoriIndikator::where('nama_kategori', 'Penyelenggaraan')->value('id');
+            return static::with([
+                'satuan', 'skpd', 'target', 'realisasi',
+                'childIndikators.satuan', 'childIndikators.skpd',
+                'childIndikators.target', 'childIndikators.realisasi',
+            ])
+            ->where('kategori_id', $kategoriId)
+            ->whereNull('parent_id')
+            ->orderBy('id')
+            ->get();
         });
     }
 }

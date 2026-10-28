@@ -75,10 +75,12 @@ class LaporanRealisasi extends Page
     public function getSkpdListProperty()
     {
         if (Auth::user()?->role === 'SKPD') {
-            return Skpd::where('id', Auth::user()->skpd_id)->pluck('nama_skpd', 'id');
+            return Skpd::getAllCached()
+                ->where('id', Auth::user()->skpd_id)
+                ->pluck('nama_skpd', 'id');
         }
 
-        return Skpd::orderBy('nama_skpd')->pluck('nama_skpd', 'id');
+        return Skpd::getAllCached()->pluck('nama_skpd', 'id');
     }
 
     /**
@@ -86,11 +88,11 @@ class LaporanRealisasi extends Page
      */
     public function getActiveSkpdProperty(): ?Skpd
     {
-        if (Auth::user()?->role === 'SKPD') {
-            return Skpd::find(Auth::user()->skpd_id);
-        }
+        $skpdId = Auth::user()?->role === 'SKPD'
+            ? Auth::user()->skpd_id
+            : $this->selectedSkpdId;
 
-        return Skpd::find($this->selectedSkpdId);
+        return Skpd::getAllWithBidangCached()->firstWhere('id', $skpdId);
     }
 
     /**

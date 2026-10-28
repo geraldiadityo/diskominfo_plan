@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StatusRealisasi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 
 class IndikatorRealisasi extends Model
 {
@@ -32,6 +33,19 @@ class IndikatorRealisasi extends Model
             'submitted_at' => 'datetime',
             'verified_at' => 'datetime'
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(function (IndikatorRealisasi $model) {
+            Cache::forget('master_indikators:iku');
+            Cache::forget('master_indikators:penyelenggaraan');
+        });
+
+        static::deleted(function (IndikatorRealisasi $model) {
+            Cache::forget('master_indikators:iku');
+            Cache::forget('master_indikators:penyelenggaraan');
+        });
     }
 
     public function indikator(): BelongsTo

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class RenjaSkpd extends Model
 {
@@ -19,6 +20,34 @@ class RenjaSkpd extends Model
         'target_fisik',
         'target_kinerja'
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(function (RenjaSkpd $renja) {
+            Cache::forget("renja_skpds:{$renja->skpd_id}:{$renja->tahun}");
+            Cache::forget("dashboard:chart_renja:{$renja->tahun}");
+            Cache::forget("dashboard:skpd_renja_summary:{$renja->tahun}");
+        });
+
+        static::deleted(function (RenjaSkpd $renja) {
+            Cache::forget("renja_skpds:{$renja->skpd_id}:{$renja->tahun}");
+            Cache::forget("dashboard:chart_renja:{$renja->tahun}");
+            Cache::forget("dashboard:skpd_renja_summary:{$renja->tahun}");
+        });
+    }
+
+    /**
+     * Ambil renja per SKPD per tahun (cached 10 menit).
+     */
+    public static function getBySKPDAndTahunCached(int $skpdId, int $tahun): \Illuminate\Database\Eloquent\Collection
+    {
+        return Cache::remember("renja_skpds:{$skpdId}:{$tahun}", 600, fn() =>
+            static::with(['subKegiatan.kegiatan.program.bidang.urusan', 'realisasi_kegiatans'])
+                ->where('skpd_id', $skpdId)
+                ->where('tahun', $tahun)
+                ->get()
+        );
+    }
 
     public function skpd(): BelongsTo
     {
@@ -91,4 +120,3 @@ class RenjaSkpd extends Model
         );
     }
 }
-
