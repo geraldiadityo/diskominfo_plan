@@ -9,14 +9,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('progul_indikators', function (Blueprint $table) {
-            $table->text('rincian')->nullable()->after('sub_kegiatan_id');
+            if (!Schema::hasColumn('progul_indikators', 'rincian')) {
+                $table->text('rincian')->nullable();
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('progul_indikators', function (Blueprint $table) {
-            $table->dropColumn('rincian');
+            if (Schema::hasColumn('progul_indikators', 'rincian')) {
+                $table->dropColumn('rincian');
+            }
         });
     }
 };
