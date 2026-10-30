@@ -88,15 +88,21 @@ class DashboardRepository implements DashboardRepositoryInterface
                     $query->where('skpd_id', $skpd->id)->where('tahun', $tahun);
                 })->sum('jumlah_setor');
 
-                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+                $isTargetZeroWithReal = ($target == 0 && $realisasi > 0);
+                $isMelebihi = $isTargetZeroWithReal || ($target > 0 && $realisasi >= $target);
+                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : ($isTargetZeroWithReal ? 100 : 0);
+                $sisa = $isTargetZeroWithReal ? $realisasi : max($target - $realisasi, 0);
 
                 return [
                     'id' => $skpd->id,
                     'nama_skpd' => $skpd->nama_skpd,
                     'target' => $target,
                     'realisasi' => $realisasi,
-                    'sisa' => max($target - $realisasi, 0),
+                    'sisa' => $sisa,
                     'persentase' => $persentase,
+                    'status' => $isMelebihi ? 'Melebihi Target' : ($realisasi > 0 ? 'Belum Memenuhi Target' : '-'),
+                    'is_melebihi_target' => $isMelebihi,
+                    'is_target_zero_with_real' => $isTargetZeroWithReal,
                 ];
             });
         });
@@ -131,15 +137,21 @@ class DashboardRepository implements DashboardRepositoryInterface
                     })
                     ->sum('jumlah_setor');
 
-                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+                $isTargetZeroWithReal = ($target == 0 && $realisasi > 0);
+                $isMelebihi = $isTargetZeroWithReal || ($target > 0 && $realisasi >= $target);
+                $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : ($isTargetZeroWithReal ? 100 : 0);
+                $sisa = $isTargetZeroWithReal ? $realisasi : max($target - $realisasi, 0);
 
                 return [
                     'id'        => $skpd->id,
                     'nama_skpd' => $skpd->nama_skpd,
                     'target'    => $target,
                     'realisasi' => $realisasi,
-                    'sisa'      => max($target - $realisasi, 0),
+                    'sisa'      => $sisa,
                     'persentase'=> $persentase,
+                    'status'    => $isMelebihi ? 'Melebihi Target' : ($realisasi > 0 ? 'Belum Memenuhi Target' : '-'),
+                    'is_melebihi_target' => $isMelebihi,
+                    'is_target_zero_with_real' => $isTargetZeroWithReal,
                 ];
             })->filter(fn($s) => $s['target'] > 0 || $s['realisasi'] > 0)->values();
         });
@@ -157,11 +169,18 @@ class DashboardRepository implements DashboardRepositoryInterface
             $query->where('skpd_id', $skpdId)->where('tahun', $tahun);
         })->sum('jumlah_setor');
 
+        $isTargetZeroWithReal = ($targetTotal == 0 && $realisasiTotal > 0);
+        $isMelebihi = $isTargetZeroWithReal || ($targetTotal > 0 && $realisasiTotal >= $targetTotal);
+
         return [
             'target' => $targetTotal,
             'realisasi' => $realisasiTotal,
-            'sisa' => max($targetTotal - $realisasiTotal, 0),
-            'persentase' => $targetTotal > 0 ? round(($realisasiTotal / $targetTotal) * 100, 2) : 0,
+            'sisa' => $isTargetZeroWithReal ? $realisasiTotal : max($targetTotal - $realisasiTotal, 0),
+            'selisih' => $isTargetZeroWithReal ? $realisasiTotal : ($targetTotal - $realisasiTotal),
+            'persentase' => $targetTotal > 0 ? round(($realisasiTotal / $targetTotal) * 100, 2) : ($isTargetZeroWithReal ? 100 : 0),
+            'status' => $isMelebihi ? 'Melebihi Target' : ($realisasiTotal > 0 ? 'Belum Memenuhi Target' : '-'),
+            'is_melebihi_target' => $isMelebihi,
+            'is_target_zero_with_real' => $isTargetZeroWithReal,
         ];
     }
 
@@ -177,16 +196,24 @@ class DashboardRepository implements DashboardRepositoryInterface
             ->where('tahun', $tahun)
             ->get()
             ->map(function ($target) {
-                $realisasi = $target->transaksi_pendapatan->sum('jumlah_setor');
-                $persentase = $target->target_anggaran > 0 ? round(($realisasi / $target->target_anggaran) * 100, 2) : 0;
-                
+                $realisasi = (float) $target->transaksi_pendapatan->sum('jumlah_setor');
+                $targetAnggaran = (float) $target->target_anggaran;
+                $isTargetZeroWithReal = ($targetAnggaran == 0 && $realisasi > 0);
+                $isMelebihi = $isTargetZeroWithReal || ($targetAnggaran > 0 && $realisasi >= $targetAnggaran);
+
+                $persentase = $targetAnggaran > 0 ? round(($realisasi / $targetAnggaran) * 100, 2) : ($isTargetZeroWithReal ? 100 : 0);
+                $selisih = $isTargetZeroWithReal ? $realisasi : ($targetAnggaran - $realisasi);
+
                 return [
                     'kode_rekening' => $target->rekening->kode ?? '-',
                     'nama_rekening' => $target->rekening->uraian ?? '-',
-                    'target' => $target->target_anggaran,
+                    'target' => $targetAnggaran,
                     'realisasi' => $realisasi,
-                    'selisih' => $target->target_anggaran - $realisasi,
+                    'selisih' => $selisih,
                     'persentase' => $persentase,
+                    'status' => $isMelebihi ? 'Melebihi Target' : ($realisasi > 0 ? 'Belum Memenuhi Target' : '-'),
+                    'is_melebihi_target' => $isMelebihi,
+                    'is_target_zero_with_real' => $isTargetZeroWithReal,
                 ];
             });
     }
@@ -272,11 +299,18 @@ class DashboardRepository implements DashboardRepositoryInterface
                 $query->where('skpd_id', $skpdId)->where('tahun', $tahun);
             })->sum('realisasi_keuangan');
 
+        $isTargetZeroWithReal = ($targetTotal == 0 && $realisasiTotal > 0);
+        $isMelebihi = $isTargetZeroWithReal || ($targetTotal > 0 && $realisasiTotal >= $targetTotal);
+
         return [
             'target' => $targetTotal,
             'realisasi' => $realisasiTotal,
-            'sisa' => max($targetTotal - $realisasiTotal, 0),
-            'persentase' => $targetTotal > 0 ? round(($realisasiTotal / $targetTotal) * 100, 2) : 0,
+            'sisa' => $isTargetZeroWithReal ? $realisasiTotal : max($targetTotal - $realisasiTotal, 0),
+            'selisih' => $isTargetZeroWithReal ? $realisasiTotal : ($targetTotal - $realisasiTotal),
+            'persentase' => $targetTotal > 0 ? round(($realisasiTotal / $targetTotal) * 100, 2) : ($isTargetZeroWithReal ? 100 : 0),
+            'status' => $isMelebihi ? 'Melebihi Target' : ($realisasiTotal > 0 ? 'Belum Memenuhi Target' : '-'),
+            'is_melebihi_target' => $isMelebihi,
+            'is_target_zero_with_real' => $isTargetZeroWithReal,
         ];
     }
 
@@ -448,7 +482,10 @@ class DashboardRepository implements DashboardRepositoryInterface
                 'nama'       => $node['uraian'],
                 'target'     => (float) $node['target'],
                 'realisasi'  => (float) $node['realisasi'],
-                'persentase' => (float) $node['persentase'],
+                'persentase' => $node['persentase'],
+                'status'     => $node['status'] ?? null,
+                'is_melebihi_target' => $node['is_melebihi_target'] ?? false,
+                'is_target_zero_with_real' => $node['is_target_zero_with_real'] ?? false,
             ];
         })->toArray();
     }
@@ -467,7 +504,11 @@ class DashboardRepository implements DashboardRepositoryInterface
                     'uraian' => $item['uraian'],
                     'target' => $item['target'],
                     'realisasi' => $item['realisasi'],
+                    'selisih' => $item['selisih'] ?? 0,
                     'persentase' => $item['persentase'],
+                    'status' => $item['status'] ?? null,
+                    'is_melebihi_target' => $item['is_melebihi_target'] ?? false,
+                    'is_target_zero_with_real' => $item['is_target_zero_with_real'] ?? false,
                 ];
             }
         }
@@ -595,7 +636,23 @@ class DashboardRepository implements DashboardRepositoryInterface
                 if ($node['level'] <= 4) {
                     $target = (float) $node['target'];
                     $realisasi = (float) $node['realisasi'];
-                    $persentase = $target > 0 ? round(($realisasi / $target) * 100, 2) : 0;
+                    $isTargetZeroWithReal = ($target == 0 && $realisasi > 0);
+                    $isMelebihi = $isTargetZeroWithReal || ($target > 0 && $realisasi >= $target);
+
+                    if ($isTargetZeroWithReal) {
+                        // Jika target 0 dan ada realisasi: jangan buatkan 0 di (+/-), gunakan data realisasi
+                        $selisih = $realisasi;
+                        $persentase = null;
+                        $status = 'Melebihi Target';
+                    } elseif ($target > 0) {
+                        $selisih = $target - $realisasi;
+                        $persentase = round(($realisasi / $target) * 100, 2);
+                        $status = $realisasi >= $target ? 'Melebihi Target' : ($realisasi > 0 ? 'Belum Memenuhi Target' : '-');
+                    } else {
+                        $selisih = 0;
+                        $persentase = 0;
+                        $status = '-';
+                    }
 
                     $result[] = [
                         'kode' => $node['kode'],
@@ -603,8 +660,11 @@ class DashboardRepository implements DashboardRepositoryInterface
                         'level' => $node['level'],
                         'target' => $target,
                         'realisasi' => $realisasi,
-                        'selisih' => max($target - $realisasi, 0),
+                        'selisih' => $selisih,
                         'persentase' => $persentase,
+                        'status' => $status,
+                        'is_melebihi_target' => $isMelebihi,
+                        'is_target_zero_with_real' => $isTargetZeroWithReal,
                     ];
                 }
             }

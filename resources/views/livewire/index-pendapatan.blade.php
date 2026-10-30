@@ -128,7 +128,11 @@
                     <!-- Realisasi -->
                     <div class="mb-4">
                         <p class="{{ $cfg['text'] }} text-[10px] font-bold uppercase tracking-wider mb-0.5">
-                            Realisasi ({{ $item['persentase'] }}%)
+                            @if(!empty($item['is_target_zero_with_real']))
+                                Realisasi (Melebihi Target)
+                            @else
+                                Realisasi ({{ $item['persentase'] }}%)
+                            @endif
                         </p>
                         <p class="{{ $cfg['text'] }} text-lg font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">
                             Rp {{ formatShortRp($item['realisasi']) }}
@@ -186,17 +190,41 @@
                             <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] {{ $textClass }}" style="padding-left: {{ 16 + $paddingLeft }}px;">
                                 {{ $row['uraian'] }}
                             </td>
-                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right font-mono">
                                 {{ number_format($row['target'], 2, ',', '.') }}
                             </td>
-                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right font-mono font-medium">
                                 {{ number_format($row['realisasi'], 2, ',', '.') }}
                             </td>
-                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right">
-                                {{ number_format($row['selisih'], 2, ',', '.') }}
+                            <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-right font-mono font-medium">
+                                @if(($row['target'] == 0 && $row['realisasi'] > 0) || !empty($row['is_target_zero_with_real']))
+                                    <span class="text-emerald-600 dark:text-emerald-400">
+                                        +{{ number_format($row['realisasi'], 2, ',', '.') }}
+                                    </span>
+                                @elseif($row['target'] > 0 && $row['realisasi'] > $row['target'])
+                                    <span class="text-emerald-600 dark:text-emerald-400">
+                                        +{{ number_format($row['realisasi'] - $row['target'], 2, ',', '.') }}
+                                    </span>
+                                @elseif($row['target'] > 0 && $row['selisih'] > 0)
+                                    <span class="text-[#ba1a1a] dark:text-[#ffb4ab]">
+                                        -{{ number_format($row['selisih'], 2, ',', '.') }}
+                                    </span>
+                                @else
+                                    {{ number_format($row['selisih'], 2, ',', '.') }}
+                                @endif
                             </td>
                             <td class="px-4 py-2 border border-[#e0e3e6] dark:border-[#2a2a2a] text-center font-semibold">
-                                {{ number_format($row['persentase'], 2, ',', '.') }}
+                                @if(($row['target'] == 0 && $row['realisasi'] > 0) || !empty($row['is_target_zero_with_real']))
+                                    <span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                                        Melebihi Target
+                                    </span>
+                                @elseif($row['target'] > 0 && $row['realisasi'] >= $row['target'])
+                                    <span class="inline-flex items-center justify-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                                        {{ number_format($row['persentase'], 2, ',', '.') }}%
+                                    </span>
+                                @else
+                                    {{ number_format($row['persentase'] ?? 0, 2, ',', '.') }}%
+                                @endif
                             </td>
                         </tr>
                     @endforeach

@@ -151,12 +151,22 @@
                         <td class="px-6 py-4 text-right whitespace-nowrap">{{ number_format($item['target'], 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-right whitespace-nowrap font-medium">{{ number_format($item['realisasi'], 0, ',', '.') }}</td>
                         <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $item['persentase'] < 50 ? 'bg-[#ffdad6] dark:bg-[#93000a]/30 text-[#93000a] dark:text-[#ffb4ab]' : 'bg-[#dbf9ff] dark:bg-[#004f58]/30 text-[#004f58] dark:text-[#4fd8e6]' }}">
-                                {{ $item['persentase'] }}%
-                            </span>
+                            @if(($item['target'] == 0 && $item['realisasi'] > 0) || !empty($item['is_target_zero_with_real']))
+                                <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                                    Melebihi Target
+                                </span>
+                            @else
+                                <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $item['persentase'] < 50 ? 'bg-[#ffdad6] dark:bg-[#93000a]/30 text-[#93000a] dark:text-[#ffb4ab]' : 'bg-[#dbf9ff] dark:bg-[#004f58]/30 text-[#004f58] dark:text-[#4fd8e6]' }}">
+                                    {{ $item['persentase'] }}%
+                                </span>
+                            @endif
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap font-medium {{ $item['selisih'] > 0 ? 'text-[#ba1a1a] dark:text-[#ffb4ab]' : 'text-[#00606b] dark:text-[#4fd8e6]' }}">
-                            {{ $item['selisih'] > 0 ? '-' : '+' }}{{ number_format(abs($item['selisih']), 0, ',', '.') }}
+                        <td class="px-6 py-4 text-right whitespace-nowrap font-medium {{ ($item['target'] == 0 && $item['realisasi'] > 0) || !empty($item['is_target_zero_with_real']) ? 'text-emerald-600 dark:text-emerald-400' : ($item['selisih'] > 0 ? 'text-[#ba1a1a] dark:text-[#ffb4ab]' : 'text-emerald-600 dark:text-emerald-400') }}">
+                            @if(($item['target'] == 0 && $item['realisasi'] > 0) || !empty($item['is_target_zero_with_real']))
+                                +{{ number_format($item['realisasi'], 0, ',', '.') }}
+                            @else
+                                {{ $item['selisih'] > 0 ? '-' : '+' }}{{ number_format(abs($item['selisih']), 0, ',', '.') }}
+                            @endif
                         </td>
                     </tr>
                     @empty

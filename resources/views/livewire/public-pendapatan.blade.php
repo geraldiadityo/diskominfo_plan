@@ -209,12 +209,22 @@
                             <td class="px-6 py-4 text-right whitespace-nowrap">{{ number_format($skpd['target'], 0, ',', '.') }}</td>
                             <td class="px-6 py-4 text-right whitespace-nowrap font-medium text-[#005faf] dark:text-[#7bb4ff]">{{ number_format($skpd['realisasi'], 0, ',', '.') }}</td>
                             <td class="px-6 py-4 text-center">
-                                <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $skpd['persentase'] < 50 ? 'bg-[#ffdad6] dark:bg-[#93000a]/30 text-[#93000a] dark:text-[#ffb4ab]' : 'bg-[#dbf9ff] dark:bg-[#004f58]/30 text-[#004f58] dark:text-[#4fd8e6]' }}">
-                                    {{ $skpd['persentase'] }}%
-                                </span>
+                                @if(($skpd['target'] == 0 && $skpd['realisasi'] > 0) || !empty($skpd['is_target_zero_with_real']))
+                                    <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                                        Melebihi Target
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ ($skpd['persentase'] ?? 0) < 50 ? 'bg-[#ffdad6] dark:bg-[#93000a]/30 text-[#93000a] dark:text-[#ffb4ab]' : 'bg-[#dbf9ff] dark:bg-[#004f58]/30 text-[#004f58] dark:text-[#4fd8e6]' }}">
+                                        {{ $skpd['persentase'] }}%
+                                    </span>
+                                @endif
                             </td>
-                            <td class="px-6 py-4 text-right whitespace-nowrap font-medium text-[#ba1a1a] dark:text-[#ffb4ab]">
-                                {{ number_format($skpd['sisa'], 0, ',', '.') }}
+                            <td class="px-6 py-4 text-right whitespace-nowrap font-medium {{ ($skpd['target'] == 0 && $skpd['realisasi'] > 0) || !empty($skpd['is_target_zero_with_real']) ? 'text-emerald-600 dark:text-emerald-400' : 'text-[#ba1a1a] dark:text-[#ffb4ab]' }}">
+                                @if(($skpd['target'] == 0 && $skpd['realisasi'] > 0) || !empty($skpd['is_target_zero_with_real']))
+                                    +{{ number_format($skpd['realisasi'], 0, ',', '.') }}
+                                @else
+                                    {{ number_format($skpd['sisa'], 0, ',', '.') }}
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-center whitespace-nowrap">
                                 <a href="{{ route('pendapatan.detail', ['skpdId' => $skpd['id'], 'tahun' => $tahun]) }}"

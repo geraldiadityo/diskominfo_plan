@@ -55,14 +55,65 @@ class TargetPendapatansTable
                     ->alignRight()
                     ->color('success'),
 
+                TextColumn::make('selisih')
+                    ->label('+/- (Rp)')
+                    ->state(function (TargetPendapatan $record) {
+                        $realisasi = $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor');
+                        if ($record->target_anggaran == 0 && $realisasi > 0) {
+                            return $realisasi;
+                        }
+                        return $record->target_anggaran - $realisasi;
+                    })
+                    ->formatStateUsing(function ($state, TargetPendapatan $record) {
+                        $realisasi = $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor');
+                        if ($record->target_anggaran == 0 && $realisasi > 0) {
+                            return '+' . number_format($realisasi, 0, ',', '.');
+                        }
+                        if ($state < 0) {
+                            return '+' . number_format(abs($state), 0, ',', '.');
+                        }
+                        if ($state > 0) {
+                            return '-' . number_format($state, 0, ',', '.');
+                        }
+                        return '0';
+                    })
+                    ->color(function ($state, TargetPendapatan $record) {
+                        $realisasi = $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor');
+                        if ($record->target_anggaran == 0 && $realisasi > 0) {
+                            return 'success';
+                        }
+                        if ($state < 0) {
+                            return 'success';
+                        }
+                        if ($state > 0) {
+                            return 'danger';
+                        }
+                        return 'gray';
+                    })
+                    ->alignRight(),
+
                 TextColumn::make('capaian')
                     ->label('Capaian')
                     ->state(function (TargetPendapatan $record) {
                         $realisasi = $record->transaksi_pendapatan->where('is_verif', true)->sum('jumlah_setor');
+                        if ($record->target_anggaran == 0 && $realisasi > 0) {
+                            return 'Melebihi Target';
+                        }
                         return $record->target_anggaran > 0 ? ($realisasi / $record->target_anggaran) * 100 : 0;
                     })
-                    ->formatStateUsing(fn($state) => number_format($state, 2) . '%')
-                    ->color(fn($state) => $state < 50 ? 'danger' : ($state < 100 ? 'warning' : 'success'))
+                    ->formatStateUsing(function ($state) {
+                        if ($state === 'Melebihi Target') {
+                            return 'Melebihi Target';
+                        }
+                        return number_format((float) $state, 2) . '%';
+                    })
+                    ->color(function ($state) {
+                        if ($state === 'Melebihi Target') {
+                            return 'success';
+                        }
+                        $val = (float) $state;
+                        return $val < 50 ? 'danger' : ($val < 100 ? 'warning' : 'success');
+                    })
                     ->alignCenter()
                     ->badge(),
             ])
